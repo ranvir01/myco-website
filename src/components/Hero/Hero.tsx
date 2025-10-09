@@ -64,10 +64,10 @@ export default function Hero() {
           
           {/* Soft circular shadow beneath globe - like it's floating */}
           <motion.div 
-            className="absolute top-1/2 right-[20%] -translate-y-1/2 -translate-x-1/2 pointer-events-none"
+            className="absolute top-1/2 right-[15%] -translate-y-1/2 pointer-events-none hidden lg:block"
             animate={{
               scale: [1, 1.05, 1],
-              opacity: [0.4, 0.5, 0.4]
+              opacity: [0.15, 0.2, 0.15]
             }}
             transition={{ 
               duration: 4,
@@ -75,19 +75,19 @@ export default function Hero() {
               ease: "easeInOut"
             }}
             style={{
-              width: '480px',
-              height: '480px',
-              background: 'radial-gradient(ellipse 100% 80% at 50% 60%, rgba(27,127,78,0.2) 0%, rgba(0,0,0,0.12) 35%, transparent 65%)',
-              filter: 'blur(50px)',
+              width: '380px',
+              height: '380px',
+              background: 'radial-gradient(ellipse 100% 80% at 50% 60%, rgba(27,127,78,0.12) 0%, rgba(0,0,0,0.06) 35%, transparent 65%)',
+              filter: 'blur(40px)',
             }}
           />
           
           {/* Primary green glow emanating from globe */}
           <motion.div 
-            className="absolute top-1/2 right-[20%] -translate-y-1/2 -translate-x-1/2 pointer-events-none"
+            className="absolute top-1/2 right-[15%] -translate-y-1/2 pointer-events-none hidden lg:block"
             animate={{
               scale: [1, 1.08, 1],
-              opacity: [0.7, 0.85, 0.7]
+              opacity: [0.2, 0.3, 0.2]
             }}
             transition={{ 
               duration: 3.5,
@@ -95,18 +95,18 @@ export default function Hero() {
               ease: "easeInOut"
             }}
             style={{
-              width: '550px',
-              height: '550px',
-              background: 'radial-gradient(circle at 50% 50%, rgba(27,127,78,0.35) 0%, rgba(16,185,129,0.25) 30%, rgba(86,179,101,0.15) 50%, transparent 70%)',
-              filter: 'blur(60px)',
+              width: '420px',
+              height: '420px',
+              background: 'radial-gradient(circle at 50% 50%, rgba(27,127,78,0.15) 0%, rgba(16,185,129,0.12) 30%, rgba(86,179,101,0.08) 50%, transparent 70%)',
+              filter: 'blur(45px)',
             }}
           />
           
           {/* Subtle outer glow - atmospheric effect */}
           <motion.div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none hidden lg:block"
             animate={{
-              opacity: [0.3, 0.45, 0.3]
+              opacity: [0.1, 0.15, 0.1]
             }}
             transition={{ 
               duration: 5,
@@ -114,7 +114,7 @@ export default function Hero() {
               ease: "easeInOut"
             }}
             style={{
-              background: 'radial-gradient(circle 600px at 70% 50%, rgba(16,185,129,0.15) 0%, rgba(27,127,78,0.08) 30%, transparent 55%)',
+              background: 'radial-gradient(circle 500px at 70% 50%, rgba(16,185,129,0.08) 0%, rgba(27,127,78,0.04) 30%, transparent 55%)',
             }}
           />
           

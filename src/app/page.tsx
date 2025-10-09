@@ -31,6 +31,12 @@ export default function Home() {
     <main className="min-h-screen">
       <Header />
       <Hero />
+      
+      {/* Always visible universal sections */}
+      <AboutSection />
+      <PortfolioSection />
+      
+      {/* Mode-specific sections (Business or Talent) */}
       <AnimatePresence>
         {selectedMode && (
           <motion.div
@@ -41,21 +47,18 @@ export default function Home() {
             {selectedMode === "business" ? (
               <>
                 <BusinessSection />
-                <AboutSection />
                 <NetworkSection activeMode="business" />
-                <PortfolioSection />
               </>
             ) : (
               <>
                 <TalentSection />
-                <AboutSection />
                 <NetworkSection activeMode="talent" />
-                <PortfolioSection />
               </>
             )}
           </motion.div>
         )}
       </AnimatePresence>
+      
       <Footer />
       <QuoteModal />
     </main>

@@ -15,8 +15,6 @@ export default function Footer() {
   const quickLinks = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
-    { name: "Business", id: "business" },
-    { name: "Talent", id: "talent" },
     { name: "Portfolio", id: "portfolio" },
   ];
 
@@ -113,11 +111,12 @@ export default function Footer() {
           {/* Logo and Description */}
           <div className="space-y-4">
             <Image
-              src="/logos/MyConsulting_Network_Logo_PNG.png"
-              alt="MyConsulting Network"
-              width={250}
-              height={60}
-              className="h-14 w-auto brightness-0"
+              src="/logos/MyCo_Network_Logo.png"
+              alt="MyCo Network"
+              width={300}
+              height={75}
+              className="h-16 w-auto object-contain"
+              style={{ maxWidth: '100%' }}
             />
             <p className="text-gray-800 leading-relaxed">
               Connecting businesses with expert talent. Your trusted project

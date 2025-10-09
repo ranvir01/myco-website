@@ -31,7 +31,6 @@ export default function Header() {
   const navLinks = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
-    { name: "Talent", id: "talent" },
     { name: "Portfolio", id: "portfolio" },
   ];
 
@@ -41,13 +40,12 @@ export default function Header() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white/95 backdrop-blur-md ${
           isScrolled
-            ? "backdrop-blur-xl shadow-lg border-b border-gray-200/50"
-            : "backdrop-blur-sm"
+            ? "shadow-lg border-b border-gray-200/50"
+            : ""
         }`}
         style={{
-          backgroundColor: '#fafafa',
           boxShadow: isScrolled 
             ? '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05)' 
             : 'none'
@@ -65,15 +63,15 @@ export default function Header() {
               className="cursor-pointer relative"
               onClick={() => scrollToSection("home")}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              style={{ backgroundColor: '#fafafa' }}
             >
               <Image
-                src="/logos/MyConsulting_Network_Logo_PNG.png"
-                alt="MyConsulting Network"
-                width={550}
-                height={137}
+                src="/logos/MyCo_Network_Logo.png"
+                alt="MyCo Network"
+                width={400}
+                height={100}
                 priority
-                className={`h-28 w-auto transition-all duration-500 ${isScrolled ? 'h-24' : 'h-28'}`}
+                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-14 w-auto' : 'h-16 w-auto'}`}
+                style={{ maxWidth: '100%', height: 'auto' }}
               />
             </motion.div>
 

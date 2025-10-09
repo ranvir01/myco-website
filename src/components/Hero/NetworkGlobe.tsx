@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useState } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html } from "@react-three/drei";
 import * as THREE from "three";
@@ -39,20 +39,30 @@ const networkProfiles: NetworkProfile[] = [
   { id: "c8", name: "CloudVentures", role: "Cloud Infrastructure", type: "client", position: [-1.4, 0.2, -1.6] },
 ];
 
-// Profile dot component with hover interaction
-function ProfileDot({ profile, onHover, hoveredProfile }: { 
+// Profile node component with square geometry and popup
+function ProfileNode({ 
+  profile, 
+  onHover, 
+  hoveredProfile,
+  autoPopupProfile,
+  isUserInteracting 
+}: { 
   profile: NetworkProfile; 
   onHover: (profile: NetworkProfile | null, position?: [number, number, number]) => void;
   hoveredProfile: NetworkProfile | null;
+  autoPopupProfile: NetworkProfile | null;
+  isUserInteracting: boolean;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
 
   const isHovered = hoveredProfile?.id === profile.id;
+  const isAutoPopup = !isUserInteracting && autoPopupProfile?.id === profile.id;
+  const showPopup = isHovered || isAutoPopup;
 
-  // Client dots = darker green, Talent dots = transparent green
-  const color = profile.type === "client" ? "#1B7F4E" : "#56B365"; // Darker green for clients, lighter for talents
-  const opacity = profile.type === "client" ? 0.95 : 0.5; // Clients more opaque, talents more transparent
+  // Clients = darker green, Talents = lighter green with more transparency
+  const color = profile.type === "client" ? "#1B7F4E" : "#56B365";
+  const opacity = profile.type === "client" ? 0.9 : 0.4;
 
   return (
     <>
@@ -72,31 +82,32 @@ function ProfileDot({ profile, onHover, hoveredProfile }: {
           document.body.style.cursor = "auto";
         }}
       >
-        <sphereGeometry args={[0.05, 16, 16]} />
+        {/* Square/Box geometry instead of sphere */}
+        <boxGeometry args={[0.08, 0.08, 0.08]} />
         <meshStandardMaterial
           color={color}
           transparent={true}
-          opacity={isHovered ? 1 : opacity}
+          opacity={showPopup ? 1 : opacity}
           toneMapped={false}
           emissive={color}
-          emissiveIntensity={isHovered ? 0.3 : 0}
+          emissiveIntensity={showPopup ? 0.4 : 0.1}
         />
       </mesh>
       
-      {/* Subtle hover popup - appears at the dot location */}
-      {isHovered && (
-        <Html position={profile.position} center distanceFactor={10}>
+      {/* Compact popup - appears on hover or auto */}
+      {showPopup && (
+        <Html position={profile.position} center distanceFactor={12}>
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2 }}
-            className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-2.5 pointer-events-none"
-            style={{ width: '140px' }}
+            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 10 }}
+            transition={{ duration: 0.25 }}
+            className="bg-white/95 backdrop-blur-sm rounded-md shadow-lg p-1.5 pointer-events-none"
+            style={{ width: '110px' }}
           >
-            <div className="flex flex-col items-center space-y-1">
+            <div className="flex flex-col items-center space-y-0.5">
               <div 
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs ${
+                className={`w-6 h-6 rounded flex items-center justify-center text-white font-bold text-[10px] ${
                   profile.type === "client" 
                     ? "bg-gradient-to-br from-green-700 to-green-800" 
                     : "bg-gradient-to-br from-green-500 to-green-600"
@@ -104,8 +115,8 @@ function ProfileDot({ profile, onHover, hoveredProfile }: {
               >
                 {profile.name.split(" ").map(n => n[0]).join("")}
               </div>
-              <p className="font-semibold text-gray-900 text-xs text-center leading-tight">{profile.name}</p>
-              <p className="text-xs text-gray-600 text-center leading-tight">{profile.role}</p>
+              <p className="font-semibold text-gray-900 text-[10px] text-center leading-tight">{profile.name}</p>
+              <p className="text-[9px] text-gray-600 text-center leading-tight">{profile.role}</p>
             </div>
           </motion.div>
         </Html>
@@ -115,9 +126,16 @@ function ProfileDot({ profile, onHover, hoveredProfile }: {
 }
 
 // Globe points component
-function GlobePoints({ onProfileHover, hoveredProfile }: { 
+function GlobePoints({ 
+  onProfileHover, 
+  hoveredProfile,
+  autoPopupProfile,
+  isUserInteracting 
+}: { 
   onProfileHover: (profile: NetworkProfile | null, position?: [number, number, number]) => void;
   hoveredProfile: NetworkProfile | null;
+  autoPopupProfile: NetworkProfile | null;
+  isUserInteracting: boolean;
 }) {
   const pointsRef = useRef<THREE.Points>(null);
   const linesRef = useRef<THREE.LineSegments>(null);
@@ -173,19 +191,19 @@ function GlobePoints({ onProfileHover, hoveredProfile }: {
     return linePos;
   }, [positions, connections]);
 
-  // Rotation animation
+  // Slower rotation animation
   useFrame((state, delta) => {
     if (pointsRef.current) {
-      pointsRef.current.rotation.y += delta * 0.08;
+      pointsRef.current.rotation.y += delta * 0.03; // Slowed down from 0.08
     }
     if (linesRef.current) {
-      linesRef.current.rotation.y += delta * 0.08;
+      linesRef.current.rotation.y += delta * 0.03; // Slowed down from 0.08
     }
   });
 
   return (
     <>
-      {/* Base globe points */}
+      {/* Base globe points - using squares with varied opacity */}
       <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -196,11 +214,11 @@ function GlobePoints({ onProfileHover, hoveredProfile }: {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.04}
+          size={0.035}
           color="#1B7F4E"
           sizeAttenuation={true}
           transparent={true}
-          opacity={0.6}
+          opacity={0.5}
           toneMapped={false}
         />
       </points>
@@ -218,19 +236,21 @@ function GlobePoints({ onProfileHover, hoveredProfile }: {
         <lineBasicMaterial
           color="#56B365"
           transparent={true}
-          opacity={0.3}
+          opacity={0.25}
           linewidth={1}
           toneMapped={false}
         />
       </lineSegments>
 
-      {/* Profile dots */}
+      {/* Profile nodes (squares) */}
       {networkProfiles.map((profile) => (
-        <ProfileDot 
+        <ProfileNode 
           key={profile.id} 
           profile={profile} 
           onHover={onProfileHover}
           hoveredProfile={hoveredProfile}
+          autoPopupProfile={autoPopupProfile}
+          isUserInteracting={isUserInteracting}
         />
       ))}
     </>
@@ -239,10 +259,55 @@ function GlobePoints({ onProfileHover, hoveredProfile }: {
 
 export default function NetworkGlobe() {
   const [hoveredProfile, setHoveredProfile] = useState<NetworkProfile | null>(null);
+  const [autoPopupProfile, setAutoPopupProfile] = useState<NetworkProfile | null>(null);
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
 
   const handleProfileHover = (profile: NetworkProfile | null, position?: [number, number, number]) => {
     setHoveredProfile(profile);
+    // When user hovers, mark as interacting
+    if (profile !== null) {
+      setIsUserInteracting(true);
+    }
   };
+
+  // Auto-popup effect - cycles through profiles randomly
+  useEffect(() => {
+    if (isUserInteracting) return;
+
+    const showRandomPopup = () => {
+      const randomProfile = networkProfiles[Math.floor(Math.random() * networkProfiles.length)];
+      setAutoPopupProfile(randomProfile);
+      
+      // Hide popup after 2.5 seconds
+      setTimeout(() => {
+        setAutoPopupProfile(null);
+      }, 2500);
+    };
+
+    // Initial delay before first popup
+    const initialTimeout = setTimeout(showRandomPopup, 1500);
+
+    // Set up interval for subsequent popups (every 4-6 seconds)
+    const intervalId = setInterval(() => {
+      showRandomPopup();
+    }, Math.random() * 2000 + 4000); // Random interval between 4-6 seconds
+
+    return () => {
+      clearTimeout(initialTimeout);
+      clearInterval(intervalId);
+    };
+  }, [isUserInteracting]);
+
+  // Reset user interaction after inactivity
+  useEffect(() => {
+    if (!isUserInteracting) return;
+
+    const timeout = setTimeout(() => {
+      setIsUserInteracting(false);
+    }, 8000); // Resume auto-popups after 8 seconds of no interaction
+
+    return () => clearTimeout(timeout);
+  }, [isUserInteracting, hoveredProfile]);
 
   return (
     <div className="w-full aspect-square max-w-[700px] mx-auto relative">
@@ -256,23 +321,30 @@ export default function NetworkGlobe() {
           powerPreference: "high-performance",
           precision: "highp",
         }}
+        onPointerDown={() => setIsUserInteracting(true)}
       >
         <ambientLight intensity={0.8} />
         <pointLight position={[10, 10, 10]} intensity={2.0} />
         <pointLight position={[-10, -10, -10]} intensity={0.8} color="#56B365" />
         <pointLight position={[0, 10, 5]} intensity={1.0} color="#1B7F4E" />
         
-        <GlobePoints onProfileHover={handleProfileHover} hoveredProfile={hoveredProfile} />
+        <GlobePoints 
+          onProfileHover={handleProfileHover} 
+          hoveredProfile={hoveredProfile}
+          autoPopupProfile={autoPopupProfile}
+          isUserInteracting={isUserInteracting}
+        />
         
         <OrbitControls
           enableZoom={false}
           enablePan={false}
           autoRotate={true}
-          autoRotateSpeed={0.5}
+          autoRotateSpeed={0.2}
           minPolarAngle={Math.PI / 3}
           maxPolarAngle={Math.PI / 1.5}
           enableDamping={true}
           dampingFactor={0.05}
+          onChange={() => setIsUserInteracting(true)}
         />
       </Canvas>
     </div>

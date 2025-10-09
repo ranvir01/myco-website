@@ -26,17 +26,17 @@
   }
 
   /* Ensure proper logo rendering - remove white background */
-  img[alt*="MyConsulting"] {
+  /* img[alt*="MyConsulting"] {
     background: transparent !important;
     mix-blend-mode: multiply;
     isolation: isolate;
-  }
+  } */
   
   /* Alternative approach for PNG transparency */
-  [src*="MyConsulting"] {
+  /* [src*="MyConsulting"] {
     -webkit-mask-image: linear-gradient(black, black);
     mask-image: linear-gradient(black, black);
-  }
+  } */
 
   /* Radial gradient for black hole effect */
   .bg-gradient-radial {
