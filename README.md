@@ -36,6 +36,38 @@ npm run dev
 
 3. Open [http://localhost:3000](http://localhost:3000) in your browser
 
+## 🔄 Syncing Changes Across Devices
+
+This repository is set up to automatically sync changes across all your devices. After making any edits:
+
+### Quick Sync (Recommended)
+Run the included sync script:
+```bash
+./sync-changes.sh
+```
+
+This will:
+- ✅ Add all your changes
+- 💾 Commit with an automatic timestamp message
+- 🚀 Push to GitHub
+- 🔄 Make changes available on all your devices
+
+### Manual Sync Steps
+If you prefer to do it manually:
+```bash
+git add .
+git commit -m "Your commit message"
+git push origin main
+```
+
+### Pulling Changes on Other Devices
+When working on another device:
+```bash
+git pull origin main
+```
+
+**Important**: Always run `git pull` before starting work on a new device to get the latest changes.
+
 ## 🏗️ Build for Production
 
 ```bash
