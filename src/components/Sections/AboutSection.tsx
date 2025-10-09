@@ -69,7 +69,7 @@ export default function AboutSection() {
             </h3>
             <p className="text-lg md:text-xl text-secondary-light text-center leading-relaxed">
               Connecting businesses with the right talent at the right time.
-              We're your trusted partner in making projects successful through
+              We&apos;re your trusted partner in making projects successful through
               our network of expert independent consultants.
             </p>
           </motion.div>

@@ -129,7 +129,7 @@ export default function PortfolioSection() {
               }}
               className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              Let's Talk
+              Let&apos;s Talk
             </motion.button>
           </motion.div>
         </ScrollAnimationWrapper>

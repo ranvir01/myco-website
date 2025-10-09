@@ -77,7 +77,7 @@ export default function MobileMenu({
               size="lg"
               className="w-full shadow-lg"
             >
-              Let's Talk
+              Let&apos;s Talk
             </Button>
           </motion.div>
         </div>

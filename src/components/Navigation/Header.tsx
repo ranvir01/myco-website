@@ -107,7 +107,7 @@ export default function Header() {
                   size="md"
                   className="shadow-md hover:shadow-lg transition-shadow duration-300"
                 >
-                  Let's Talk
+                  Let&apos;s Talk
                 </Button>
               </motion.div>
             </div>

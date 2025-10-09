@@ -142,14 +142,14 @@ export default function QuoteModal() {
                     Thank You!
                   </h3>
                   <p className="text-lg text-secondary-light">
-                    We'll get back to you within 24 hours.
+                    We&apos;ll get back to you within 24 hours.
                   </p>
                 </motion.div>
               ) : (
                 <>
                   <div className="mb-8">
                     <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                      <span className="text-secondary">Let's </span>
+                      <span className="text-secondary">Let&apos;s </span>
                       <span 
                         className="bg-gradient-to-r from-primary via-emerald-600 to-teal-600 bg-clip-text text-transparent"
                       >
@@ -157,7 +157,7 @@ export default function QuoteModal() {
                       </span>
                     </h2>
                     <p className="text-secondary-light text-lg">
-                      Tell us about your needs and we'll connect you with the right solution.
+                      Tell us about your needs and we&apos;ll connect you with the right solution.
                     </p>
                   </div>
 
