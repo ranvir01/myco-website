@@ -45,6 +45,10 @@ Run the included sync script:
 ```bash
 ./sync-changes.sh
 ```
+Or use the git alias:
+```bash
+git sync
+```
 
 This will:
 - ✅ Add all your changes
