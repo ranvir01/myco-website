@@ -4,9 +4,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
 
-export default function NetworkSection() {
-  // Placeholder consultant data - ready for real data integration
-  const consultants = [
+interface NetworkSectionProps {
+  activeMode: "business" | "talent" | null;
+}
+
+export default function NetworkSection({ activeMode }: NetworkSectionProps) {
+  // Talent network data - what businesses see
+  const talents = [
     { name: "Christy Johnson", role: "Advisor | Strategy", image: null },
     { name: "Pim Jitnavasathien", role: "Product Designer", image: null },
     { name: "Sahil Tayade", role: "Cloud Architect", image: null },
@@ -20,6 +24,28 @@ export default function NetworkSection() {
     { name: "Henos Adhana", role: "SEO Consultant", image: null },
     { name: "Bhagat Subedi", role: "Civil Engineer", image: null },
   ];
+
+  // Client network data - what talents see
+  const clients = [
+    { name: "TechCorp Inc", role: "Enterprise SaaS", image: null },
+    { name: "InnovateX", role: "AI & Machine Learning", image: null },
+    { name: "GlobalTrade Co", role: "E-commerce Platform", image: null },
+    { name: "HealthSync", role: "Healthcare Technology", image: null },
+    { name: "FinanceHub", role: "Financial Services", image: null },
+    { name: "EcoSolutions", role: "Sustainable Tech", image: null },
+    { name: "DataFlow Systems", role: "Data Analytics", image: null },
+    { name: "CloudVentures", role: "Cloud Infrastructure", image: null },
+    { name: "RetailPro", role: "Retail Technology", image: null },
+    { name: "EduTech Global", role: "Educational Software", image: null },
+    { name: "MediaStream", role: "Digital Media", image: null },
+    { name: "SecureNet", role: "Cybersecurity", image: null },
+  ];
+
+  const displayData = activeMode === "business" ? talents : clients;
+  const networkTitle = activeMode === "business" ? "Our Network of Talents" : "Our Trusted Clients";
+  const networkDescription = activeMode === "business" 
+    ? "Our diverse network of expert consultants spans industries and expertise. Each professional brings unique skills and proven results."
+    : "We partner with innovative companies across various sectors. These organizations trust us to connect them with top-tier talent.";
 
   return (
     <section className="py-20 md:py-32 relative overflow-hidden">
@@ -46,7 +72,8 @@ export default function NetworkSection() {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-6"
           >
-            Meet our <span className="text-primary">Network</span>
+            {activeMode === "business" ? "Meet our " : "Meet our "}
+            <span className="text-primary">{networkTitle.split(' ').slice(-1)}</span>
           </motion.h2>
         </ScrollAnimationWrapper>
 
@@ -58,14 +85,12 @@ export default function NetworkSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-xl text-center text-secondary-light mb-16 max-w-3xl mx-auto"
           >
-            Our diverse network of expert consultants spans industries and
-            expertise. Each professional brings unique skills and proven
-            results.
+            {networkDescription}
           </motion.p>
         </ScrollAnimationWrapper>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
-          {consultants.map((consultant, index) => (
+          {displayData.map((member, index) => (
             <ScrollAnimationWrapper key={index} delay={index * 0.05}>
               <motion.div
                 whileHover={{ y: -10, scale: 1.05 }}
@@ -73,17 +98,17 @@ export default function NetworkSection() {
                 className="flex flex-col items-center text-center space-y-3"
               >
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white text-2xl md:text-3xl font-bold shadow-lg">
-                  {consultant.name
+                  {member.name
                     .split(" ")
                     .map((n) => n[0])
                     .join("")}
                 </div>
                 <div>
                   <h3 className="font-semibold text-secondary text-sm md:text-base">
-                    {consultant.name}
+                    {member.name}
                   </h3>
                   <p className="text-xs md:text-sm text-secondary-light">
-                    {consultant.role}
+                    {member.role}
                   </p>
                 </div>
               </motion.div>

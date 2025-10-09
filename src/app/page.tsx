@@ -42,14 +42,14 @@ export default function Home() {
               <>
                 <BusinessSection />
                 <AboutSection />
-                <NetworkSection />
+                <NetworkSection activeMode="business" />
                 <PortfolioSection />
               </>
             ) : (
               <>
                 <TalentSection />
                 <AboutSection />
-                <NetworkSection />
+                <NetworkSection activeMode="talent" />
                 <PortfolioSection />
               </>
             )}

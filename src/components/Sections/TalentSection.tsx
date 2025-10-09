@@ -56,7 +56,7 @@ export default function TalentSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {benefits.map((benefit, index) => (
             <ScrollAnimationWrapper key={index} delay={index * 0.15}>
-              <Card className="text-center h-full flex flex-col items-center justify-center">
+              <Card className="text-center h-full min-h-[320px] flex flex-col items-center justify-center">
                 <motion.div
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}

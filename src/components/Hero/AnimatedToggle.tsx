@@ -27,10 +27,10 @@ export default function AnimatedToggle({
           onClick={() => onToggle("business")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className={`px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 ${
+          className={`w-40 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 ${
             activeMode === "business"
               ? "bg-secondary text-white shadow-xl ring-4 ring-secondary/30 ring-offset-2"
-              : "bg-secondary text-white hover:bg-secondary-light shadow-lg"
+              : "bg-white text-secondary border-2 border-secondary hover:bg-secondary hover:text-white shadow-lg"
           }`}
         >
           Business
@@ -40,10 +40,10 @@ export default function AnimatedToggle({
           onClick={() => onToggle("talent")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className={`px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 ${
+          className={`w-40 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 ${
             activeMode === "talent"
               ? "bg-primary text-white shadow-xl ring-4 ring-primary/30 ring-offset-2"
-              : "bg-gray-300 text-secondary hover:bg-gray-400 shadow-md"
+              : "bg-white text-primary border-2 border-primary hover:bg-primary hover:text-white shadow-lg"
           }`}
         >
           Talent

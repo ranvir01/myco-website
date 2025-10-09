@@ -205,7 +205,7 @@ export default function Hero() {
                   transition={{ delay: 0.2, duration: 0.8 }}
                   className="text-5xl md:text-6xl lg:text-7xl font-bold text-secondary leading-tight"
                 >
-                  Leverage Your{" "}
+                  Leverage Our{" "}
                   <span 
                     className="text-6xl md:text-7xl lg:text-8xl block mt-2"
                     style={{
@@ -226,8 +226,7 @@ export default function Hero() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-xl md:text-2xl text-secondary-light max-w-xl"
             >
-              Connect with top talent or find your next opportunity. We bridge
-              businesses and independent consultants.
+              MyCo makes project work effortless. We are available 24/7 connecting businesses to trustworthy experts.
             </motion.p>
 
             <AnimatedToggle activeMode={activeMode} onToggle={handleToggle} />
