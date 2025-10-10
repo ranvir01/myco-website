@@ -225,13 +225,36 @@ export default function NetworkGlobe() {
   const [hoveredProfile, setHoveredProfile] = useState<typeof profiles[0] | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleNodeHover = (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => {
+    // Clear any existing timeout
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+
     setHoveredProfile(profile);
     if (screenPos) {
       setTooltipPos(screenPos);
     }
+
+    // Auto-hide tooltip after 2.5 seconds
+    if (profile) {
+      hideTimeoutRef.current = setTimeout(() => {
+        setHoveredProfile(null);
+      }, 2500);
+    }
   };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, []);
   
   return (
     <div 
