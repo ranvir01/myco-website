@@ -23,11 +23,12 @@ const profiles = [
 ];
 
 // Interactive node component
-function InteractiveNode({ position, profile, onHover, isActive }: { 
+function InteractiveNode({ position, profile, onHover, isActive, onPositionUpdate }: { 
   position: [number, number, number];
   profile: typeof profiles[0];
   onHover: (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => void;
   isActive: boolean;
+  onPositionUpdate: (profileId: number, screenPos: { x: number; y: number }) => void;
 }) {
   const [hovered, setHovered] = useState(false);
   const meshRef = useRef<THREE.Mesh>(null);
@@ -35,8 +36,8 @@ function InteractiveNode({ position, profile, onHover, isActive }: {
   const isHighlighted = hovered || isActive;
   
   useFrame(() => {
-    if (meshRef.current && hovered) {
-      // Calculate screen position
+    if (meshRef.current) {
+      // Always calculate and update screen position for this node
       const vector = new THREE.Vector3(...position);
       meshRef.current.parent?.localToWorld(vector);
       vector.project(camera);
@@ -44,7 +45,13 @@ function InteractiveNode({ position, profile, onHover, isActive }: {
       const x = (vector.x * 0.5 + 0.5) * size.width;
       const y = (-(vector.y * 0.5) + 0.5) * size.height;
       
-      onHover(profile, { x, y });
+      // Update position for this profile
+      onPositionUpdate(profile.id, { x, y });
+      
+      // If hovered, also call the hover callback
+      if (hovered) {
+        onHover(profile, { x, y });
+      }
     }
   });
 
@@ -78,9 +85,10 @@ function InteractiveNode({ position, profile, onHover, isActive }: {
 }
 
 // Globe points component
-function GlobePoints({ onNodeHover, activeProfile }: { 
+function GlobePoints({ onNodeHover, activeProfile, onPositionUpdate }: { 
   onNodeHover: (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => void;
   activeProfile: typeof profiles[0] | null;
+  onPositionUpdate: (profileId: number, screenPos: { x: number; y: number }) => void;
 }) {
   const pointsRef = useRef<THREE.Points>(null);
   const linesRef = useRef<THREE.LineSegments>(null);
@@ -213,6 +221,7 @@ function GlobePoints({ onNodeHover, activeProfile }: {
               profile={profiles[i]}
               onHover={onNodeHover}
               isActive={activeProfile?.id === profiles[i].id}
+              onPositionUpdate={onPositionUpdate}
             />
           );
         })}
@@ -225,6 +234,7 @@ export default function NetworkGlobe() {
   const [hoveredProfile, setHoveredProfile] = useState<typeof profiles[0] | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [autoShowProfile, setAutoShowProfile] = useState<typeof profiles[0] | null>(null);
+  const [nodePositions, setNodePositions] = useState<Map<number, { x: number; y: number }>>(new Map());
   const containerRef = useRef<HTMLDivElement>(null);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const autoShowIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -249,6 +259,14 @@ export default function NetworkGlobe() {
         setHoveredProfile(null);
       }, 2500);
     }
+  };
+
+  const handlePositionUpdate = (profileId: number, screenPos: { x: number; y: number }) => {
+    setNodePositions(prev => {
+      const newMap = new Map(prev);
+      newMap.set(profileId, screenPos);
+      return newMap;
+    });
   };
 
   // Random auto-show tooltips
@@ -315,6 +333,7 @@ export default function NetworkGlobe() {
         <GlobePoints 
           onNodeHover={handleNodeHover} 
           activeProfile={hoveredProfile || autoShowProfile}
+          onPositionUpdate={handlePositionUpdate}
         />
         
         <OrbitControls
@@ -353,9 +372,9 @@ export default function NetworkGlobe() {
         )}
       </AnimatePresence>
       
-      {/* Auto-show tooltip at random position */}
+      {/* Auto-show tooltip at node position */}
       <AnimatePresence>
-        {autoShowProfile && !hoveredProfile && (
+        {autoShowProfile && !hoveredProfile && nodePositions.get(autoShowProfile.id) && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -363,9 +382,9 @@ export default function NetworkGlobe() {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="absolute pointer-events-none z-10"
             style={{
-              left: '50%',
-              top: '30%',
-              transform: 'translate(-50%, -50%)',
+              left: nodePositions.get(autoShowProfile.id)!.x + 10,
+              top: nodePositions.get(autoShowProfile.id)!.y - 70,
+              transform: 'translateX(-50%)',
             }}
           >
             <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl p-4 min-w-[180px] border border-primary/20">
