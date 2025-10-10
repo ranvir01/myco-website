@@ -23,73 +23,61 @@ const profiles = [
 ];
 
 // Interactive node component
-function InteractiveNode({ position, profile, onHover, groupRef }: { 
+function InteractiveNode({ position, profile, onHover }: { 
   position: [number, number, number];
   profile: typeof profiles[0];
   onHover: (profile: typeof profiles[0] | null, position: [number, number, number] | null) => void;
-  groupRef: React.RefObject<THREE.Group>;
 }) {
   const [hovered, setHovered] = useState(false);
   const meshRef = useRef<THREE.Mesh>(null);
   
   useFrame(() => {
-    if (meshRef.current) {
-      if (hovered) {
-        // Subtle pulsing effect when hovered
-        const scale = 1.3 + Math.sin(Date.now() * 0.003) * 0.15;
-        meshRef.current.scale.setScalar(scale);
-      } else {
-        // Reset scale smoothly
-        meshRef.current.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1);
-      }
-      
-      // Sync rotation with the globe
-      if (groupRef.current) {
-        meshRef.current.quaternion.copy(groupRef.current.quaternion);
-      }
+    if (meshRef.current && hovered) {
+      // Subtle pulsing effect
+      const scale = 1 + Math.sin(Date.now() * 0.003) * 0.1;
+      meshRef.current.scale.setScalar(scale);
     }
   });
 
   return (
-    <mesh
-      ref={meshRef}
-      position={position}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        setHovered(true);
-        onHover(profile, position);
-        document.body.style.cursor = 'pointer';
-      }}
-      onPointerOut={(e) => {
-        e.stopPropagation();
-        setHovered(false);
-        onHover(null, null);
-        document.body.style.cursor = 'auto';
-      }}
-    >
-      <sphereGeometry args={[0.08, 16, 16]} />
-      <meshStandardMaterial
-        color={hovered ? "#10b981" : "#1B7F4E"}
-        emissive={hovered ? "#10b981" : "#1B7F4E"}
-        emissiveIntensity={hovered ? 0.6 : 0.2}
-        transparent
-        opacity={hovered ? 1 : 0.5}
-        toneMapped={false}
-      />
+    <group position={position}>
+      <mesh
+        ref={meshRef}
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          setHovered(true);
+          onHover(profile, position);
+          document.body.style.cursor = 'pointer';
+        }}
+        onPointerOut={(e) => {
+          e.stopPropagation();
+          setHovered(false);
+          onHover(null, null);
+          document.body.style.cursor = 'auto';
+        }}
+      >
+        <sphereGeometry args={[0.08, 16, 16]} />
+        <meshStandardMaterial
+          color="#1B7F4E"
+          emissive="#1B7F4E"
+          emissiveIntensity={hovered ? 0.5 : 0.15}
+          transparent
+          opacity={hovered ? 1 : 0.6}
+          toneMapped={false}
+        />
+      </mesh>
       
-      {/* Glow ring when hovered */}
-      {hovered && (
-        <mesh scale={[1.5, 1.5, 1.5]}>
-          <sphereGeometry args={[0.08, 16, 16]} />
-          <meshBasicMaterial
-            color="#10b981"
-            transparent
-            opacity={0.3}
-            toneMapped={false}
-          />
-        </mesh>
-      )}
-    </mesh>
+      {/* Subtle glow to make nodes discoverable */}
+      <mesh>
+        <sphereGeometry args={[0.12, 16, 16]} />
+        <meshBasicMaterial
+          color="#1B7F4E"
+          transparent
+          opacity={hovered ? 0.3 : 0.1}
+          toneMapped={false}
+        />
+      </mesh>
+    </group>
   );
 }
 
@@ -99,7 +87,7 @@ function GlobePoints({ onNodeHover }: {
 }) {
   const pointsRef = useRef<THREE.Points>(null);
   const linesRef = useRef<THREE.LineSegments>(null);
-  const interactiveGroupRef = useRef<THREE.Group>(null);
+  const nodesGroupRef = useRef<THREE.Group>(null);
 
   // Generate sphere points with some interactive nodes
   const { positions, connections, interactiveIndices } = useMemo(() => {
@@ -167,8 +155,8 @@ function GlobePoints({ onNodeHover }: {
     if (linesRef.current) {
       linesRef.current.rotation.y += delta * 0.03;
     }
-    if (interactiveGroupRef.current) {
-      interactiveGroupRef.current.rotation.y += delta * 0.03;
+    if (nodesGroupRef.current) {
+      nodesGroupRef.current.rotation.y += delta * 0.03;
     }
   });
 
@@ -213,8 +201,8 @@ function GlobePoints({ onNodeHover }: {
         />
       </lineSegments>
 
-      {/* Interactive nodes group */}
-      <group ref={interactiveGroupRef}>
+      {/* Interactive nodes */}
+      <group ref={nodesGroupRef}>
         {interactiveIndices.map((index, i) => {
           const position: [number, number, number] = [
             positions[index * 3],
@@ -227,40 +215,11 @@ function GlobePoints({ onNodeHover }: {
               position={position}
               profile={profiles[i]}
               onHover={onNodeHover}
-              groupRef={interactiveGroupRef}
             />
           );
         })}
       </group>
     </>
-  );
-}
-
-// Tooltip component that follows cursor
-function HoverTooltip({ profile, mousePos }: { 
-  profile: typeof profiles[0];
-  mousePos: { x: number; y: number };
-}) {
-  return (
-    <Html>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        className="pointer-events-none"
-        style={{
-          position: 'fixed',
-          left: mousePos.x + 20,
-          top: mousePos.y - 40,
-        }}
-      >
-        <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 min-w-[180px] border border-gray-100">
-          <h4 className="font-semibold text-secondary text-sm">{profile.name}</h4>
-          <p className="text-xs text-secondary-light mt-1">{profile.role}</p>
-          <span className="text-xs text-primary/70 font-medium">{profile.type}</span>
-        </div>
-      </motion.div>
-    </Html>
   );
 }
 
@@ -304,11 +263,6 @@ export default function NetworkGlobe() {
         
         <GlobePoints onNodeHover={handleNodeHover} />
         
-        {/* Hover tooltip inside canvas */}
-        {hoveredProfile && hoveredPosition && (
-          <HoverTooltip profile={hoveredProfile} mousePos={mousePos} />
-        )}
-        
         <OrbitControls
           enableZoom={false}
           enablePan={false}
@@ -320,6 +274,29 @@ export default function NetworkGlobe() {
           dampingFactor={0.05}
         />
       </Canvas>
+      
+      {/* Hover tooltip outside canvas */}
+      <AnimatePresence>
+        {hoveredProfile && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+            className="absolute pointer-events-none z-10"
+            style={{
+              left: mousePos.x - 250,
+              top: mousePos.y - 300,
+            }}
+          >
+            <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 min-w-[180px] border border-gray-100">
+              <h4 className="font-semibold text-secondary text-sm">{hoveredProfile.name}</h4>
+              <p className="text-xs text-secondary-light mt-1">{hoveredProfile.role}</p>
+              <span className="text-xs text-primary/70 font-medium">{hoveredProfile.type}</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
