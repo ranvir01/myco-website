@@ -6,137 +6,93 @@ import { OrbitControls, Html } from "@react-three/drei";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 
-// Network profile data structure
-interface NetworkProfile {
-  id: string;
-  name: string;
-  role: string;
-  type: "talent" | "client";
-  position: [number, number, number]; // Position on globe
-  image?: string;
-}
-
-// Sample network profiles - distributed across the globe
-const networkProfiles: NetworkProfile[] = [
-  // Talents
-  { id: "t1", name: "Christy Johnson", role: "Advisor | Strategy", type: "talent", position: [2.3, 0.5, 0.8] },
-  { id: "t2", name: "Pim Jitnavasathien", role: "Product Designer", type: "talent", position: [-1.5, 1.2, 1.5] },
-  { id: "t3", name: "Sahil Tayade", role: "Cloud Architect", type: "talent", position: [1.8, -0.8, 1.2] },
-  { id: "t4", name: "Ha Tien Nguyen", role: "UX Researcher", type: "talent", position: [-0.5, 1.8, 1.0] },
-  { id: "t5", name: "Reuben Narad", role: "PhD Student", type: "talent", position: [0.8, -1.5, 1.5] },
-  { id: "t6", name: "Sam Foster", role: "Software Architect", type: "talent", position: [-2.0, 0.3, 0.9] },
-  { id: "t7", name: "Tawsif Ahmed", role: "Electrical Engineer", type: "talent", position: [1.2, 1.0, -1.6] },
-  { id: "t8", name: "Terrell Kelly", role: "Operations", type: "talent", position: [-0.9, -1.0, 1.7] },
-  
-  // Clients
-  { id: "c1", name: "TechCorp Inc", role: "Enterprise SaaS", type: "client", position: [2.1, 0.8, -0.6] },
-  { id: "c2", name: "InnovateX", role: "AI & ML", type: "client", position: [-1.8, -0.5, 1.3] },
-  { id: "c3", name: "GlobalTrade Co", role: "E-commerce", type: "client", position: [0.6, 1.5, -1.4] },
-  { id: "c4", name: "HealthSync", role: "Healthcare Tech", type: "client", position: [-1.2, 1.3, 1.2] },
-  { id: "c5", name: "FinanceHub", role: "Financial Services", type: "client", position: [1.5, -1.2, 1.0] },
-  { id: "c6", name: "EcoSolutions", role: "Sustainable Tech", type: "client", position: [-0.8, -1.6, 0.9] },
-  { id: "c7", name: "DataFlow Systems", role: "Data Analytics", type: "client", position: [0.4, 0.9, -1.9] },
-  { id: "c8", name: "CloudVentures", role: "Cloud Infrastructure", type: "client", position: [-1.4, 0.2, -1.6] },
+// Sample data for network profiles
+const talents = [
+  { id: 1, name: "Sarah Chen", role: "Product Manager", initials: "SC" },
+  { id: 2, name: "John Rodriguez", role: "Software Architect", initials: "JR" },
+  { id: 3, name: "Emma Wilson", role: "Data Scientist", initials: "EW" },
+  { id: 4, name: "Michael Park", role: "UX Designer", initials: "MP" },
+  { id: 5, name: "Lisa Thompson", role: "Marketing Strategist", initials: "LT" },
+  { id: 6, name: "David Kumar", role: "DevOps Engineer", initials: "DK" },
+  { id: 7, name: "Rachel Green", role: "Business Analyst", initials: "RG" },
+  { id: 8, name: "Tom Anderson", role: "Security Expert", initials: "TA" },
 ];
 
-// Profile node component with square geometry and popup
-function ProfileNode({ 
-  profile, 
-  onHover, 
-  hoveredProfile,
-  autoPopupProfile,
-  isUserInteracting 
-}: { 
-  profile: NetworkProfile; 
-  onHover: (profile: NetworkProfile | null, position?: [number, number, number]) => void;
-  hoveredProfile: NetworkProfile | null;
-  autoPopupProfile: NetworkProfile | null;
-  isUserInteracting: boolean;
+const clients = [
+  { id: 9, name: "TechCorp Solutions", industry: "Technology", initials: "TC" },
+  { id: 10, name: "HealthFirst Medical", industry: "Healthcare", initials: "HF" },
+  { id: 11, name: "Green Energy Co", industry: "Renewable Energy", initials: "GE" },
+  { id: 12, name: "FinanceHub Bank", industry: "Banking", initials: "FH" },
+  { id: 13, name: "RetailMax Stores", industry: "Retail", initials: "RM" },
+  { id: 14, name: "EduLearn Platform", industry: "Education", initials: "EL" },
+  { id: 15, name: "BuildRight Construction", industry: "Construction", initials: "BR" },
+  { id: 16, name: "MediaWave Studios", industry: "Entertainment", initials: "MW" },
+];
+
+const allProfiles = [...talents, ...clients];
+
+// Profile dot component
+function ProfileDot({ profile, position, index, onHover }: {
+  profile: typeof allProfiles[0];
+  position: [number, number, number];
+  index: number;
+  onHover: (profile: typeof allProfiles[0] | null) => void;
 }) {
-  const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
-
-  const isHovered = hoveredProfile?.id === profile.id;
-  const isAutoPopup = !isUserInteracting && autoPopupProfile?.id === profile.id;
-  const showPopup = isHovered || isAutoPopup;
-
-  // Clients = darker green, Talents = lighter green with more transparency
-  const color = profile.type === "client" ? "#1B7F4E" : "#56B365";
-  const opacity = profile.type === "client" ? 0.9 : 0.4;
+  const meshRef = useRef<THREE.Mesh>(null);
+  
+  const isTalent = index < 8;
+  const color = isTalent ? "#1B7F4E" : "#0284c7";
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      const scale = hovered ? 1.3 : 1;
+      meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
+    }
+  });
 
   return (
-    <>
+    <group position={position}>
       <mesh
         ref={meshRef}
-        position={profile.position}
-        onPointerEnter={(e) => {
-          e.stopPropagation();
+        onPointerOver={() => {
           setHovered(true);
-          onHover(profile, profile.position);
-          document.body.style.cursor = "pointer";
+          onHover(profile);
+          document.body.style.cursor = 'pointer';
         }}
-        onPointerLeave={(e) => {
-          e.stopPropagation();
+        onPointerOut={() => {
           setHovered(false);
           onHover(null);
-          document.body.style.cursor = "auto";
+          document.body.style.cursor = 'auto';
         }}
       >
-        {/* Square/Box geometry instead of sphere */}
-        <boxGeometry args={[0.08, 0.08, 0.08]} />
+        <sphereGeometry args={[0.08, 16, 16]} />
         <meshStandardMaterial
           color={color}
-          transparent={true}
-          opacity={showPopup ? 1 : opacity}
-          toneMapped={false}
           emissive={color}
-          emissiveIntensity={showPopup ? 0.4 : 0.1}
+          emissiveIntensity={hovered ? 0.5 : 0.2}
+          toneMapped={false}
         />
       </mesh>
       
-      {/* Compact popup - appears on hover or auto */}
-      {showPopup && (
-        <Html position={profile.position} center distanceFactor={12}>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 10 }}
-            transition={{ duration: 0.25 }}
-            className="bg-white/95 backdrop-blur-sm rounded-md shadow-lg p-1.5 pointer-events-none"
-            style={{ width: '110px' }}
-          >
-            <div className="flex flex-col items-center space-y-0.5">
-              <div 
-                className={`w-6 h-6 rounded flex items-center justify-center text-white font-bold text-[10px] ${
-                  profile.type === "client" 
-                    ? "bg-gradient-to-br from-green-700 to-green-800" 
-                    : "bg-gradient-to-br from-green-500 to-green-600"
-                }`}
-              >
-                {profile.name.split(" ").map(n => n[0]).join("")}
-              </div>
-              <p className="font-semibold text-gray-900 text-[10px] text-center leading-tight">{profile.name}</p>
-              <p className="text-[9px] text-gray-600 text-center leading-tight">{profile.role}</p>
-            </div>
-          </motion.div>
-        </Html>
+      {/* Glow effect */}
+      {hovered && (
+        <mesh scale={[1.5, 1.5, 1.5]}>
+          <sphereGeometry args={[0.08, 16, 16]} />
+          <meshBasicMaterial
+            color={color}
+            transparent
+            opacity={0.3}
+            toneMapped={false}
+          />
+        </mesh>
       )}
-    </>
+    </group>
   );
 }
 
 // Globe points component
-function GlobePoints({ 
-  onProfileHover, 
-  hoveredProfile,
-  autoPopupProfile,
-  isUserInteracting 
-}: { 
-  onProfileHover: (profile: NetworkProfile | null, position?: [number, number, number]) => void;
-  hoveredProfile: NetworkProfile | null;
-  autoPopupProfile: NetworkProfile | null;
-  isUserInteracting: boolean;
-}) {
+function GlobePoints() {
   const pointsRef = useRef<THREE.Points>(null);
   const linesRef = useRef<THREE.LineSegments>(null);
 
@@ -241,76 +197,139 @@ function GlobePoints({
           toneMapped={false}
         />
       </lineSegments>
-
-      {/* Profile nodes (squares) */}
-      {networkProfiles.map((profile) => (
-        <ProfileNode 
-          key={profile.id} 
-          profile={profile} 
-          onHover={onProfileHover}
-          hoveredProfile={hoveredProfile}
-          autoPopupProfile={autoPopupProfile}
-          isUserInteracting={isUserInteracting}
-        />
-      ))}
     </>
   );
 }
 
 export default function NetworkGlobe() {
-  const [hoveredProfile, setHoveredProfile] = useState<NetworkProfile | null>(null);
-  const [autoPopupProfile, setAutoPopupProfile] = useState<NetworkProfile | null>(null);
-  const [isUserInteracting, setIsUserInteracting] = useState(false);
-
-  const handleProfileHover = (profile: NetworkProfile | null, position?: [number, number, number]) => {
-    setHoveredProfile(profile);
-    // When user hovers, mark as interacting
-    if (profile !== null) {
-      setIsUserInteracting(true);
+  const [hoveredProfile, setHoveredProfile] = useState<typeof allProfiles[0] | null>(null);
+  const [autoPopupProfile, setAutoPopupProfile] = useState<typeof allProfiles[0] | null>(null);
+  
+  // Profile positions on the globe
+  const profilePositions: [number, number, number][] = useMemo(() => {
+    const positions: [number, number, number][] = [];
+    const radius = 2.4;
+    
+    // Distribute profiles around the globe
+    const goldenRatio = (1 + Math.sqrt(5)) / 2;
+    const angleIncrement = Math.PI * 2 * goldenRatio;
+    
+    for (let i = 0; i < 16; i++) {
+      const t = i / 16;
+      const inclination = Math.acos(1 - 2 * t);
+      const azimuth = angleIncrement * i;
+      
+      positions.push([
+        radius * Math.sin(inclination) * Math.cos(azimuth),
+        radius * Math.sin(inclination) * Math.sin(azimuth),
+        radius * Math.cos(inclination)
+      ]);
     }
-  };
-
-  // Auto-popup effect - cycles through profiles randomly
+    
+    return positions;
+  }, []);
+  
+  // Auto popup effect
   useEffect(() => {
-    if (isUserInteracting) return;
-
-    const showRandomPopup = () => {
-      const randomProfile = networkProfiles[Math.floor(Math.random() * networkProfiles.length)];
+    const interval = setInterval(() => {
+      const randomProfile = allProfiles[Math.floor(Math.random() * allProfiles.length)];
       setAutoPopupProfile(randomProfile);
       
-      // Hide popup after 2.5 seconds
       setTimeout(() => {
         setAutoPopupProfile(null);
-      }, 2500);
-    };
-
-    // Initial delay before first popup
-    const initialTimeout = setTimeout(showRandomPopup, 1500);
-
-    // Set up interval for subsequent popups (every 4-6 seconds)
-    const intervalId = setInterval(() => {
-      showRandomPopup();
-    }, Math.random() * 2000 + 4000); // Random interval between 4-6 seconds
-
-    return () => {
-      clearTimeout(initialTimeout);
-      clearInterval(intervalId);
-    };
-  }, [isUserInteracting]);
-
-  // Reset user interaction after inactivity
-  useEffect(() => {
-    if (!isUserInteracting) return;
-
+      }, 3000);
+    }, 8000);
+    
+    // First popup after 2 seconds
     const timeout = setTimeout(() => {
-      setIsUserInteracting(false);
-    }, 8000); // Resume auto-popups after 8 seconds of no interaction
-
-    return () => clearTimeout(timeout);
-  }, [isUserInteracting, hoveredProfile]);
-
+      const randomProfile = allProfiles[Math.floor(Math.random() * allProfiles.length)];
+      setAutoPopupProfile(randomProfile);
+      
+      setTimeout(() => {
+        setAutoPopupProfile(null);
+      }, 3000);
+    }, 2000);
+    
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, []);
+  
   return (
-    <div className="w-full aspect-square max-w-[700px] mx-auto relative">
+    <div className="w-full aspect-square max-w-[500px] md:max-w-[700px] lg:max-w-[800px] max-h-[70vh] mx-auto relative">
+      {/* Legend */}
+      <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg">
+        <div className="space-y-2 text-sm">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-[#1B7F4E]" />
+            <span className="text-secondary">Talents</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-[#0284c7]" />
+            <span className="text-secondary">Clients</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Hover Tooltip */}
+      {hoveredProfile && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="absolute top-4 right-4 z-10 bg-white rounded-xl shadow-xl p-4 min-w-[200px]"
+        >
+          <div className="flex items-center gap-3">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold ${
+              hoveredProfile.id <= 8 ? 'bg-[#1B7F4E]' : 'bg-[#0284c7]'
+            }`}>
+              {hoveredProfile.initials}
+            </div>
+            <div>
+              <h4 className="font-semibold text-secondary">{hoveredProfile.name}</h4>
+              <p className="text-sm text-secondary-light">
+                {'role' in hoveredProfile ? hoveredProfile.role : hoveredProfile.industry}
+              </p>
+              <span className={`text-xs font-medium ${
+                hoveredProfile.id <= 8 ? 'text-[#1B7F4E]' : 'text-[#0284c7]'
+              }`}>
+                {hoveredProfile.id <= 8 ? 'Talent' : 'Client'}
+              </span>
+            </div>
+          </div>
+        </motion.div>
+      )}
+      
+      {/* Auto Popup */}
+      {autoPopupProfile && !hoveredProfile && (
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          className="absolute bottom-4 left-4 z-10 bg-white rounded-xl shadow-xl p-4 min-w-[200px]"
+        >
+          <div className="flex items-center gap-3">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold ${
+              autoPopupProfile.id <= 8 ? 'bg-[#1B7F4E]' : 'bg-[#0284c7]'
+            }`}>
+              {autoPopupProfile.initials}
+            </div>
+            <div>
+              <h4 className="font-semibold text-secondary">{autoPopupProfile.name}</h4>
+              <p className="text-sm text-secondary-light">
+                {'role' in autoPopupProfile ? autoPopupProfile.role : autoPopupProfile.industry}
+              </p>
+              <span className={`text-xs font-medium ${
+                autoPopupProfile.id <= 8 ? 'text-[#1B7F4E]' : 'text-[#0284c7]'
+              }`}>
+                {autoPopupProfile.id <= 8 ? 'Talent' : 'Client'}
+              </span>
+            </div>
+          </div>
+        </motion.div>
+      )}
+      
       <Canvas
         camera={{ position: [0, 0, 4], fov: 75 }}
         className="cursor-grab active:cursor-grabbing"
@@ -321,19 +340,24 @@ export default function NetworkGlobe() {
           powerPreference: "high-performance",
           precision: "highp",
         }}
-        onPointerDown={() => setIsUserInteracting(true)}
       >
         <ambientLight intensity={0.8} />
         <pointLight position={[10, 10, 10]} intensity={2.0} />
         <pointLight position={[-10, -10, -10]} intensity={0.8} color="#56B365" />
         <pointLight position={[0, 10, 5]} intensity={1.0} color="#1B7F4E" />
         
-        <GlobePoints 
-          onProfileHover={handleProfileHover} 
-          hoveredProfile={hoveredProfile}
-          autoPopupProfile={autoPopupProfile}
-          isUserInteracting={isUserInteracting}
-        />
+        <GlobePoints />
+        
+        {/* Profile dots */}
+        {allProfiles.map((profile, index) => (
+          <ProfileDot
+            key={profile.id}
+            profile={profile}
+            position={profilePositions[index]}
+            index={index}
+            onHover={setHoveredProfile}
+          />
+        ))}
         
         <OrbitControls
           enableZoom={false}
@@ -344,7 +368,6 @@ export default function NetworkGlobe() {
           maxPolarAngle={Math.PI / 1.5}
           enableDamping={true}
           dampingFactor={0.05}
-          onChange={() => setIsUserInteracting(true)}
         />
       </Canvas>
     </div>

@@ -57,7 +57,7 @@ export default function Hero() {
   return (
       <section
           id="home"
-          className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 pt-20"
+          className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 pt-32"
           onMouseMove={handleMouseMove}
         >
           {/* Simplified Natural Globe Shadow & Glow */}
@@ -184,7 +184,7 @@ export default function Hero() {
       </AnimatePresence>
 
       <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 auto-rows-fr items-center">
           {/* Left Column - Text and Toggle */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -244,7 +244,7 @@ export default function Hero() {
               duration: isZooming ? 0.4 : 0.8,
               ease: isZooming ? [0.25, 0.1, 0.25, 1] : "easeOut"
             }}
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center mt-0 lg:mt-0 min-h-[300px] md:min-h-[400px]"
             style={{
               transformOrigin: "center center",
               willChange: "transform, opacity, filter",
@@ -265,7 +265,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-3"
+        className="absolute bottom-2 md:bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center space-y-3 z-10"
       >
         <motion.div
           animate={{ y: [0, -10, 0] }}
