@@ -224,8 +224,10 @@ function GlobePoints({ onNodeHover }: {
 export default function NetworkGlobe() {
   const [hoveredProfile, setHoveredProfile] = useState<typeof profiles[0] | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [autoShowProfile, setAutoShowProfile] = useState<typeof profiles[0] | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const autoShowIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleNodeHover = (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => {
     // Clear any existing timeout
@@ -235,6 +237,8 @@ export default function NetworkGlobe() {
     }
 
     setHoveredProfile(profile);
+    setAutoShowProfile(null); // Clear auto-show when user manually hovers
+    
     if (screenPos) {
       setTooltipPos(screenPos);
     }
@@ -246,6 +250,37 @@ export default function NetworkGlobe() {
       }, 2500);
     }
   };
+
+  // Random auto-show tooltips
+  useEffect(() => {
+    const showRandomTooltip = () => {
+      // Only show if user is not currently hovering
+      if (!hoveredProfile) {
+        // Randomly select a profile
+        const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
+        setAutoShowProfile(randomProfile);
+
+        // Hide after 3 seconds
+        setTimeout(() => {
+          setAutoShowProfile(null);
+        }, 3000);
+      }
+
+      // Schedule next random popup between 8-15 seconds
+      const nextDelay = Math.random() * 7000 + 8000;
+      autoShowIntervalRef.current = setTimeout(showRandomTooltip, nextDelay);
+    };
+
+    // First popup after 5 seconds
+    const initialTimeout = setTimeout(showRandomTooltip, 5000);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      if (autoShowIntervalRef.current) {
+        clearTimeout(autoShowIntervalRef.current);
+      }
+    };
+  }, [hoveredProfile]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -310,6 +345,33 @@ export default function NetworkGlobe() {
               <h4 className="font-semibold text-secondary text-sm">{hoveredProfile.name}</h4>
               <p className="text-xs text-secondary-light mt-1">{hoveredProfile.role}</p>
               <span className="text-xs text-primary font-medium">{hoveredProfile.type}</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {/* Auto-show tooltip at random position */}
+      <AnimatePresence>
+        {autoShowProfile && !hoveredProfile && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="absolute pointer-events-none z-10"
+            style={{
+              left: '50%',
+              top: '30%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl p-4 min-w-[180px] border border-primary/20">
+              <div className="flex items-center gap-2 mb-2">
+                <div className={`w-2 h-2 rounded-full ${autoShowProfile.type === 'Talent' ? 'bg-primary' : 'bg-blue-500'}`} />
+                <span className="text-xs font-semibold text-primary/70">{autoShowProfile.type}</span>
+              </div>
+              <h4 className="font-bold text-secondary text-base">{autoShowProfile.name}</h4>
+              <p className="text-sm text-secondary-light mt-1">{autoShowProfile.role}</p>
             </div>
           </motion.div>
         )}
