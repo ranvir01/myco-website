@@ -40,44 +40,32 @@ function InteractiveNode({ position, profile, onHover }: {
   });
 
   return (
-    <group position={position}>
-      <mesh
-        ref={meshRef}
-        onPointerOver={(e) => {
-          e.stopPropagation();
-          setHovered(true);
-          onHover(profile, position);
-          document.body.style.cursor = 'pointer';
-        }}
-        onPointerOut={(e) => {
-          e.stopPropagation();
-          setHovered(false);
-          onHover(null, null);
-          document.body.style.cursor = 'auto';
-        }}
-      >
-        <sphereGeometry args={[0.08, 16, 16]} />
-        <meshStandardMaterial
-          color="#1B7F4E"
-          emissive="#1B7F4E"
-          emissiveIntensity={hovered ? 0.5 : 0.15}
-          transparent
-          opacity={hovered ? 1 : 0.6}
-          toneMapped={false}
-        />
-      </mesh>
-      
-      {/* Subtle glow to make nodes discoverable */}
-      <mesh>
-        <sphereGeometry args={[0.12, 16, 16]} />
-        <meshBasicMaterial
-          color="#1B7F4E"
-          transparent
-          opacity={hovered ? 0.3 : 0.1}
-          toneMapped={false}
-        />
-      </mesh>
-    </group>
+    <mesh
+      ref={meshRef}
+      position={position}
+      onPointerOver={(e) => {
+        e.stopPropagation();
+        setHovered(true);
+        onHover(profile, position);
+        document.body.style.cursor = 'pointer';
+      }}
+      onPointerOut={(e) => {
+        e.stopPropagation();
+        setHovered(false);
+        onHover(null, null);
+        document.body.style.cursor = 'auto';
+      }}
+    >
+      <sphereGeometry args={[0.06, 16, 16]} />
+      <pointsMaterial
+        size={hovered ? 0.08 : 0.03}
+        color={hovered ? "#0f5f38" : "#1B7F4E"}
+        sizeAttenuation={true}
+        transparent={true}
+        opacity={hovered ? 0.9 : 0}
+        toneMapped={false}
+      />
+    </mesh>
   );
 }
 
@@ -226,16 +214,26 @@ function GlobePoints({ onNodeHover }: {
 export default function NetworkGlobe() {
   const [hoveredProfile, setHoveredProfile] = useState<typeof profiles[0] | null>(null);
   const [hoveredPosition, setHoveredPosition] = useState<[number, number, number] | null>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
   
-  // Track mouse position
+  // Track mouse position within container
   useEffect(() => {
+    if (!containerRef.current) return;
+    
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setTooltipPos({ 
+          x: e.clientX - rect.left, 
+          y: e.clientY - rect.top 
+        });
+      }
     };
     
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    const container = containerRef.current;
+    container.addEventListener('mousemove', handleMouseMove);
+    return () => container.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const handleNodeHover = (profile: typeof profiles[0] | null, position: [number, number, number] | null) => {
@@ -244,7 +242,10 @@ export default function NetworkGlobe() {
   };
   
   return (
-    <div className="w-full aspect-square max-w-[500px] md:max-w-[700px] lg:max-w-[800px] max-h-[70vh] mx-auto relative">
+    <div 
+      ref={containerRef}
+      className="w-full aspect-square max-w-[500px] md:max-w-[700px] lg:max-w-[800px] max-h-[70vh] mx-auto relative"
+    >
       <Canvas
         camera={{ position: [0, 0, 4], fov: 75 }}
         className="cursor-grab active:cursor-grabbing"
@@ -275,24 +276,24 @@ export default function NetworkGlobe() {
         />
       </Canvas>
       
-      {/* Hover tooltip outside canvas */}
+      {/* Hover tooltip near the node */}
       <AnimatePresence>
         {hoveredProfile && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.2 }}
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 10 }}
+            transition={{ duration: 0.15 }}
             className="absolute pointer-events-none z-10"
             style={{
-              left: mousePos.x - 250,
-              top: mousePos.y - 300,
+              left: tooltipPos.x + 15,
+              top: tooltipPos.y - 60,
             }}
           >
-            <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 min-w-[180px] border border-gray-100">
+            <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 min-w-[160px] border border-gray-200">
               <h4 className="font-semibold text-secondary text-sm">{hoveredProfile.name}</h4>
               <p className="text-xs text-secondary-light mt-1">{hoveredProfile.role}</p>
-              <span className="text-xs text-primary/70 font-medium">{hoveredProfile.type}</span>
+              <span className="text-xs text-primary font-medium">{hoveredProfile.type}</span>
             </div>
           </motion.div>
         )}
