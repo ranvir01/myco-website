@@ -26,16 +26,27 @@ const profiles = [
 function InteractiveNode({ position, profile, onHover }: { 
   position: [number, number, number];
   profile: typeof profiles[0];
-  onHover: (profile: typeof profiles[0] | null, position: [number, number, number] | null) => void;
+  onHover: (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => void;
 }) {
   const [hovered, setHovered] = useState(false);
   const meshRef = useRef<THREE.Mesh>(null);
+  const { camera, size } = useThree();
   
   useFrame(() => {
     if (meshRef.current && hovered) {
       // Subtle pulsing effect
       const scale = 1 + Math.sin(Date.now() * 0.003) * 0.1;
       meshRef.current.scale.setScalar(scale);
+      
+      // Calculate screen position
+      const vector = new THREE.Vector3(...position);
+      meshRef.current.parent?.localToWorld(vector);
+      vector.project(camera);
+      
+      const x = (vector.x * 0.5 + 0.5) * size.width;
+      const y = (-(vector.y * 0.5) + 0.5) * size.height;
+      
+      onHover(profile, { x, y });
     }
   });
 
@@ -46,7 +57,6 @@ function InteractiveNode({ position, profile, onHover }: {
       onPointerOver={(e) => {
         e.stopPropagation();
         setHovered(true);
-        onHover(profile, position);
         document.body.style.cursor = 'pointer';
       }}
       onPointerOut={(e) => {
@@ -71,7 +81,7 @@ function InteractiveNode({ position, profile, onHover }: {
 
 // Globe points component
 function GlobePoints({ onNodeHover }: { 
-  onNodeHover: (profile: typeof profiles[0] | null, position: [number, number, number] | null) => void;
+  onNodeHover: (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => void;
 }) {
   const pointsRef = useRef<THREE.Points>(null);
   const linesRef = useRef<THREE.LineSegments>(null);
@@ -213,32 +223,14 @@ function GlobePoints({ onNodeHover }: {
 
 export default function NetworkGlobe() {
   const [hoveredProfile, setHoveredProfile] = useState<typeof profiles[0] | null>(null);
-  const [hoveredPosition, setHoveredPosition] = useState<[number, number, number] | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Track mouse position within container
-  useEffect(() => {
-    if (!containerRef.current) return;
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setTooltipPos({ 
-          x: e.clientX - rect.left, 
-          y: e.clientY - rect.top 
-        });
-      }
-    };
-    
-    const container = containerRef.current;
-    container.addEventListener('mousemove', handleMouseMove);
-    return () => container.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
-  const handleNodeHover = (profile: typeof profiles[0] | null, position: [number, number, number] | null) => {
+  const handleNodeHover = (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => {
     setHoveredProfile(profile);
-    setHoveredPosition(position);
+    if (screenPos) {
+      setTooltipPos(screenPos);
+    }
   };
   
   return (
@@ -276,18 +268,19 @@ export default function NetworkGlobe() {
         />
       </Canvas>
       
-      {/* Hover tooltip near the node */}
+      {/* Hover tooltip at exact node position */}
       <AnimatePresence>
         {hoveredProfile && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 10 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.15 }}
             className="absolute pointer-events-none z-10"
             style={{
-              left: tooltipPos.x + 15,
-              top: tooltipPos.y - 60,
+              left: tooltipPos.x + 10,
+              top: tooltipPos.y - 70,
+              transform: 'translateX(-50%)',
             }}
           >
             <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 min-w-[160px] border border-gray-200">
