@@ -23,21 +23,19 @@ const profiles = [
 ];
 
 // Interactive node component
-function InteractiveNode({ position, profile, onHover }: { 
+function InteractiveNode({ position, profile, onHover, isActive }: { 
   position: [number, number, number];
   profile: typeof profiles[0];
   onHover: (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => void;
+  isActive: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   const meshRef = useRef<THREE.Mesh>(null);
   const { camera, size } = useThree();
+  const isHighlighted = hovered || isActive;
   
   useFrame(() => {
     if (meshRef.current && hovered) {
-      // Subtle pulsing effect
-      const scale = 1 + Math.sin(Date.now() * 0.003) * 0.1;
-      meshRef.current.scale.setScalar(scale);
-      
       // Calculate screen position
       const vector = new THREE.Vector3(...position);
       meshRef.current.parent?.localToWorld(vector);
@@ -66,13 +64,13 @@ function InteractiveNode({ position, profile, onHover }: {
         document.body.style.cursor = 'auto';
       }}
     >
-      <sphereGeometry args={[0.06, 16, 16]} />
-      <pointsMaterial
-        size={hovered ? 0.08 : 0.03}
-        color={hovered ? "#0f5f38" : "#1B7F4E"}
-        sizeAttenuation={true}
+      <sphereGeometry args={[0.035, 16, 16]} />
+      <meshStandardMaterial
+        color={isHighlighted ? "#0a4d2e" : "#1B7F4E"}
+        emissive={isHighlighted ? "#0a4d2e" : "#1B7F4E"}
+        emissiveIntensity={isHighlighted ? 0.6 : 0}
         transparent={true}
-        opacity={hovered ? 0.9 : 0}
+        opacity={isHighlighted ? 1 : 0}
         toneMapped={false}
       />
     </mesh>
@@ -80,8 +78,9 @@ function InteractiveNode({ position, profile, onHover }: {
 }
 
 // Globe points component
-function GlobePoints({ onNodeHover }: { 
+function GlobePoints({ onNodeHover, activeProfile }: { 
   onNodeHover: (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => void;
+  activeProfile: typeof profiles[0] | null;
 }) {
   const pointsRef = useRef<THREE.Points>(null);
   const linesRef = useRef<THREE.LineSegments>(null);
@@ -213,6 +212,7 @@ function GlobePoints({ onNodeHover }: {
               position={position}
               profile={profiles[i]}
               onHover={onNodeHover}
+              isActive={activeProfile?.id === profiles[i].id}
             />
           );
         })}
@@ -312,7 +312,10 @@ export default function NetworkGlobe() {
         <pointLight position={[-10, -10, -10]} intensity={0.8} color="#56B365" />
         <pointLight position={[0, 10, 5]} intensity={1.0} color="#1B7F4E" />
         
-        <GlobePoints onNodeHover={handleNodeHover} />
+        <GlobePoints 
+          onNodeHover={handleNodeHover} 
+          activeProfile={hoveredProfile || autoShowProfile}
+        />
         
         <OrbitControls
           enableZoom={false}
