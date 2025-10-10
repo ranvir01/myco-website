@@ -23,19 +23,30 @@ const profiles = [
 ];
 
 // Interactive node component
-function InteractiveNode({ position, profile, onHover }: { 
+function InteractiveNode({ position, profile, onHover, groupRef }: { 
   position: [number, number, number];
   profile: typeof profiles[0];
   onHover: (profile: typeof profiles[0] | null, position: [number, number, number] | null) => void;
+  groupRef: React.RefObject<THREE.Group>;
 }) {
   const [hovered, setHovered] = useState(false);
   const meshRef = useRef<THREE.Mesh>(null);
   
   useFrame(() => {
-    if (meshRef.current && hovered) {
-      // Subtle pulsing effect
-      const scale = 1 + Math.sin(Date.now() * 0.003) * 0.1;
-      meshRef.current.scale.setScalar(scale);
+    if (meshRef.current) {
+      if (hovered) {
+        // Subtle pulsing effect when hovered
+        const scale = 1.3 + Math.sin(Date.now() * 0.003) * 0.15;
+        meshRef.current.scale.setScalar(scale);
+      } else {
+        // Reset scale smoothly
+        meshRef.current.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1);
+      }
+      
+      // Sync rotation with the globe
+      if (groupRef.current) {
+        meshRef.current.quaternion.copy(groupRef.current.quaternion);
+      }
     }
   });
 
@@ -56,15 +67,28 @@ function InteractiveNode({ position, profile, onHover }: {
         document.body.style.cursor = 'auto';
       }}
     >
-      <sphereGeometry args={[0.06, 16, 16]} />
+      <sphereGeometry args={[0.08, 16, 16]} />
       <meshStandardMaterial
-        color="#1B7F4E"
-        emissive="#1B7F4E"
-        emissiveIntensity={hovered ? 0.3 : 0.1}
+        color={hovered ? "#10b981" : "#1B7F4E"}
+        emissive={hovered ? "#10b981" : "#1B7F4E"}
+        emissiveIntensity={hovered ? 0.6 : 0.2}
         transparent
-        opacity={hovered ? 0.9 : 0}
+        opacity={hovered ? 1 : 0.5}
         toneMapped={false}
       />
+      
+      {/* Glow ring when hovered */}
+      {hovered && (
+        <mesh scale={[1.5, 1.5, 1.5]}>
+          <sphereGeometry args={[0.08, 16, 16]} />
+          <meshBasicMaterial
+            color="#10b981"
+            transparent
+            opacity={0.3}
+            toneMapped={false}
+          />
+        </mesh>
+      )}
     </mesh>
   );
 }
@@ -75,6 +99,7 @@ function GlobePoints({ onNodeHover }: {
 }) {
   const pointsRef = useRef<THREE.Points>(null);
   const linesRef = useRef<THREE.LineSegments>(null);
+  const interactiveGroupRef = useRef<THREE.Group>(null);
 
   // Generate sphere points with some interactive nodes
   const { positions, connections, interactiveIndices } = useMemo(() => {
@@ -142,6 +167,9 @@ function GlobePoints({ onNodeHover }: {
     if (linesRef.current) {
       linesRef.current.rotation.y += delta * 0.03;
     }
+    if (interactiveGroupRef.current) {
+      interactiveGroupRef.current.rotation.y += delta * 0.03;
+    }
   });
 
   return (
@@ -185,22 +213,25 @@ function GlobePoints({ onNodeHover }: {
         />
       </lineSegments>
 
-      {/* Interactive nodes */}
-      {interactiveIndices.map((index, i) => {
-        const position: [number, number, number] = [
-          positions[index * 3],
-          positions[index * 3 + 1],
-          positions[index * 3 + 2]
-        ];
-        return (
-          <InteractiveNode
-            key={i}
-            position={position}
-            profile={profiles[i]}
-            onHover={onNodeHover}
-          />
-        );
-      })}
+      {/* Interactive nodes group */}
+      <group ref={interactiveGroupRef}>
+        {interactiveIndices.map((index, i) => {
+          const position: [number, number, number] = [
+            positions[index * 3],
+            positions[index * 3 + 1],
+            positions[index * 3 + 2]
+          ];
+          return (
+            <InteractiveNode
+              key={i}
+              position={position}
+              profile={profiles[i]}
+              onHover={onNodeHover}
+              groupRef={interactiveGroupRef}
+            />
+          );
+        })}
+      </group>
     </>
   );
 }
