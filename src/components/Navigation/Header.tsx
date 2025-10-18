@@ -20,18 +20,52 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-      setIsMobileMenuOpen(false);
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100vh";
+    } else {
+      document.body.style.overflow = "unset";
+      document.body.style.height = "unset";
     }
+    
+    return () => {
+      document.body.style.overflow = "unset";
+      document.body.style.height = "unset";
+    };
+  }, [isMobileMenuOpen]);
+
+  const scrollToSection = (sectionId: string) => {
+    // Close mobile menu first
+    setIsMobileMenuOpen(false);
+    
+    // Close mobile menu styling
+    if (document.body.style.overflow === "hidden") {
+      document.body.style.overflow = "unset";
+      document.body.style.height = "unset";
+    }
+
+    // Give a small delay to allow DOM to settle
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        // Element exists on current page, scroll to it
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        // Element doesn't exist on current page (e.g., on privacy/terms page)
+        // Navigate to home page and scroll to section
+        if (window.location.pathname !== "/") {
+          window.location.href = `/#${sectionId}`;
+        }
+      }
+    }, 50);
   };
 
   const navLinks = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
-    { name: "Portfolio", id: "portfolio" },
+    { name: "Our Work", id: "portfolio" },
   ];
 
   return (
@@ -54,7 +88,7 @@ export default function Header() {
         {/* Subtle gradient line at bottom */}
         <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-0'}`} />
         
-        <nav className="container-custom py-5">
+        <nav className="container-custom py-3 sm:py-4 md:py-5">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.div
@@ -70,7 +104,7 @@ export default function Header() {
                 width={400}
                 height={100}
                 priority
-                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-14 w-auto' : 'h-16 w-auto'}`}
+                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-10 sm:h-12 md:h-14 w-auto' : 'h-12 sm:h-14 md:h-16 w-auto'}`}
                 style={{ maxWidth: '100%', height: 'auto' }}
               />
             </motion.div>

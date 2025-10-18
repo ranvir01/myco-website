@@ -57,7 +57,7 @@ export default function Hero() {
   return (
       <section
           id="home"
-          className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 pt-32"
+          className="relative z-10 min-h-[85vh] md:min-h-[90vh] lg:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 py-12 md:py-16"
           onMouseMove={handleMouseMove}
         >
           {/* Simplified Natural Globe Shadow & Glow */}
@@ -197,17 +197,17 @@ export default function Hero() {
               duration: isZooming ? 0.4 : 0.8,
               ease: isZooming ? [0.25, 0.1, 0.25, 1] : "easeOut"
             }}
-            className="space-y-8 lg:pr-8"
+            className="space-y-6 md:space-y-8 lg:pr-8"
           >
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.8 }}
-                  className="text-5xl md:text-6xl lg:text-7xl font-bold text-secondary leading-tight"
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-secondary leading-tight"
                 >
                   Leverage Our{" "}
                   <span 
-                    className="text-6xl md:text-7xl lg:text-8xl block mt-2"
+                    className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl block mt-1 md:mt-2"
                     style={{
                       background: 'linear-gradient(135deg, #1B7F4E 0%, #56B365 100%)',
                       WebkitBackgroundClip: 'text',
@@ -224,7 +224,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-xl md:text-2xl text-secondary-light max-w-xl"
+              className="text-lg sm:text-xl md:text-2xl text-secondary-light max-w-xl leading-relaxed"
             >
               MyCo makes project work effortless. We are available 24/7 connecting businesses to trustworthy experts.
             </motion.p>
@@ -244,13 +244,13 @@ export default function Hero() {
               duration: isZooming ? 0.4 : 0.8,
               ease: isZooming ? [0.25, 0.1, 0.25, 1] : "easeOut"
             }}
-            className="relative flex items-center justify-center mt-0 lg:mt-0 min-h-[300px] md:min-h-[400px]"
+            className="relative flex items-center justify-center mt-4 lg:mt-0 min-h-[250px] sm:min-h-[300px] md:min-h-[350px] lg:min-h-[400px]"
             style={{
               transformOrigin: "center center",
               willChange: "transform, opacity, filter",
             }}
           >
-            <div className="w-full" style={{ 
+            <div className="w-full max-w-[400px] md:max-w-none" style={{ 
               transform: "translateZ(0)",
               backfaceVisibility: "hidden" as any,
             }}>

@@ -25,20 +25,16 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
     { name: "Bhagat Subedi", role: "Civil Engineer", image: null },
   ];
 
-  // Client network data - what talents see
+  // Client network data - Real MyCo Network clients
   const clients = [
-    { name: "TechCorp Inc", role: "Enterprise SaaS", image: null },
-    { name: "InnovateX", role: "AI & Machine Learning", image: null },
-    { name: "GlobalTrade Co", role: "E-commerce Platform", image: null },
-    { name: "HealthSync", role: "Healthcare Technology", image: null },
-    { name: "FinanceHub", role: "Financial Services", image: null },
-    { name: "EcoSolutions", role: "Sustainable Tech", image: null },
-    { name: "DataFlow Systems", role: "Data Analytics", image: null },
-    { name: "CloudVentures", role: "Cloud Infrastructure", image: null },
-    { name: "RetailPro", role: "Retail Technology", image: null },
-    { name: "EduTech Global", role: "Educational Software", image: null },
-    { name: "MediaStream", role: "Digital Media", image: null },
-    { name: "SecureNet", role: "Cybersecurity", image: null },
+    { name: "Tabletop Village", role: "Gaming & Entertainment", image: null },
+    { name: "Blue Landscaping", role: "Landscaping Services", image: null },
+    { name: "VOPPL AR", role: "Augmented Reality Tech", image: null },
+    { name: "Goldstein & Company LLC", role: "Financial Services", image: null },
+    { name: "Gibraltar Business Group", role: "Business Consulting", image: null },
+    { name: "Presidential Transpo", role: "Transportation Services", image: null },
+    { name: "Atlantis STEM", role: "Education & Technology", image: null },
+    { name: "MyCo Network", role: "Consulting Network", image: null },
   ];
 
   const displayData = activeMode === "business" ? talents : clients;
@@ -48,7 +44,7 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
     : "We partner with innovative companies across various sectors. These organizations trust us to connect them with top-tier talent.";
 
   return (
-    <section className="py-20 md:py-32 relative overflow-hidden">
+    <section id="network" className="py-20 md:py-32 relative overflow-hidden">
       {/* Seamless white gradient with subtle depth */}
       <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50/20 via-gray-50/30 via-gray-50/20 to-white" />
       

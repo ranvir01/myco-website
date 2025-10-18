@@ -6,31 +6,35 @@ import Card from "@/components/UI/Card";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
 
 export default function PortfolioSection() {
-  // Template project data - ready for real content
+  // Real MyCo Network project case studies
   const projects = [
     {
-      icon: <FaCode className="text-5xl text-primary mb-4" />,
-      title: "Software Development",
-      description: "Custom software solutions for growing businesses",
-      tags: ["Web", "Mobile", "Cloud"],
+      icon: <FaBriefcase className="text-5xl text-primary mb-4" />,
+      title: "Business Plan Development",
+      description: "Helping Tabletop Village create a comprehensive business plan for their location move. Delivered professional documentation that satisfied landlord requirements within one week.",
+      tags: ["Strategy", "Planning", "Documentation"],
+      client: "Tabletop Village",
     },
     {
       icon: <FaChartLine className="text-5xl text-primary mb-4" />,
-      title: "Business Strategy",
-      description: "Data-driven strategies for market expansion",
-      tags: ["Analytics", "Growth", "Planning"],
+      title: "Website Optimization & Marketing",
+      description: "Transformed Blue Landscaping's online presence with strategic SEO and conversion optimization, turning their extra budget into measurable customer growth.",
+      tags: ["SEO", "Marketing", "Growth"],
+      client: "Blue Landscaping",
+    },
+    {
+      icon: <FaCode className="text-5xl text-primary mb-4" />,
+      title: "Feasibility Analysis & Planning",
+      description: "Comprehensive competitor analysis, project lifecycle planning, and resource budgeting for technology initiatives. Data-driven insights for strategic decision-making.",
+      tags: ["Analysis", "Planning", "Research"],
+      client: "Multiple Clients",
     },
     {
       icon: <FaPalette className="text-5xl text-primary mb-4" />,
-      title: "Design & Branding",
-      description: "Creating memorable brand experiences",
-      tags: ["UX/UI", "Branding", "Digital"],
-    },
-    {
-      icon: <FaBriefcase className="text-5xl text-primary mb-4" />,
-      title: "Project Management",
-      description: "Enterprise-scale project coordination",
-      tags: ["Agile", "Scrum", "Leadership"],
+      title: "Full Project Lifecycle Support",
+      description: "From requirements gathering to project execution and monitoring - we provide dedicated project managers, low-cost consulting, and 24/7 support throughout your entire project journey.",
+      tags: ["PM", "Support", "Execution"],
+      client: "All Clients",
     },
   ];
 
@@ -62,7 +66,7 @@ export default function PortfolioSection() {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-6"
           >
-            Our Work
+            Our <span className="text-primary">Success Stories</span>
           </motion.h2>
         </ScrollAnimationWrapper>
 
@@ -74,8 +78,8 @@ export default function PortfolioSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-xl text-center text-secondary-light mb-16 max-w-3xl mx-auto"
           >
-            Discover the diverse range of successful projects delivered by our
-            expert consultants across various industries.
+            Real results from real clients. See how MyCo Network has helped businesses 
+            solve complex challenges with our dedicated project managers and expert consultant network.
           </motion.p>
         </ScrollAnimationWrapper>
 
@@ -94,6 +98,11 @@ export default function PortfolioSection() {
                 <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-3">
                   {project.title}
                 </h3>
+                {project.client && (
+                  <p className="text-sm font-semibold text-primary mb-3">
+                    Client: {project.client}
+                  </p>
+                )}
                 <p className="text-secondary-light text-lg mb-4 leading-relaxed">
                   {project.description}
                 </p>

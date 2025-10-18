@@ -47,20 +47,44 @@ export default function QuoteModal() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    console.log("Form submitted:", data);
-    
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    
-    // Reset after 3 seconds
-    setTimeout(() => {
-      setIsSuccess(false);
-      setIsOpen(false);
-      reset();
-    }, 3000);
+    try {
+      // Submit to Formspree
+      const response = await fetch("https://formspree.io/f/mgvndqbr", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          userType: data.userType === "business" ? "Business/Client" : "Consultant/Talent",
+          companyOrSkills: data.userType === "business" 
+            ? `Company: ${data.companyOrSkills}` 
+            : `Skills: ${data.companyOrSkills}`,
+          message: data.message,
+          _subject: `New ${data.userType === "business" ? "Business" : "Talent"} Inquiry from ${data.name}`,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Form submission failed");
+      }
+      
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      
+      // Reset after 4 seconds
+      setTimeout(() => {
+        setIsSuccess(false);
+        setIsOpen(false);
+        reset();
+      }, 4000);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setIsSubmitting(false);
+      alert("There was an error submitting your request. Please try again or email us directly.");
+    }
   };
 
   const handleClose = () => {
@@ -83,7 +107,7 @@ export default function QuoteModal() {
             className="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-slate-800/60 to-gray-900/80 backdrop-blur-md"
           />
 
-          {/* Modal with glassmorphism effect */}
+          {/* Modal with enhanced glassmorphism effect */}
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 40 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -94,20 +118,26 @@ export default function QuoteModal() {
               stiffness: 200,
               opacity: { duration: 0.25 }
             }}
-            className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-200/50"
+            className="relative bg-gradient-to-br from-white via-white to-gray-50/30 backdrop-blur-2xl rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-2 border-gray-200/60"
             style={{
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)'
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 40px rgba(27, 127, 78, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05)'
             }}
           >
-            {/* Decorative gradient overlay */}
-            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-emerald-500 to-teal-500 rounded-t-3xl" />
+            {/* Animated gradient overlay */}
+            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-emerald-500 to-teal-500 rounded-t-3xl">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary via-emerald-500 to-teal-500 opacity-50 blur-sm animate-pulse" />
+            </div>
             
-            {/* Close Button */}
+            {/* Decorative corner gradients */}
+            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-primary/5 to-transparent rounded-tr-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-emerald-500/5 to-transparent rounded-bl-3xl pointer-events-none" />
+            
+            {/* Enhanced Close Button */}
             <motion.button
               onClick={handleClose}
               whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.9 }}
-              className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 transition-all z-10 shadow-sm"
+              className="absolute top-6 right-6 w-11 h-11 flex items-center justify-center rounded-full bg-gradient-to-br from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-600 hover:text-gray-800 transition-all z-10 shadow-md hover:shadow-lg border border-gray-300/50"
             >
               <HiX className="text-2xl" />
             </motion.button>
@@ -124,30 +154,54 @@ export default function QuoteModal() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.2, type: "spring", damping: 10 }}
-                    className="w-24 h-24 bg-gradient-to-br from-primary to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
+                    className="relative w-28 h-28 mx-auto mb-6"
                   >
-                    <svg
-                      className="w-12 h-12 text-white"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="3"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path d="M5 13l4 4L19 7"></path>
-                    </svg>
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary to-emerald-600 rounded-full animate-pulse opacity-30 blur-xl" />
+                    <div className="relative w-full h-full bg-gradient-to-br from-primary to-emerald-600 rounded-full flex items-center justify-center shadow-2xl border-4 border-white">
+                      <svg
+                        className="w-14 h-14 text-white"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="3"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <motion.path 
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{ delay: 0.4, duration: 0.6 }}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </div>
                   </motion.div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-secondary mb-4">
-                    Thank You!
+                  <h3 className="text-3xl md:text-4xl font-bold mb-4">
+                    <span className="bg-gradient-to-r from-primary via-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                      Thank You!
+                    </span>
                   </h3>
-                  <p className="text-lg text-secondary-light">
-                    We&apos;ll get back to you within 24 hours.
+                  <p className="text-lg text-secondary-light max-w-md mx-auto">
+                    Your request has been received. We&apos;ll get back to you within 24 hours.
                   </p>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="text-sm text-primary/70 mt-4"
+                  >
+                    Check your email for confirmation
+                  </motion.p>
                 </motion.div>
               ) : (
                 <>
-                  <div className="mb-8">
+                  <div className="mb-8 relative">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: "60px" }}
+                      transition={{ delay: 0.2, duration: 0.6 }}
+                      className="h-1 bg-gradient-to-r from-primary to-emerald-500 rounded-full mb-4"
+                    />
                     <h2 className="text-3xl md:text-4xl font-bold mb-3">
                       <span className="text-secondary">Let&apos;s </span>
                       <span 
@@ -156,8 +210,9 @@ export default function QuoteModal() {
                         Talk
                       </span>
                     </h2>
-                    <p className="text-secondary-light text-lg">
-                      Tell us about your needs and we&apos;ll connect you with the right solution.
+                    <p className="text-secondary-light text-lg leading-relaxed">
+                      Tell us about your needs and we&apos;ll connect you with the right solution. 
+                      <span className="block mt-2 text-sm text-primary/60">✓ Response within 24 hours</span>
                     </p>
                   </div>
 
@@ -327,24 +382,41 @@ export default function QuoteModal() {
                       )}
                     </div>
 
-                    {/* Submit Button */}
+                    {/* Enhanced Submit Button */}
                     <motion.button
                       type="submit"
                       disabled={isSubmitting}
                       whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                       whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                      className="w-full bg-gradient-to-r from-primary via-emerald-600 to-teal-600 hover:from-primary-dark hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+                      className="relative w-full bg-gradient-to-r from-primary via-emerald-600 to-teal-600 hover:from-primary-dark hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-2xl overflow-hidden group"
                     >
-                      {isSubmitting ? (
-                        <span className="flex items-center justify-center gap-2">
-                          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                          </svg>
-                          Submitting...
-                        </span>
-                      ) : "Submit Request"}
+                      {/* Animated shine effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                      
+                      <span className="relative z-10">
+                        {isSubmitting ? (
+                          <span className="flex items-center justify-center gap-3">
+                            <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            </svg>
+                            Sending Your Request...
+                          </span>
+                        ) : (
+                          <span className="flex items-center justify-center gap-2">
+                            Submit Request
+                            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                          </span>
+                        )}
+                      </span>
                     </motion.button>
+                    
+                    {/* Trust badge */}
+                    <p className="text-center text-xs text-secondary-light/60 mt-4">
+                      🔒 Your information is secure and will never be shared
+                    </p>
                   </form>
                 </>
               )}

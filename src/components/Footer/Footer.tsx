@@ -2,14 +2,30 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Footer() {
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Close mobile menu if it's open
+    if (document.body.style.overflow === "hidden") {
+      document.body.style.overflow = "unset";
+      document.body.style.height = "unset";
     }
+
+    // Give a small delay to allow DOM to settle
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        // Element exists on current page, scroll to it
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        // Element doesn't exist on current page (e.g., on privacy/terms page)
+        // Navigate to home page and scroll to section
+        if (window.location.pathname !== "/") {
+          window.location.href = `/#${sectionId}`;
+        }
+      }
+    }, 50);
   };
 
   const quickLinks = [
@@ -18,26 +34,8 @@ export default function Footer() {
     { name: "Portfolio", id: "portfolio" },
   ];
 
-  const socialLinks = [
-    {
-      name: "Facebook",
-      icon: <FaFacebook className="text-2xl" />,
-      url: "https://www.facebook.com/myconsultingnetwork",
-    },
-    {
-      name: "LinkedIn",
-      icon: <FaLinkedin className="text-2xl" />,
-      url: "https://www.linkedin.com/company/myconsultingnetwork",
-    },
-    {
-      name: "Instagram",
-      icon: <FaInstagram className="text-2xl" />,
-      url: "https://www.instagram.com/myconsultingnetwork",
-    },
-  ];
-
   return (
-    <footer className="relative text-white py-16 overflow-hidden">
+    <footer id="contact" className="relative text-white py-16 overflow-hidden">
       {/* Seamless Space Horizon - Blends from green-50 to website primary green */}
       <div className="absolute inset-0">
         {/* Base layer - Smooth green transition using theme colors */}
@@ -132,8 +130,9 @@ export default function Footer() {
                 <li key={link.id}>
                   <motion.button
                     whileHover={{ x: 5 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => scrollToSection(link.id)}
-                    className="text-gray-900 hover:underline hover:decoration-2 transition-all"
+                    className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all cursor-pointer font-medium"
                   >
                     {link.name}
                   </motion.button>
@@ -155,22 +154,6 @@ export default function Footer() {
                   info@myconsultingnetwork.com
                 </a>
               </p>
-              <div className="flex space-x-4">
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.2, y: -3 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="text-gray-900 hover:text-primary transition-colors"
-                    aria-label={social.name}
-                  >
-                    {social.icon}
-                  </motion.a>
-                ))}
-              </div>
             </div>
           </div>
         </div>
@@ -182,12 +165,18 @@ export default function Footer() {
             reserved.
           </p>
           <div className="flex space-x-6 text-sm">
-            <button className="text-gray-800 hover:underline hover:decoration-2 transition-all">
+            <Link
+              href="/privacy"
+              className="text-gray-800 hover:underline hover:decoration-2 transition-all"
+            >
               Privacy Policy
-            </button>
-            <button className="text-gray-800 hover:underline hover:decoration-2 transition-all">
+            </Link>
+            <Link
+              href="/terms"
+              className="text-gray-800 hover:underline hover:decoration-2 transition-all"
+            >
               Terms of Service
-            </button>
+            </Link>
           </div>
         </div>
       </div>

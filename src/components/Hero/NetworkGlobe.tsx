@@ -6,20 +6,24 @@ import { OrbitControls, Html } from "@react-three/drei";
 import * as THREE from "three";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Sample network profiles
+// Real network profiles - Mixed clients and consultants (always shown)
 const profiles = [
-  { id: 1, name: "Sarah Chen", role: "Product Manager", type: "Talent" },
-  { id: 2, name: "John Rodriguez", role: "Software Architect", type: "Talent" },
-  { id: 3, name: "Emma Wilson", role: "Data Scientist", type: "Talent" },
-  { id: 4, name: "Michael Park", role: "UX Designer", type: "Talent" },
-  { id: 5, name: "TechCorp Solutions", role: "Technology Partner", type: "Client" },
-  { id: 6, name: "David Kumar", role: "DevOps Engineer", type: "Talent" },
-  { id: 7, name: "HealthFirst Medical", role: "Healthcare", type: "Client" },
-  { id: 8, name: "Rachel Green", role: "Business Analyst", type: "Talent" },
-  { id: 9, name: "FinanceHub", role: "Banking Services", type: "Client" },
-  { id: 10, name: "Tom Anderson", role: "Security Expert", type: "Talent" },
-  { id: 11, name: "Green Energy Co", role: "Renewable Energy", type: "Client" },
-  { id: 12, name: "Lisa Thompson", role: "Marketing Strategist", type: "Talent" },
+  { id: 1, name: "Tabletop Village", role: "Gaming & Entertainment", type: "Client" },
+  { id: 2, name: "Christy Johnson", role: "Advisor | Strategy", type: "Talent" },
+  { id: 3, name: "Blue Landscaping", role: "Landscaping Services", type: "Client" },
+  { id: 4, name: "Pim Jitnavasathien", role: "Product Designer", type: "Talent" },
+  { id: 5, name: "VOPPL AR", role: "Augmented Reality Tech", type: "Client" },
+  { id: 6, name: "Sahil Tayade", role: "Cloud Architect", type: "Talent" },
+  { id: 7, name: "Goldstein & Company LLC", role: "Financial Services", type: "Client" },
+  { id: 8, name: "Reuben Narad", role: "PhD - Operations", type: "Talent" },
+  { id: 9, name: "Gibraltar Business Group", role: "Business Consulting", type: "Client" },
+  { id: 10, name: "Sam Foster", role: "Software Architect", type: "Talent" },
+  { id: 11, name: "Presidential Transpo", role: "Transportation Services", type: "Client" },
+  { id: 12, name: "Ha Tien Nguyen", role: "UX Researcher", type: "Talent" },
+  { id: 13, name: "Atlantis STEM", role: "Education & Technology", type: "Client" },
+  { id: 14, name: "Tawsif Ahmed", role: "Electrical Engineer", type: "Talent" },
+  { id: 15, name: "Terrell Kelly", role: "Operations Consultant", type: "Talent" },
+  { id: 16, name: "JD Kaim", role: "Software Engineer", type: "Talent" },
 ];
 
 // Interactive node component
@@ -348,52 +352,89 @@ export default function NetworkGlobe() {
         />
       </Canvas>
       
-      {/* Hover tooltip at exact node position */}
+      {/* Hover tooltip at exact node position - Enhanced Design */}
       <AnimatePresence>
         {hoveredProfile && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.15 }}
+            initial={{ opacity: 0, scale: 0.85, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.85, y: 10 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className="absolute pointer-events-none z-10"
             style={{
               left: tooltipPos.x + 10,
-              top: tooltipPos.y - 70,
+              top: tooltipPos.y - 80,
               transform: 'translateX(-50%)',
             }}
           >
-            <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 min-w-[160px] border border-gray-200">
-              <h4 className="font-semibold text-secondary text-sm">{hoveredProfile.name}</h4>
-              <p className="text-xs text-secondary-light mt-1">{hoveredProfile.role}</p>
-              <span className="text-xs text-primary font-medium">{hoveredProfile.type}</span>
+            <div className="bg-gradient-to-br from-white to-gray-50/95 backdrop-blur-md rounded-xl shadow-2xl p-4 min-w-[200px] border-2 border-primary/20 relative overflow-hidden">
+              {/* Gradient accent bar */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary-light to-primary"></div>
+              
+              {/* Type badge */}
+              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-2 ${
+                hoveredProfile.type === 'Client' 
+                  ? 'bg-blue-500/10 text-blue-600 border border-blue-500/30' 
+                  : 'bg-primary/10 text-primary border border-primary/30'
+              }`}>
+                <div className={`w-2 h-2 rounded-full ${
+                  hoveredProfile.type === 'Client' ? 'bg-blue-500' : 'bg-primary'
+                }`} />
+                {hoveredProfile.type}
+              </div>
+              
+              <h4 className="font-bold text-secondary text-base leading-tight">{hoveredProfile.name}</h4>
+              <p className="text-sm text-secondary-light mt-1.5 leading-snug">{hoveredProfile.role}</p>
+              
+              {/* Subtle bottom decoration */}
+              <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-primary/5 to-transparent rounded-tl-full"></div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
       
-      {/* Auto-show tooltip at node position */}
+      {/* Auto-show tooltip at node position - Enhanced Design */}
       <AnimatePresence>
         {autoShowProfile && !hoveredProfile && nodePositions.get(autoShowProfile.id) && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.75, y: 25 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            exit={{ opacity: 0, scale: 0.75, y: 25 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
             className="absolute pointer-events-none z-10"
             style={{
               left: nodePositions.get(autoShowProfile.id)!.x + 10,
-              top: nodePositions.get(autoShowProfile.id)!.y - 70,
+              top: nodePositions.get(autoShowProfile.id)!.y - 85,
               transform: 'translateX(-50%)',
             }}
           >
-            <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl p-4 min-w-[180px] border border-primary/20">
-              <div className="flex items-center gap-2 mb-2">
-                <div className={`w-2 h-2 rounded-full ${autoShowProfile.type === 'Talent' ? 'bg-primary' : 'bg-blue-500'}`} />
-                <span className="text-xs font-semibold text-primary/70">{autoShowProfile.type}</span>
+            <div className="bg-gradient-to-br from-white via-white to-primary/5 backdrop-blur-lg rounded-2xl shadow-2xl p-5 min-w-[220px] border-2 border-primary/30 relative overflow-hidden">
+              {/* Animated gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5 opacity-50"></div>
+              
+              {/* Glowing top border */}
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+              
+              <div className="relative z-10">
+                {/* Type badge with glow effect */}
+                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-3 ${
+                  autoShowProfile.type === 'Client' 
+                    ? 'bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-700 border-2 border-blue-500/40 shadow-lg shadow-blue-500/20' 
+                    : 'bg-gradient-to-r from-primary/20 to-primary-light/20 text-primary border-2 border-primary/40 shadow-lg shadow-primary/20'
+                }`}>
+                  <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${
+                    autoShowProfile.type === 'Client' ? 'bg-blue-500 shadow-lg shadow-blue-500/50' : 'bg-primary shadow-lg shadow-primary/50'
+                  }`} />
+                  {autoShowProfile.type}
+                </div>
+                
+                <h4 className="font-bold text-secondary text-lg leading-tight mb-2">{autoShowProfile.name}</h4>
+                <p className="text-sm text-secondary-light leading-relaxed">{autoShowProfile.role}</p>
               </div>
-              <h4 className="font-bold text-secondary text-base">{autoShowProfile.name}</h4>
-              <p className="text-sm text-secondary-light mt-1">{autoShowProfile.role}</p>
+              
+              {/* Decorative corner element */}
+              <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-primary/10 to-transparent rounded-tl-full"></div>
+              <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-500/5 to-transparent rounded-br-full"></div>
             </div>
           </motion.div>
         )}

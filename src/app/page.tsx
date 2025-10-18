@@ -9,6 +9,7 @@ import TalentSection from "@/components/Sections/TalentSection";
 import AboutSection from "@/components/Sections/AboutSection";
 import NetworkSection from "@/components/Sections/NetworkSection";
 import PortfolioSection from "@/components/Sections/PortfolioSection";
+import FAQSection from "@/components/Sections/FAQSection";
 import Footer from "@/components/Footer/Footer";
 import QuoteModal from "@/components/ContactForm/QuoteModal";
 
@@ -28,7 +29,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pt-20 sm:pt-24 md:pt-28 lg:pt-32">
       <Header />
       <Hero />
       
@@ -48,11 +49,13 @@ export default function Home() {
               <>
                 <BusinessSection />
                 <NetworkSection activeMode="business" />
+                <FAQSection activeMode="business" />
               </>
             ) : (
               <>
                 <TalentSection />
                 <NetworkSection activeMode="talent" />
+                <FAQSection activeMode="talent" />
               </>
             )}
           </motion.div>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -7,28 +7,37 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: '#1B7F4E',
+};
+
 export const metadata: Metadata = {
-  title: "MyConsulting Network | Talent On-Demand for Business Success",
-  description: "Connect with top independent consultants or find your next project. MyConsulting Network bridges businesses with expert talent across software engineering, marketing, finance, and more.",
-  keywords: "consulting network, independent consultants, project managers, talent on demand, business consulting, freelance consultants, professional services",
-  authors: [{ name: "MyConsulting Network" }],
-  creator: "MyConsulting Network",
-  publisher: "MyConsulting Network",
+  title: "MyCo Network | Expert Consulting On-Demand - Project Management & Talent Solutions",
+  description: "MyCo Network connects businesses with expert consultants for any project. Dedicated project managers, 24/7 support, and low-cost consulting. From business plans to feasibility analysis, we deliver results. Trusted by Tabletop Village, Blue Landscaping, VOPPL AR, and more.",
+  keywords: "consulting network, independent consultants, project managers, talent on demand, business consulting, freelance consultants, professional services, project management, feasibility analysis, business plan development, SEO consulting, cloud architecture, software engineering, strategy consulting, low cost consulting, dedicated project manager",
+  authors: [{ name: "MyCo Network" }],
+  creator: "MyCo Network",
+  publisher: "MyCo Network",
   metadataBase: new URL("https://myconsultingnetwork.com"),
   alternates: {
     canonical: "/",
   },
+  category: "Business Services",
   openGraph: {
-    title: "MyConsulting Network | Talent On-Demand",
-    description: "We source projects with business owners and source the talent to complete it. Your trusted project broker.",
+    title: "MyCo Network | Expert Consulting On-Demand - Trusted by Leading Businesses",
+    description: "Full project lifecycle support with dedicated project managers. We connect businesses with expert consultants in strategy, technology, marketing, and more. Lower costs, higher quality.",
     url: "https://myconsultingnetwork.com",
-    siteName: "MyConsulting Network",
+    siteName: "MyCo Network",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "MyConsulting Network - Leverage Your Network",
+        alt: "MyCo Network - Talent On-Demand for Business Success",
       },
     ],
     locale: "en_US",
@@ -36,9 +45,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "MyConsulting Network | Talent On-Demand",
-    description: "Connect businesses with expert independent consultants. Project management, 24/7 support, solving any problem.",
+    title: "MyCo Network | Expert Consulting On-Demand",
+    description: "Dedicated project managers, low-cost consulting, 24/7 support. We help businesses solve complex challenges with our expert consultant network.",
     images: ["/og-image.jpg"],
+    creator: "@myconetwork",
   },
   robots: {
     index: true,
@@ -71,60 +81,159 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "MyConsulting Network",
-              description: "Talent On-Demand - Connecting businesses with expert independent consultants",
+              "@type": "ProfessionalService",
+              name: "MyCo Network",
+              alternateName: "MyConsulting Network",
+              description: "Expert consulting network providing full project lifecycle support. We connect businesses with top consultants in strategy, technology, marketing, and more. Dedicated project managers, low-cost consulting, and 24/7 support.",
               url: "https://myconsultingnetwork.com",
-              logo: "https://myconsultingnetwork.com/logos/myconsulting-network-logo.png",
+              logo: "https://myconsultingnetwork.com/logos/MyCo_Network_Logo_PNG.png",
+              image: "https://myconsultingnetwork.com/MyConsulting_Network_Logo_PNG.png",
+              priceRange: "$$",
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "US",
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                addressCountry: "US",
+              },
               contactPoint: {
                 "@type": "ContactPoint",
                 contactType: "Customer Service",
-                availableLanguage: "English",
+                availableLanguage: ["English"],
+                areaServed: "Worldwide",
               },
               sameAs: [
                 "https://www.facebook.com/myconsultingnetwork",
                 "https://www.linkedin.com/company/myconsultingnetwork",
                 "https://www.instagram.com/myconsultingnetwork",
               ],
-              service: {
-                "@type": "Service",
-                serviceType: "Business Consulting",
-                provider: {
-                  "@type": "Organization",
-                  name: "MyConsulting Network",
-                },
-                areaServed: "Worldwide",
-                hasOfferCatalog: {
-                  "@type": "OfferCatalog",
-                  name: "Consulting Services",
-                  itemListElement: [
-                    {
-                      "@type": "Offer",
-                      itemOffered: {
-                        "@type": "Service",
-                        name: "Project Management",
-                        description: "Dedicated project managers for your business needs",
-                      },
-                    },
-                    {
-                      "@type": "Offer",
-                      itemOffered: {
-                        "@type": "Service",
-                        name: "24/7 Support",
-                        description: "Round-the-clock support for your projects",
-                      },
-                    },
-                    {
-                      "@type": "Offer",
-                      itemOffered: {
-                        "@type": "Service",
-                        name: "Problem Solving",
-                        description: "Expert consultants to solve any business challenge",
-                      },
-                    },
-                  ],
-                },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "5.0",
+                reviewCount: "12",
               },
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: "Consulting Services",
+                itemListElement: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Business Plan Development",
+                      description: "Professional business plan creation for location moves, funding, and strategic planning",
+                      provider: {
+                        "@type": "Organization",
+                        name: "MyCo Network",
+                      },
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "SEO & Website Optimization",
+                      description: "Strategic SEO and conversion optimization to drive customer growth",
+                      provider: {
+                        "@type": "Organization",
+                        name: "MyCo Network",
+                      },
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Feasibility Analysis",
+                      description: "Comprehensive competitor analysis, project planning, and resource budgeting",
+                      provider: {
+                        "@type": "Organization",
+                        name: "MyCo Network",
+                      },
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Dedicated Project Management",
+                      description: "Full project lifecycle support with dedicated PMs and 24/7 assistance",
+                      provider: {
+                        "@type": "Organization",
+                        name: "MyCo Network",
+                      },
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Cloud Architecture Consulting",
+                      description: "Expert cloud infrastructure design and implementation",
+                      provider: {
+                        "@type": "Organization",
+                        name: "MyCo Network",
+                      },
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "Service",
+                      name: "Software Engineering",
+                      description: "Custom software development and architecture services",
+                      provider: {
+                        "@type": "Organization",
+                        name: "MyCo Network",
+                      },
+                    },
+                  },
+                ],
+              },
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "How does MyCo's consulting process work?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "We follow a comprehensive project lifecycle: Requirements Gathering → Feasibility Analysis → Project Selection → Sourcing Talent → Project Planning → Execution → Monitoring & Control. Throughout the process, you'll have a dedicated project manager ensuring everything stays on track.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "What makes MyCo different from traditional consulting firms?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "MyCo operates on a network model with significantly lower costs than traditional firms. We provide full project lifecycle support, dedicated project managers, and low-cost consulting by leveraging our network of independent experts.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "What industries does MyCo Network serve?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "We serve diverse industries including Gaming & Entertainment, Landscaping, Technology & AR, Financial Services, Business Consulting, Transportation, and Education & Technology. Our clients include Tabletop Village, Blue Landscaping, VOPPL AR, Goldstein & Company, Gibraltar Business Group, Presidential Transpo, and Atlantis STEM.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "How quickly can MyCo match me with talent?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Our sourcing process typically takes 3-7 business days depending on your requirements. We maintain a pre-vetted network of consultants across various industries.",
+                  },
+                },
+              ],
             }),
           }}
         />
