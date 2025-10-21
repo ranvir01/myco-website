@@ -139,7 +139,7 @@ export default function Header() {
                   }}
                   variant="primary"
                   size="sm"
-                  className="shadow-md hover:shadow-lg transition-shadow duration-300"
+                  className="shadow-md hover:shadow-lg transition-shadow duration-300 !py-1 !px-3 !text-[13px]"
                 >
                   Let&apos;s Talk
                 </Button>
