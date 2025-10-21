@@ -1,6 +1,20 @@
 # MyConsulting Network Website
 
-A modern, SEO-optimized website for MyConsulting Network built with Next.js 14, featuring interactive animations and responsive design.
+A modern, professional website for MyConsulting Network built with Next.js 14, featuring interactive animations and responsive design.
+
+🌐 **Domain:** myconsulting.network  
+📧 **Contact:** contact@myconsulting.network  
+☁️ **Hosted on:** Google Cloud Run
+
+---
+
+## 🚀 READY TO DEPLOY?
+
+**→ Start here: [START_DEPLOYMENT_HERE.md](START_DEPLOYMENT_HERE.md)**
+
+Your website is 100% ready. Just follow the simple deployment guide above!
+
+---
 
 ## 🚀 Features
 
@@ -127,64 +141,62 @@ const onSubmit = async (data: FormData) => {
 };
 ```
 
-## 🚀 Deployment to Netlify
+## 🚀 Deployment to Google Cloud Run
 
-### Method 1: GitHub Integration (Recommended)
+Your site is configured for Google Cloud Run with automatic SSL and global CDN.
 
-1. Push your code to GitHub
-2. Go to [Netlify](https://netlify.com) and sign in
-3. Click "Add new site" → "Import an existing project"
-4. Connect to GitHub and select your repository
-5. Configure build settings:
-   - Build command: `npm run build`
-   - Publish directory: `.next`
-   - Leave other settings as default
-6. Click "Deploy site"
+### Quick Deploy
 
-### Method 2: Netlify CLI
-
-1. Install Netlify CLI:
-```bash
-npm install -g netlify-cli
+```powershell
+# One command deployment
+gcloud run deploy myconsulting-network --source . --region=us-central1 --allow-unauthenticated
 ```
 
-2. Build your site:
+### Complete Setup Guides
+
+Choose the guide that fits your needs:
+
+1. **[START_DEPLOYMENT_HERE.md](START_DEPLOYMENT_HERE.md)** - Simple step-by-step (recommended)
+2. **[COMPLETE_DEPLOYMENT_GUIDE.md](COMPLETE_DEPLOYMENT_GUIDE.md)** - Comprehensive guide with all details
+3. **[DEPLOYMENT_QUICK_REFERENCE.md](DEPLOYMENT_QUICK_REFERENCE.md)** - Quick command reference
+4. **[SQUARESPACE_DNS_SETUP.md](SQUARESPACE_DNS_SETUP.md)** - DNS configuration guide
+5. **[WHAT_I_DID_FOR_YOU.md](WHAT_I_DID_FOR_YOU.md)** - Complete feature list
+
+### Automated Script
+
 ```bash
-npm run build
+# Run the automated deployment script
+bash deploy-to-gcloud.sh
 ```
 
-3. Deploy:
-```bash
-netlify deploy --prod
-```
-
-4. Follow the prompts to authenticate and deploy
+The script handles:
+- ✅ Authentication
+- ✅ Project setup
+- ✅ API enablement
+- ✅ Deployment to Cloud Run
+- ✅ URL generation
 
 ## 🌐 Connecting Your Squarespace Domain
 
-1. In Netlify, go to your site settings → "Domain management"
-2. Click "Add custom domain"
-3. Enter your domain name
-4. Netlify will provide you with DNS settings
-5. In Squarespace:
-   - Go to Settings → Domains → [Your Domain] → DNS Settings
-   - Add the DNS records provided by Netlify
-   - This typically includes:
-     - A record pointing to Netlify's IP
-     - CNAME record for www subdomain
-6. Wait for DNS propagation (can take up to 48 hours, usually much faster)
-7. Enable HTTPS in Netlify (automatic after DNS verification)
+After deployment, connect your custom domain:
 
-### DNS Records Example:
-```
-Type: A
-Name: @
-Value: 75.2.60.5 (Netlify's load balancer IP)
+1. **Map domain in Google Cloud:**
+   ```powershell
+   gcloud run domain-mappings create --service=myconsulting-network --domain=myconsulting.network --region=us-central1
+   ```
 
-Type: CNAME
-Name: www
-Value: your-site-name.netlify.app
-```
+2. **Get DNS records:**
+   ```powershell
+   gcloud run domain-mappings describe myconsulting.network --region=us-central1
+   ```
+
+3. **Update DNS in Squarespace:**
+   - Add A record → Google Cloud IP
+   - Add AAAA record → Google Cloud IPv6
+   - Add CNAME (www) → ghs.googlehosted.com
+   - **Keep MX records for email!**
+
+**Detailed instructions:** See [SQUARESPACE_DNS_SETUP.md](SQUARESPACE_DNS_SETUP.md)
 
 ## 🎨 Customization
 
@@ -266,3 +278,4 @@ For questions or issues with the website, contact your development team or refer
 
 © 2025 MyConsulting Network. All rights reserved.
 
+# Auto-deploy test - 10/21/2025 13:27:50
