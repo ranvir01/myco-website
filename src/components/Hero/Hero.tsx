@@ -57,7 +57,7 @@ export default function Hero() {
   return (
       <section
           id="home"
-          className="relative z-10 min-h-[85vh] md:min-h-[90vh] lg:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 py-16 md:py-16"
+          className="relative z-10 min-h-[85vh] md:min-h-[90vh] lg:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 py-12 md:py-16"
           onMouseMove={handleMouseMove}
         >
           {/* Simplified Natural Globe Shadow & Glow */}

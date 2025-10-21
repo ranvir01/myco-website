@@ -110,14 +110,14 @@ export default function Header() {
             </motion.div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
+            <div className="hidden md:flex items-center space-x-2 lg:space-x-3">
               {navLinks.map((link) => (
                 <motion.button
                   key={link.id}
                   onClick={() => scrollToSection(link.id)}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative px-1.5 py-0.5 text-[13px] font-semibold transition-all duration-300 text-secondary hover:text-primary group"
+                  className="relative px-2 py-0.5 text-[15px] font-semibold transition-all duration-300 text-secondary hover:text-primary group"
                 >
                   {link.name}
                   {/* Animated underline */}
@@ -139,7 +139,7 @@ export default function Header() {
                   }}
                   variant="primary"
                   size="sm"
-                  className="shadow-md hover:shadow-lg transition-shadow duration-300 !py-1 !px-3 !text-[13px]"
+                  className="shadow-md hover:shadow-lg transition-shadow duration-300 !py-1.5 !px-4 !text-[15px]"
                 >
                   Let&apos;s Talk
                 </Button>
