@@ -29,7 +29,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen pt-12 sm:pt-14 md:pt-16 lg:pt-16">
+    <main className="min-h-screen pt-16 sm:pt-14 md:pt-16 lg:pt-16">
       <Header />
       <Hero />
       
