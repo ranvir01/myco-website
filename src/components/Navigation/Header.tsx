@@ -88,7 +88,7 @@ export default function Header() {
         {/* Subtle gradient line at bottom */}
         <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-0'}`} />
         
-        <nav className="container-custom py-3 sm:py-4 md:py-5">
+        <nav className="container-custom py-2 sm:py-3 md:py-3.5">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.div
@@ -104,20 +104,20 @@ export default function Header() {
                 width={400}
                 height={100}
                 priority
-                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-10 sm:h-12 md:h-14 w-auto' : 'h-12 sm:h-14 md:h-16 w-auto'}`}
+                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-8 sm:h-9 md:h-10 w-auto' : 'h-9 sm:h-10 md:h-12 w-auto'}`}
                 style={{ maxWidth: '100%', height: 'auto' }}
               />
             </motion.div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-2 lg:space-x-6">
+            <div className="hidden md:flex items-center space-x-2 lg:space-x-5">
               {navLinks.map((link) => (
                 <motion.button
                   key={link.id}
                   onClick={() => scrollToSection(link.id)}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative px-3 py-2 text-base font-semibold transition-all duration-300 text-secondary hover:text-primary group"
+                  className="relative px-2.5 py-1.5 text-[15px] font-semibold transition-all duration-300 text-secondary hover:text-primary group"
                 >
                   {link.name}
                   {/* Animated underline */}
