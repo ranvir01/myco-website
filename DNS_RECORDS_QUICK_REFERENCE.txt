@@ -1,0 +1,43 @@
+==========================================
+DNS RECORDS FOR GOOGLE WORKSPACE ADMIN
+==========================================
+
+Add these to: https://admin.google.com
+Domain: myconsulting.network
+
+==========================================
+A RECORD (UPDATE EXISTING)
+==========================================
+Type: A
+Host: @
+Current Value: 198.49.23.144
+NEW Value: 216.239.32.21
+TTL: 3600
+
+ACTION: Find the existing A record and CHANGE the value from 198.49.23.144 to 216.239.32.21
+
+==========================================
+AAAA RECORD (ADD NEW)
+==========================================
+Type: AAAA
+Host: @
+Value: 2001:4860:4802:32::15
+TTL: 3600
+
+ACTION: Click "Add Record" and create a NEW AAAA record with the value above
+
+==========================================
+KEEP THESE (DO NOT DELETE!)
+==========================================
+- All MX records (for email)
+- All TXT records (for verification)
+- Any DKIM records (for email security)
+
+==========================================
+AFTER ADDING
+==========================================
+Wait 1-2 hours for DNS propagation
+Then test: https://myconsulting.network
+
+==========================================
+

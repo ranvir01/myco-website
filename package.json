@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "gcloud run deploy myconsulting-network --source . --region=us-central1 --allow-unauthenticated",
+    "deploy:logs": "gcloud run services logs read myconsulting-network --region=us-central1 --tail",
+    "deploy:url": "gcloud run services describe myconsulting-network --region=us-central1 --format='value(status.url)'"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
