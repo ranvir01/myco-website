@@ -37,7 +37,7 @@ export default function MobileMenu({
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-        className="absolute top-[80px] right-0 bottom-0 w-4/5 max-w-sm bg-white/95 backdrop-blur-xl shadow-2xl border-l border-gray-200/50 overflow-y-auto"
+        className="absolute top-[60px] right-0 bottom-0 w-4/5 max-w-sm bg-white/95 backdrop-blur-xl shadow-2xl border-l border-gray-200/50 overflow-y-auto"
         style={{
           boxShadow: '-10px 0 25px -5px rgba(0, 0, 0, 0.1)'
         }}

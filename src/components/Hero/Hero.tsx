@@ -226,7 +226,7 @@ export default function Hero() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-lg sm:text-xl md:text-2xl text-secondary-light max-w-xl leading-relaxed"
             >
-              MyCo makes project work effortless. We are available 24/7 connecting businesses to experts.
+              MyCo makes project work effortlessly. We connect businesses to experts.
             </motion.p>
 
             <AnimatedToggle activeMode={activeMode} onToggle={handleToggle} />

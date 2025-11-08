@@ -33,7 +33,7 @@ export default function AboutSection() {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-8"
           >
-            Who are we?
+            What Do We Do?
           </motion.h2>
         </ScrollAnimationWrapper>
 
@@ -45,8 +45,7 @@ export default function AboutSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-xl md:text-2xl text-center text-secondary-light max-w-4xl mx-auto mb-16"
           >
-            We source projects with business owners and source the talent to
-            complete it.
+            As a hub for all professional services, we spend our time organizing projects, vetting experts, and solving business challenges.
           </motion.p>
         </ScrollAnimationWrapper>
 
@@ -64,14 +63,6 @@ export default function AboutSection() {
             >
               <FaHandshake className="text-8xl md:text-9xl text-primary" />
             </motion.div>
-            <h3 className="text-3xl md:text-4xl font-bold text-secondary text-center">
-              Project Broker
-            </h3>
-            <p className="text-lg md:text-xl text-secondary-light text-center leading-relaxed">
-              Connecting businesses with the right talent at the right time.
-              We&apos;re your trusted partner in making projects successful through
-              our network of expert independent consultants.
-            </p>
           </motion.div>
         </ScrollAnimationWrapper>
       </div>

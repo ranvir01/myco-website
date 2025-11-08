@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useState, useEffect } from "react";
+import { useRef, useMemo, useState, useEffect, useCallback } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Html } from "@react-three/drei";
 import * as THREE from "three";
@@ -8,22 +8,22 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // Real network profiles - Mixed clients and consultants (always shown)
 const profiles = [
-  { id: 1, name: "Tabletop Village", role: "Gaming & Entertainment", type: "Client" },
-  { id: 2, name: "Christy Johnson", role: "Advisor | Strategy", type: "Talent" },
-  { id: 3, name: "Blue Landscaping", role: "Landscaping Services", type: "Client" },
-  { id: 4, name: "Pim Jitnavasathien", role: "Product Designer", type: "Talent" },
-  { id: 5, name: "VOPPL AR", role: "Augmented Reality Tech", type: "Client" },
-  { id: 6, name: "Sahil Tayade", role: "Cloud Architect", type: "Talent" },
-  { id: 7, name: "Goldstein & Company LLC", role: "Financial Services", type: "Client" },
-  { id: 8, name: "Reuben Narad", role: "PhD - Operations", type: "Talent" },
-  { id: 9, name: "Gibraltar Business Group", role: "Business Consulting", type: "Client" },
-  { id: 10, name: "Sam Foster", role: "Software Architect", type: "Talent" },
-  { id: 11, name: "Presidential Transpo", role: "Transportation Services", type: "Client" },
-  { id: 12, name: "Ha Tien Nguyen", role: "UX Researcher", type: "Talent" },
-  { id: 13, name: "Atlantis STEM", role: "Education & Technology", type: "Client" },
-  { id: 14, name: "Tawsif Ahmed", role: "Electrical Engineer", type: "Talent" },
-  { id: 15, name: "Terrell Kelly", role: "Operations Consultant", type: "Talent" },
-  { id: 16, name: "JD Kaim", role: "Software Engineer", type: "Talent" },
+  { id: 1, name: "Tabletop Village", role: "Gaming & Entertainment", type: "Business" },
+  { id: 2, name: "Christy Johnson", role: "Advisor | Strategy", type: "Expert" },
+  { id: 3, name: "Blue Landscaping", role: "Landscaping Services", type: "Business" },
+  { id: 4, name: "Pim Jitnavasathien", role: "Product Designer", type: "Expert" },
+  { id: 5, name: "VOPPL AR", role: "Augmented Reality Tech", type: "Business" },
+  { id: 6, name: "Sahil Tayade", role: "Cloud Architect", type: "Expert" },
+  { id: 7, name: "Goldstein & Company LLC", role: "Financial Services", type: "Business" },
+  { id: 8, name: "Reuben Narad", role: "PhD - Operations", type: "Expert" },
+  { id: 9, name: "Gibraltar Business Group", role: "Business Consulting", type: "Business" },
+  { id: 10, name: "Sam Foster", role: "Software Architect", type: "Expert" },
+  { id: 11, name: "Presidential Transpo", role: "Transportation Services", type: "Business" },
+  { id: 12, name: "Ha Tien Nguyen", role: "UX Researcher", type: "Expert" },
+  { id: 13, name: "Atlantis STEM", role: "Education & Technology", type: "Business" },
+  { id: 14, name: "Tawsif Ahmed", role: "Electrical Engineer", type: "Expert" },
+  { id: 15, name: "Terrell Kelly", role: "Operations Consultant", type: "Expert" },
+  { id: 16, name: "JD Kaim", role: "Software Engineer", type: "Expert" },
 ];
 
 // Interactive node component
@@ -273,6 +273,35 @@ export default function NetworkGlobe() {
     });
   };
 
+  // Helper function to clamp tooltip position within container bounds
+  const clampTooltipPosition = useCallback((x: number, y: number, tooltipWidth: number = 220, tooltipHeight: number = 120) => {
+    if (!containerRef.current) return { x, y };
+    
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const minX = 10;
+    const maxX = containerRect.width - tooltipWidth - 10;
+    const minY = 10;
+    const maxY = containerRect.height - tooltipHeight - 10;
+    
+    return {
+      x: Math.max(minX, Math.min(maxX, x)),
+      y: Math.max(minY, Math.min(maxY, y))
+    };
+  }, []);
+
+  // Calculate clamped position for hover tooltip
+  const hoverTooltipPos = useMemo(() => {
+    if (!hoveredProfile) return null;
+    return clampTooltipPosition(tooltipPos.x + 10, tooltipPos.y - 80);
+  }, [hoveredProfile, tooltipPos, clampTooltipPosition]);
+
+  // Calculate clamped position for auto-show tooltip
+  const autoShowTooltipPos = useMemo(() => {
+    if (!autoShowProfile || hoveredProfile || !nodePositions.get(autoShowProfile.id)) return null;
+    const nodePos = nodePositions.get(autoShowProfile.id)!;
+    return clampTooltipPosition(nodePos.x + 10, nodePos.y - 85, 240, 140);
+  }, [autoShowProfile, hoveredProfile, nodePositions, clampTooltipPosition]);
+
   // Random auto-show tooltips
   useEffect(() => {
     const showRandomTooltip = () => {
@@ -354,7 +383,7 @@ export default function NetworkGlobe() {
       
       {/* Hover tooltip at exact node position - Enhanced Design */}
       <AnimatePresence>
-        {hoveredProfile && (
+        {hoveredProfile && hoverTooltipPos && (
           <motion.div
             initial={{ opacity: 0, scale: 0.85, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -362,8 +391,8 @@ export default function NetworkGlobe() {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="absolute pointer-events-none z-10"
             style={{
-              left: tooltipPos.x + 10,
-              top: tooltipPos.y - 80,
+              left: `${hoverTooltipPos.x}px`,
+              top: `${hoverTooltipPos.y}px`,
               transform: 'translateX(-50%)',
             }}
           >
@@ -373,12 +402,12 @@ export default function NetworkGlobe() {
               
               {/* Type badge */}
               <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-2 ${
-                hoveredProfile.type === 'Client' 
+                hoveredProfile.type === 'Business' 
                   ? 'bg-blue-500/10 text-blue-600 border border-blue-500/30' 
                   : 'bg-primary/10 text-primary border border-primary/30'
               }`}>
                 <div className={`w-2 h-2 rounded-full ${
-                  hoveredProfile.type === 'Client' ? 'bg-blue-500' : 'bg-primary'
+                  hoveredProfile.type === 'Business' ? 'bg-blue-500' : 'bg-primary'
                 }`} />
                 {hoveredProfile.type}
               </div>
@@ -395,7 +424,7 @@ export default function NetworkGlobe() {
       
       {/* Auto-show tooltip at node position - Enhanced Design */}
       <AnimatePresence>
-        {autoShowProfile && !hoveredProfile && nodePositions.get(autoShowProfile.id) && (
+        {autoShowProfile && !hoveredProfile && autoShowTooltipPos && (
           <motion.div
             initial={{ opacity: 0, scale: 0.75, y: 25 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -403,8 +432,8 @@ export default function NetworkGlobe() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="absolute pointer-events-none z-10"
             style={{
-              left: nodePositions.get(autoShowProfile.id)!.x + 10,
-              top: nodePositions.get(autoShowProfile.id)!.y - 85,
+              left: `${autoShowTooltipPos.x}px`,
+              top: `${autoShowTooltipPos.y}px`,
               transform: 'translateX(-50%)',
             }}
           >
@@ -418,12 +447,12 @@ export default function NetworkGlobe() {
               <div className="relative z-10">
                 {/* Type badge with glow effect */}
                 <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-3 ${
-                  autoShowProfile.type === 'Client' 
+                  autoShowProfile.type === 'Business' 
                     ? 'bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-700 border-2 border-blue-500/40 shadow-lg shadow-blue-500/20' 
                     : 'bg-gradient-to-r from-primary/20 to-primary-light/20 text-primary border-2 border-primary/40 shadow-lg shadow-primary/20'
                 }`}>
                   <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${
-                    autoShowProfile.type === 'Client' ? 'bg-blue-500 shadow-lg shadow-blue-500/50' : 'bg-primary shadow-lg shadow-primary/50'
+                    autoShowProfile.type === 'Business' ? 'bg-blue-500 shadow-lg shadow-blue-500/50' : 'bg-primary shadow-lg shadow-primary/50'
                   }`} />
                   {autoShowProfile.type}
                 </div>

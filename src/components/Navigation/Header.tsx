@@ -88,7 +88,7 @@ export default function Header() {
         {/* Subtle gradient line at bottom */}
         <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-0'}`} />
         
-        <nav className="container-custom py-0.5 sm:py-1 md:py-1.5">
+        <nav className="container-custom py-0.5 sm:py-0.5 md:py-1">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.div
@@ -104,20 +104,20 @@ export default function Header() {
                 width={400}
                 height={100}
                 priority
-                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-4 sm:h-5 md:h-6 w-auto' : 'h-5 sm:h-6 md:h-7 w-auto'}`}
+                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-3 sm:h-3.5 md:h-4 w-auto' : 'h-3.5 sm:h-4 md:h-5 w-auto'}`}
                 style={{ maxWidth: '100%', height: 'auto' }}
               />
             </motion.div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-2 lg:space-x-3">
+            <div className="hidden md:flex items-center space-x-1.5 lg:space-x-2">
               {navLinks.map((link) => (
                 <motion.button
                   key={link.id}
                   onClick={() => scrollToSection(link.id)}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative px-2 py-0.5 text-[15px] font-semibold transition-all duration-300 text-secondary hover:text-primary group"
+                  className="relative px-1.5 py-0.5 text-[13px] font-semibold transition-all duration-300 text-secondary hover:text-primary group"
                 >
                   {link.name}
                   {/* Animated underline */}
@@ -139,7 +139,7 @@ export default function Header() {
                   }}
                   variant="primary"
                   size="sm"
-                  className="shadow-md hover:shadow-lg transition-shadow duration-300 !py-1.5 !px-4 !text-[15px]"
+                  className="shadow-md hover:shadow-lg transition-shadow duration-300 !py-1 !px-3 !text-[13px]"
                 >
                   Let&apos;s Talk
                 </Button>
@@ -151,7 +151,7 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg text-3xl transition-all duration-300 text-secondary hover:text-primary hover:bg-primary/5"
+              className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg text-2xl transition-all duration-300 text-secondary hover:text-primary hover:bg-primary/5"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <HiX /> : <HiMenu />}

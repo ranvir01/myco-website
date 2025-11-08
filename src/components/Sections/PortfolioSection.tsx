@@ -10,9 +10,9 @@ export default function PortfolioSection() {
   const projects = [
     {
       icon: <FaBriefcase className="text-5xl text-primary mb-4" />,
-      title: "Business Plan Development",
-      description: "Helping Tabletop Village create a comprehensive business plan for their location move. Delivered professional documentation that satisfied landlord requirements within one week.",
-      tags: ["Strategy", "Planning", "Documentation"],
+      title: "Marketing Strategy",
+      description: "Creatively devised a marketing strategy to sponsor school clubs, expanding the service offerings. We implemented the proof of concept, growing the bottom line by over 300%.",
+      tags: ["Strategy", "Planning", "Implementation"],
       client: "Tabletop Village",
     },
     {
@@ -66,7 +66,7 @@ export default function PortfolioSection() {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-6"
           >
-            Our <span className="text-primary">Success Stories</span>
+            What We&apos;ve Done
           </motion.h2>
         </ScrollAnimationWrapper>
 
@@ -78,8 +78,7 @@ export default function PortfolioSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-xl text-center text-secondary-light mb-16 max-w-3xl mx-auto"
           >
-            Real results from real clients. See how MyCo Network has helped businesses 
-            solve complex challenges with our dedicated project managers and expert consultant network.
+            Below are some real projects we did for real businesses.
           </motion.p>
         </ScrollAnimationWrapper>
 
@@ -100,7 +99,7 @@ export default function PortfolioSection() {
                 </h3>
                 {project.client && (
                   <p className="text-sm font-semibold text-primary mb-3">
-                    Client: {project.client}
+                    {project.client}
                   </p>
                 )}
                 <p className="text-secondary-light text-lg mb-4 leading-relaxed">
