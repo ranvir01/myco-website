@@ -90,7 +90,7 @@ export default function Header() {
         {/* Subtle gradient line at bottom */}
         <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-0'}`} />
         
-        <nav className="container-custom py-1.5 sm:py-1.5 md:py-2.5">
+        <nav className="container-custom py-1 sm:py-1 md:py-2.5">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.div
@@ -106,7 +106,7 @@ export default function Header() {
                 width={400}
                 height={100}
                 priority
-                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-4 sm:h-5 md:h-8 w-auto' : 'h-5 sm:h-6 md:h-9 w-auto'}`}
+                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-3 sm:h-4 md:h-8 w-auto' : 'h-4 sm:h-5 md:h-9 w-auto'}`}
                 style={{ maxWidth: '100%', height: 'auto' }}
               />
             </motion.div>
