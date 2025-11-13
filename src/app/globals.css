@@ -9,12 +9,12 @@
   
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 60px;
+    scroll-padding-top: 70px;
   }
 
   @media (max-width: 768px) {
     html {
-      scroll-padding-top: 50px;
+      scroll-padding-top: 65px;
     }
   }
   
@@ -34,12 +34,12 @@
 
   /* Scroll margin for fixed header */
   section {
-    scroll-margin-top: 60px;
+    scroll-margin-top: 70px;
   }
 
   @media (max-width: 768px) {
     section {
-      scroll-margin-top: 50px;
+      scroll-margin-top: 65px;
     }
   }
 
