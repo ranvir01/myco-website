@@ -41,7 +41,7 @@ export default function MobileMenu({
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="absolute top-[45px] right-0 bottom-0 w-[250px] bg-white shadow-xl"
+        className="absolute top-[40px] right-0 bottom-0 w-[250px] bg-white shadow-xl"
       >
         <div className="flex flex-col h-full py-3 px-3">
           {/* Navigation Links */}
