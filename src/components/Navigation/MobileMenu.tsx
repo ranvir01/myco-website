@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Button from "@/components/UI/Button";
-import { HiHome, HiInformationCircle, HiBriefcase } from "react-icons/hi";
 
 interface MobileMenuProps {
   navLinks: { name: string; id: string }[];
@@ -22,120 +21,54 @@ export default function MobileMenu({
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-40 md:hidden"
     >
-      {/* Enhanced Backdrop */}
+      {/* Clean Backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="absolute inset-0 bg-gradient-to-br from-gray-900/60 via-slate-800/50 to-gray-900/70 backdrop-blur-md"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
       />
 
-      {/* Menu Panel with glassmorphism */}
+      {/* Clean Menu Panel */}
       <motion.div
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
-        transition={{ type: "spring", damping: 25, stiffness: 200 }}
-        className="absolute top-[65px] right-0 bottom-0 w-4/5 max-w-sm bg-white/95 backdrop-blur-xl shadow-2xl border-l border-gray-200/50 overflow-y-auto"
-        style={{
-          boxShadow: '-10px 0 25px -5px rgba(0, 0, 0, 0.1)'
-        }}
+        transition={{ type: "spring", damping: 30, stiffness: 300 }}
+        className="absolute top-[65px] right-0 bottom-0 w-[280px] bg-white shadow-xl overflow-y-auto"
       >
-        {/* Decorative gradient bar */}
-        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-emerald-500 to-teal-500 shadow-md" />
+        {/* Simple top accent */}
+        <div className="h-1 bg-primary" />
         
-        <div className="flex flex-col justify-between h-full px-8 py-10">
-          {/* Navigation Area - Centered */}
-          <nav className="flex flex-col justify-center flex-1 space-y-5">
-            {/* Home - First at the top */}
-            <motion.button
-              initial={{ x: 50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.05, type: "spring", stiffness: 300, damping: 25 }}
-              onClick={() => {
-                onNavigate("home");
-                onClose();
-              }}
-              whileHover={{ scale: 1.02, x: 5 }}
-              whileTap={{ scale: 0.98 }}
-              className="relative flex items-center gap-4 w-full text-left text-2xl font-bold text-secondary hover:text-primary transition-all duration-300 py-5 px-6 rounded-2xl bg-white/50 hover:bg-gradient-to-r hover:from-primary/5 hover:via-emerald-50/80 hover:to-teal-50/50 group border-2 border-transparent hover:border-primary/20 shadow-sm hover:shadow-md"
-            >
-              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-emerald-500/10 group-hover:from-primary/20 group-hover:to-emerald-500/20 transition-all duration-300">
-                <HiHome className="text-2xl text-primary" />
-              </div>
-              <span className="relative z-10 flex-1">Home</span>
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                whileHover={{ opacity: 1, x: 0 }}
-                className="text-primary text-xl"
+        <div className="flex flex-col h-full px-6 py-8">
+          {/* Clean Navigation */}
+          <nav className="space-y-1 mb-auto">
+            {navLinks.map((link, index) => (
+              <motion.button
+                key={link.id}
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: index * 0.05, duration: 0.2 }}
+                onClick={() => {
+                  onNavigate(link.id);
+                  onClose();
+                }}
+                className="w-full text-left px-4 py-3.5 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition-all duration-200 active:bg-gray-100"
               >
-                →
-              </motion.div>
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-gradient-to-b from-primary to-emerald-500 rounded-full transition-all duration-300 group-hover:h-4/5" />
-            </motion.button>
-            
-            {/* About */}
-            <motion.button
-              initial={{ x: 50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 25 }}
-              onClick={() => {
-                onNavigate("about");
-                onClose();
-              }}
-              whileHover={{ scale: 1.02, x: 5 }}
-              whileTap={{ scale: 0.98 }}
-              className="relative flex items-center gap-4 w-full text-left text-2xl font-bold text-secondary hover:text-primary transition-all duration-300 py-5 px-6 rounded-2xl bg-white/50 hover:bg-gradient-to-r hover:from-primary/5 hover:via-emerald-50/80 hover:to-teal-50/50 group border-2 border-transparent hover:border-primary/20 shadow-sm hover:shadow-md"
-            >
-              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-emerald-500/10 group-hover:from-primary/20 group-hover:to-emerald-500/20 transition-all duration-300">
-                <HiInformationCircle className="text-2xl text-primary" />
-              </div>
-              <span className="relative z-10 flex-1">About</span>
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                whileHover={{ opacity: 1, x: 0 }}
-                className="text-primary text-xl"
-              >
-                →
-              </motion.div>
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-gradient-to-b from-primary to-emerald-500 rounded-full transition-all duration-300 group-hover:h-4/5" />
-            </motion.button>
-            
-            {/* Our Work */}
-            <motion.button
-              initial={{ x: 50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.15, type: "spring", stiffness: 300, damping: 25 }}
-              onClick={() => {
-                onNavigate("portfolio");
-                onClose();
-              }}
-              whileHover={{ scale: 1.02, x: 5 }}
-              whileTap={{ scale: 0.98 }}
-              className="relative flex items-center gap-4 w-full text-left text-2xl font-bold text-secondary hover:text-primary transition-all duration-300 py-5 px-6 rounded-2xl bg-white/50 hover:bg-gradient-to-r hover:from-primary/5 hover:via-emerald-50/80 hover:to-teal-50/50 group border-2 border-transparent hover:border-primary/20 shadow-sm hover:shadow-md"
-            >
-              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-emerald-500/10 group-hover:from-primary/20 group-hover:to-emerald-500/20 transition-all duration-300">
-                <HiBriefcase className="text-2xl text-primary" />
-              </div>
-              <span className="relative z-10 flex-1">Our Work</span>
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                whileHover={{ opacity: 1, x: 0 }}
-                className="text-primary text-xl"
-              >
-                →
-              </motion.div>
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-gradient-to-b from-primary to-emerald-500 rounded-full transition-all duration-300 group-hover:h-4/5" />
-            </motion.button>
+                {link.name}
+              </motion.button>
+            ))}
           </nav>
 
-          {/* Let's Talk Button */}
+          {/* Clean Divider */}
+          <div className="my-6 border-t border-gray-200" />
+
+          {/* Clean CTA Button */}
           <motion.div
-            initial={{ y: 30, opacity: 0 }}
+            initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.25, type: "spring", stiffness: 300, damping: 25 }}
-            className="pt-6 pb-2"
+            transition={{ delay: 0.2 }}
           >
             <Button
               onClick={() => {
@@ -145,7 +78,7 @@ export default function MobileMenu({
               }}
               variant="primary"
               size="md"
-              className="w-full shadow-xl hover:shadow-2xl text-lg py-5 font-bold transition-all duration-300 transform hover:scale-[1.02]"
+              className="w-full text-base font-medium py-3"
             >
               Let&apos;s Talk
             </Button>

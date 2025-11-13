@@ -104,7 +104,7 @@ export default function Header() {
                 width={400}
                 height={100}
                 priority
-                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-6 sm:h-7 md:h-8 w-auto' : 'h-7 sm:h-8 md:h-9 w-auto'}`}
+                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-5 sm:h-6 md:h-8 w-auto' : 'h-6 sm:h-7 md:h-9 w-auto'}`}
                 style={{ maxWidth: '100%', height: 'auto' }}
               />
             </motion.div>
@@ -149,9 +149,9 @@ export default function Header() {
             {/* Mobile Menu Button */}
             <motion.button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg text-2xl transition-all duration-300 text-secondary hover:text-primary hover:bg-primary/5"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg text-2xl transition-all duration-200 text-secondary hover:text-primary hover:bg-gray-100"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <HiX /> : <HiMenu />}
