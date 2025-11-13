@@ -66,9 +66,39 @@ export default function Header() {
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
     { name: "Our Work", id: "portfolio" },
+  ];
+
+  const modeLinks: { name: string; id: "business" | "talent" }[] = [
     { name: "For Businesses", id: "business" },
     { name: "For Talent", id: "talent" },
   ];
+
+  const handleModeNavigate = (mode: "business" | "talent") => {
+    // Close mobile menu if open
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+      document.body.style.overflow = "unset";
+      document.body.style.height = "unset";
+    }
+
+    // Ensure business/talent sections render like hero toggle
+    window.dispatchEvent(new CustomEvent("showSections", { detail: { mode } }));
+
+    const sectionId = mode === "business" ? "business" : "talent";
+
+    // Give sections time to mount before scrolling
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        window.scrollTo({
+          top: element.offsetTop - 80,
+          behavior: "smooth",
+        });
+      } else if (window.location.pathname !== "/") {
+        window.location.href = `/#${sectionId}`;
+      }
+    }, 200);
+  };
 
   return (
     <>
@@ -90,7 +120,7 @@ export default function Header() {
         {/* Subtle gradient line at bottom */}
         <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-0'}`} />
         
-        <nav className="container-custom py-0.5 sm:py-1 md:py-2.5">
+        <nav className="container-custom px-3 sm:px-4 py-0.5 sm:py-1 md:py-2.5">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.div
@@ -112,7 +142,7 @@ export default function Header() {
             </motion.div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <div className="hidden md:flex items-center space-x-5 lg:space-x-8">
               {navLinks.map((link) => (
                 <motion.button
                   key={link.id}
@@ -124,6 +154,29 @@ export default function Header() {
                   {link.name}
                   {/* Animated underline */}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-emerald-500 transition-all duration-300 group-hover:w-full" />
+                </motion.button>
+              ))}
+
+              {modeLinks.map((link) => (
+                <motion.button
+                  key={link.id}
+                  onClick={() => handleModeNavigate(link.id)}
+                  whileHover={{ y: -1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`relative px-0 py-1 text-sm font-semibold transition-all duration-300 ${
+                    link.id === "business"
+                      ? "text-blue-600 hover:text-blue-700"
+                      : "text-primary hover:text-primary-dark"
+                  }`}
+                >
+                  {link.name}
+                  <span
+                    className={`absolute bottom-0 left-0 w-0 h-0.5 ${
+                      link.id === "business"
+                        ? "bg-blue-500"
+                        : "bg-gradient-to-r from-primary to-emerald-500"
+                    } transition-all duration-300 group-hover:w-full`}
+                  />
                 </motion.button>
               ))}
             </div>
@@ -167,7 +220,9 @@ export default function Header() {
         {isMobileMenuOpen && (
           <MobileMenu
             navLinks={navLinks}
+            modeLinks={modeLinks}
             onNavigate={scrollToSection}
+            onModeNavigate={handleModeNavigate}
             onClose={() => setIsMobileMenuOpen(false)}
           />
         )}

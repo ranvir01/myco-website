@@ -5,13 +5,17 @@ import Button from "@/components/UI/Button";
 
 interface MobileMenuProps {
   navLinks: { name: string; id: string }[];
+  modeLinks: { name: string; id: "business" | "talent" }[];
   onNavigate: (id: string) => void;
+  onModeNavigate: (mode: "business" | "talent") => void;
   onClose: () => void;
 }
 
 export default function MobileMenu({
   navLinks,
+  modeLinks,
   onNavigate,
+  onModeNavigate,
   onClose,
 }: MobileMenuProps) {
   const handleNavigate = (id: string) => {
@@ -73,21 +77,19 @@ export default function MobileMenu({
             {/* Divider */}
             <div className="my-2 border-t border-gray-200" />
             
-            {/* For Businesses */}
-            <button
-              onClick={() => handleNavigate("business")}
-              className="w-full text-left px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-md transition-all block"
-            >
-              For Businesses
-            </button>
-            
-            {/* For Talent */}
-            <button
-              onClick={() => handleNavigate("talent")}
-              className="w-full text-left px-3 py-2 text-sm font-medium text-primary hover:text-primary-dark hover:bg-emerald-50 rounded-md transition-all block"
-            >
-              For Talent
-            </button>
+            {modeLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => onModeNavigate(link.id)}
+                className={`w-full text-left px-3 py-2 text-sm font-semibold rounded-md transition-all block ${
+                  link.id === "business"
+                    ? "text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    : "text-primary hover:text-primary-dark hover:bg-emerald-50"
+                }`}
+              >
+                {link.name}
+              </button>
+            ))}
           </nav>
 
           {/* Spacer */}
