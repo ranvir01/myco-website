@@ -41,15 +41,15 @@ export default function MobileMenu({
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="absolute top-[65px] right-0 bottom-0 w-[250px] bg-white shadow-xl"
+        className="absolute top-[50px] right-0 bottom-0 w-[250px] bg-white shadow-xl"
       >
-        <div className="flex flex-col h-full py-4 px-3">
+        <div className="flex flex-col h-full py-3 px-3">
           {/* Navigation Links */}
-          <nav className="space-y-1">
+          <nav className="space-y-0.5">
             {/* Home */}
             <button
               onClick={() => handleNavigate("home")}
-              className="w-full text-left px-3 py-2.5 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-lg transition-all"
+              className="w-full text-left px-3 py-2 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-md transition-all block"
             >
               Home
             </button>
@@ -57,7 +57,7 @@ export default function MobileMenu({
             {/* About */}
             <button
               onClick={() => handleNavigate("about")}
-              className="w-full text-left px-3 py-2.5 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-lg transition-all"
+              className="w-full text-left px-3 py-2 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-md transition-all block"
             >
               About
             </button>
@@ -65,7 +65,7 @@ export default function MobileMenu({
             {/* Our Work */}
             <button
               onClick={() => handleNavigate("portfolio")}
-              className="w-full text-left px-3 py-2.5 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-lg transition-all"
+              className="w-full text-left px-3 py-2 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-md transition-all block"
             >
               Our Work
             </button>
@@ -76,7 +76,7 @@ export default function MobileMenu({
             {/* For Businesses */}
             <button
               onClick={() => handleNavigate("business")}
-              className="w-full text-left px-3 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all"
+              className="w-full text-left px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-md transition-all block"
             >
               For Businesses
             </button>
@@ -84,7 +84,7 @@ export default function MobileMenu({
             {/* For Talent */}
             <button
               onClick={() => handleNavigate("talent")}
-              className="w-full text-left px-3 py-2.5 text-sm font-medium text-primary hover:text-primary-dark hover:bg-emerald-50 rounded-lg transition-all"
+              className="w-full text-left px-3 py-2 text-sm font-medium text-primary hover:text-primary-dark hover:bg-emerald-50 rounded-md transition-all block"
             >
               For Talent
             </button>
