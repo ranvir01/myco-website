@@ -30,46 +30,39 @@ export default function MobileMenu({
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
       />
 
-      {/* Clean Menu Panel */}
+      {/* Minimal Menu Panel */}
       <motion.div
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="absolute top-[65px] right-0 bottom-0 w-[280px] bg-white shadow-xl overflow-y-auto"
+        className="absolute top-[65px] right-0 bottom-0 w-[240px] bg-white shadow-2xl overflow-y-auto"
       >
-        {/* Simple top accent */}
-        <div className="h-1 bg-primary" />
-        
-        <div className="flex flex-col h-full px-6 py-8">
-          {/* Clean Navigation */}
-          <nav className="space-y-1 mb-auto">
+        <div className="flex flex-col py-4">
+          {/* Minimal Navigation */}
+          <nav className="px-3">
             {navLinks.map((link, index) => (
               <motion.button
                 key={link.id}
                 initial={{ x: 20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: index * 0.05, duration: 0.2 }}
+                transition={{ delay: index * 0.04, duration: 0.15 }}
                 onClick={() => {
                   onNavigate(link.id);
                   onClose();
                 }}
-                className="w-full text-left px-4 py-3.5 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition-all duration-200 active:bg-gray-100"
+                className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-md transition-colors duration-150"
               >
                 {link.name}
               </motion.button>
             ))}
           </nav>
 
-          {/* Clean Divider */}
-          <div className="my-6 border-t border-gray-200" />
+          {/* Thin Divider */}
+          <div className="my-4 mx-3 border-t border-gray-200" />
 
-          {/* Clean CTA Button */}
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
+          {/* Compact CTA */}
+          <div className="px-3">
             <Button
               onClick={() => {
                 const event = new CustomEvent("openQuoteModal");
@@ -77,12 +70,12 @@ export default function MobileMenu({
                 onClose();
               }}
               variant="primary"
-              size="md"
-              className="w-full text-base font-medium py-3"
+              size="sm"
+              className="w-full text-sm font-medium py-2"
             >
               Let&apos;s Talk
             </Button>
-          </motion.div>
+          </div>
         </div>
       </motion.div>
     </motion.div>
