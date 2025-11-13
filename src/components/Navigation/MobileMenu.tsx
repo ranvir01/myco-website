@@ -43,13 +43,13 @@ export default function MobileMenu({
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
         className="absolute top-[65px] right-0 bottom-0 w-[250px] bg-white shadow-xl"
       >
-        <div className="flex flex-col h-full py-6 px-4">
+        <div className="flex flex-col h-full py-4 px-3">
           {/* Navigation Links */}
-          <nav className="space-y-2">
+          <nav className="space-y-1">
             {/* Home */}
             <button
               onClick={() => handleNavigate("home")}
-              className="w-full text-left px-4 py-3 text-base font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-lg transition-all"
+              className="w-full text-left px-3 py-2.5 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-lg transition-all"
             >
               Home
             </button>
@@ -57,7 +57,7 @@ export default function MobileMenu({
             {/* About */}
             <button
               onClick={() => handleNavigate("about")}
-              className="w-full text-left px-4 py-3 text-base font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-lg transition-all"
+              className="w-full text-left px-3 py-2.5 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-lg transition-all"
             >
               About
             </button>
@@ -65,17 +65,36 @@ export default function MobileMenu({
             {/* Our Work */}
             <button
               onClick={() => handleNavigate("portfolio")}
-              className="w-full text-left px-4 py-3 text-base font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-lg transition-all"
+              className="w-full text-left px-3 py-2.5 text-sm font-medium text-gray-800 hover:text-primary hover:bg-gray-50 rounded-lg transition-all"
             >
               Our Work
+            </button>
+
+            {/* Divider */}
+            <div className="my-2 border-t border-gray-200" />
+            
+            {/* For Businesses */}
+            <button
+              onClick={() => handleNavigate("business")}
+              className="w-full text-left px-3 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all"
+            >
+              For Businesses
+            </button>
+            
+            {/* For Talent */}
+            <button
+              onClick={() => handleNavigate("talent")}
+              className="w-full text-left px-3 py-2.5 text-sm font-medium text-primary hover:text-primary-dark hover:bg-emerald-50 rounded-lg transition-all"
+            >
+              For Talent
             </button>
           </nav>
 
           {/* Spacer */}
-          <div className="flex-1" />
+          <div className="flex-1 min-h-[20px]" />
 
-          {/* Divider */}
-          <div className="my-4 border-t border-gray-200" />
+          {/* Bottom Divider */}
+          <div className="my-3 border-t border-gray-200" />
 
           {/* CTA Button */}
           <Button
@@ -85,8 +104,8 @@ export default function MobileMenu({
               onClose();
             }}
             variant="primary"
-            size="md"
-            className="w-full"
+            size="sm"
+            className="w-full text-sm py-2.5"
           >
             Let&apos;s Talk
           </Button>

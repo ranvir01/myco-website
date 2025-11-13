@@ -66,6 +66,8 @@ export default function Header() {
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
     { name: "Our Work", id: "portfolio" },
+    { name: "For Businesses", id: "business" },
+    { name: "For Talent", id: "talent" },
   ];
 
   return (
