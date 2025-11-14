@@ -163,7 +163,7 @@ export default function Header() {
                   onClick={() => handleModeNavigate(link.id)}
                   whileHover={{ y: -1 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`relative px-0 py-1 text-sm font-semibold transition-all duration-300 ${
+                  className={`group relative px-0 py-1 text-sm font-semibold transition-all duration-300 ${
                     link.id === "business"
                       ? "text-blue-600 hover:text-blue-700"
                       : "text-primary hover:text-primary-dark"
