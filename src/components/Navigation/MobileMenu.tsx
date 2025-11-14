@@ -44,9 +44,9 @@ export default function MobileMenu({
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 250 }}
-        className="relative z-10 h-full w-full bg-white px-6 pb-8 pt-5 flex flex-col"
+        className="relative z-10 h-full w-full bg-white px-6 pb-8 pt-20 flex flex-col"
       >
-        <div className="flex items-center justify-between">
+        <div className="absolute top-4 left-0 right-0 flex items-center justify-between px-6">
           <p className="text-base font-semibold text-secondary">Menu</p>
           <button
             aria-label="Close menu"
@@ -57,7 +57,7 @@ export default function MobileMenu({
           </button>
         </div>
 
-        <div className="mt-6 flex flex-col gap-4 flex-1">
+        <div className="flex flex-col gap-4 flex-1 overflow-y-auto">
           <nav className="space-y-1">
             {navLinks.map((link) => (
               <button
