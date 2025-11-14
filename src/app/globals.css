@@ -170,3 +170,20 @@ img {
   }
 }
 
+/* Mobile menu globe container override */
+.mobile-menu-globe-container > div {
+  max-width: 300px !important;
+  max-height: 250px !important;
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 1 !important;
+  margin: 0 auto !important;
+}
+
+.mobile-menu-globe-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 300px !important;
+  max-height: 250px !important;
+}
+

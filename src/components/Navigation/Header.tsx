@@ -120,8 +120,8 @@ export default function Header() {
         {/* Subtle gradient line at bottom */}
         <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent transition-opacity duration-500 ${isScrolled ? 'opacity-100' : 'opacity-0'}`} />
         
-        <nav className="container-custom px-3 sm:px-4 py-1.5 sm:py-1 md:py-2.5">
-          <div className="flex items-center justify-between">
+        <nav className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8" style={{ paddingTop: '6px', paddingBottom: '6px' }}>
+          <div className="flex items-center justify-between" style={{ minHeight: '24px' }}>
             {/* Logo */}
             <motion.div
               whileHover={{ scale: 1.03 }}
@@ -136,8 +136,12 @@ export default function Header() {
                 width={400}
                 height={100}
                 priority
-                className={`transition-all duration-500 object-contain ${isScrolled ? 'h-3 sm:h-4 md:h-8 w-auto' : 'h-4 sm:h-5 md:h-9 w-auto'}`}
-                style={{ maxWidth: '100%', height: 'auto' }}
+                className={`transition-all duration-500 object-contain w-auto ${
+                  isScrolled 
+                    ? 'h-[61px] md:h-18' 
+                    : 'h-[75px] md:h-[84px]'
+                }`}
+                style={{ maxWidth: '100%' }}
               />
             </motion.div>
 
@@ -204,12 +208,40 @@ export default function Header() {
             {/* Mobile Menu Button */}
             <motion.button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg text-2xl transition-all duration-200 text-secondary hover:text-primary hover:bg-gray-100"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="md:hidden flex items-center justify-center rounded-lg text-secondary hover:text-primary hover:bg-gray-100 active:bg-gray-200 transition-colors duration-200"
+              style={{ width: '32px', height: '32px', fontSize: '20px' }}
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <HiX /> : <HiMenu />}
+              <motion.div
+                animate={{ rotate: isMobileMenuOpen ? 180 : 0 }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <AnimatePresence mode="wait">
+                  {isMobileMenuOpen ? (
+                    <motion.div
+                      key="close"
+                      initial={{ opacity: 0, rotate: -90 }}
+                      animate={{ opacity: 1, rotate: 0 }}
+                      exit={{ opacity: 0, rotate: 90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <HiX />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="menu"
+                      initial={{ opacity: 0, rotate: 90 }}
+                      animate={{ opacity: 1, rotate: 0 }}
+                      exit={{ opacity: 0, rotate: -90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <HiMenu />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             </motion.button>
           </div>
         </nav>
