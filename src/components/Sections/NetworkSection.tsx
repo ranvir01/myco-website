@@ -29,12 +29,12 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
   const clients = [
     { name: "Tabletop Village", role: "Gaming & Entertainment", image: null },
     { name: "Blue Landscaping Services", role: "Landscaping Services", image: null },
-    { name: "VOPPL AR", role: "AI", image: null },
+    { name: "VOPPL AR", role: "Artificial Intelligence", image: null },
     { name: "Goldstein & Company LLC", role: "Financial Services", image: null },
     { name: "Gibraltar Business Group", role: "Healthcare", image: null },
     { name: "Presidential Transportation", role: "Transportation Services", image: null },
     { name: "Atlantis STEM", role: "Education & Technology", image: null },
-    { name: "Thind Transport", role: "Transportation Services", image: null },
+    { name: "Thind Transport", role: "Logistics & Distribution", image: null },
   ];
 
   const displayData = activeMode === "business" ? talents : clients;
