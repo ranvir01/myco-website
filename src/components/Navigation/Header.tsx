@@ -56,7 +56,11 @@ export default function Header() {
         // Element doesn't exist on current page (e.g., on privacy/terms page)
         // Navigate to home page and scroll to section
         if (window.location.pathname !== "/") {
-          window.location.href = `/#${sectionId}`;
+          if (sectionId === "home") {
+            window.location.href = "/";
+          } else {
+            window.location.href = `/#${sectionId}`;
+          }
         }
       }
     }, 50);

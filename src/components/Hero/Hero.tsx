@@ -261,7 +261,7 @@ export default function Hero() {
         </motion.div>
         <p className="text-secondary-light text-base font-medium text-center">
           Choose your network<br />
-          <span className="text-secondary font-semibold">Business</span> or <span className="text-primary font-semibold">Talent</span>
+          <span className="text-secondary font-semibold">Business</span> or <span className="text-primary font-semibold">Experts</span>
         </p>
       </motion.div>
     </section>
