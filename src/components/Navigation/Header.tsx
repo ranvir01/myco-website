@@ -73,8 +73,8 @@ export default function Header() {
   ];
 
   const modeLinks = [
-    { name: "Businesses", href: "/business", id: "business" },
-    { name: "Experts", href: "/experts", id: "experts" },
+    { name: "Business", href: "/business", id: "business" },
+    { name: "Expert", href: "/experts", id: "experts" },
   ];
 
   const handleModeNavigate = (href: string) => {

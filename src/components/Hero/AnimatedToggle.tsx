@@ -33,7 +33,7 @@ export default function AnimatedToggle({
               : "bg-white text-secondary border-2 border-secondary hover:bg-secondary hover:text-white shadow-lg"
           }`}
         >
-          Businesses
+          Business
         </motion.button>
 
         <motion.button
@@ -46,7 +46,7 @@ export default function AnimatedToggle({
               : "bg-white text-primary border-2 border-primary hover:bg-primary hover:text-white shadow-lg"
           }`}
         >
-          Experts
+          Expert
         </motion.button>
       </div>
     </div>

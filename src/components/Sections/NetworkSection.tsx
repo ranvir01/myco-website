@@ -38,9 +38,9 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
   ];
 
   const displayData = activeMode === "business" ? talents : clients;
-  const networkTitle = activeMode === "business" ? "Our Network of Talents" : "Our Trusted Clients";
+  const networkTitle = activeMode === "business" ? "Our Network of Experts" : "Our Trusted Clients";
   const networkDescription = activeMode === "business" 
-    ? "Our diverse network of expert consultants spans industries and expertise. Each professional brings unique skills and proven results."
+    ? "Our diverse network of experts spans industries and expertise. Each professional brings unique skills and proven results."
     : "We partner with innovative companies across various sectors. These organizations trust us to connect them with top-tier talent.";
 
   return (
