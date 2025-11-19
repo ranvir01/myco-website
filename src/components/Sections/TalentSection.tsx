@@ -49,7 +49,7 @@ export default function TalentSection() {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-16"
           >
-            Talent
+            Experts
           </motion.h2>
         </ScrollAnimationWrapper>
 

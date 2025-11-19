@@ -30,12 +30,12 @@ export default function Hero() {
     setMousePosition({ x, y });
   };
 
-  const handleToggle = (mode: "business" | "talent") => {
+  const handleToggle = (mode: "business" | "experts") => {
     setIsZooming(true);
     
     // Navigate after a short delay to show the zoom effect
     setTimeout(() => {
-      router.push(mode === "business" ? "/business" : "/talent");
+      router.push(mode === "business" ? "/business" : "/experts");
     }, 400);
   };
 

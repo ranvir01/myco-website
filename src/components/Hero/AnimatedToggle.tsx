@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 
 interface AnimatedToggleProps {
-  activeMode: "business" | "talent" | null;
-  onToggle: (mode: "business" | "talent") => void;
+  activeMode: "business" | "experts" | null;
+  onToggle: (mode: "business" | "experts") => void;
 }
 
 export default function AnimatedToggle({
@@ -33,20 +33,20 @@ export default function AnimatedToggle({
               : "bg-white text-secondary border-2 border-secondary hover:bg-secondary hover:text-white shadow-lg"
           }`}
         >
-          Business
+          Businesses
         </motion.button>
 
         <motion.button
-          onClick={() => onToggle("talent")}
+          onClick={() => onToggle("experts")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className={`flex-1 sm:flex-none sm:w-36 md:w-40 px-3 sm:px-5 md:px-8 py-2.5 sm:py-3.5 md:py-4 rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 ${
-            activeMode === "talent"
+            activeMode === "experts"
               ? "bg-primary text-white shadow-xl ring-2 sm:ring-4 ring-primary/30 ring-offset-1 sm:ring-offset-2"
               : "bg-white text-primary border-2 border-primary hover:bg-primary hover:text-white shadow-lg"
           }`}
         >
-          Talent
+          Experts
         </motion.button>
       </div>
     </div>
