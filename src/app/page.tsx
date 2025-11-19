@@ -14,7 +14,7 @@ import Footer from "@/components/Footer/Footer";
 import QuoteModal from "@/components/ContactForm/QuoteModal";
 
 export default function Home() {
-  const [selectedMode, setSelectedMode] = useState<"business" | "talent" | null>(null);
+  const [selectedMode, setSelectedMode] = useState<"business" | "talent" | null>("business");
 
   useEffect(() => {
     // Listen for when user clicks Business or Talent button

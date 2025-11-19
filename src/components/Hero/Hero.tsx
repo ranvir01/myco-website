@@ -17,7 +17,7 @@ const NetworkGlobe = dynamic(() => import("./NetworkGlobe"), {
 });
 
 export default function Hero() {
-  const [activeMode, setActiveMode] = useState<"business" | "talent" | null>(null);
+  const [activeMode, setActiveMode] = useState<"business" | "talent" | null>("business");
   const [isZooming, setIsZooming] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
 
