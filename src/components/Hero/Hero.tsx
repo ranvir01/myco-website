@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import { FiChevronUp } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 import AnimatedToggle from "./AnimatedToggle";
 
 // Dynamically import NetworkGlobe to avoid SSR issues
@@ -17,7 +18,7 @@ const NetworkGlobe = dynamic(() => import("./NetworkGlobe"), {
 });
 
 export default function Hero() {
-  const [activeMode, setActiveMode] = useState<"business" | "talent" | null>("business");
+  const router = useRouter();
   const [isZooming, setIsZooming] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
 
@@ -31,26 +32,10 @@ export default function Hero() {
 
   const handleToggle = (mode: "business" | "talent") => {
     setIsZooming(true);
-    setActiveMode(mode);
     
-    // Dispatch event to show sections with the selected mode
-    window.dispatchEvent(new CustomEvent("showSections", { detail: { mode } }));
-    
-    // Give React time to render sections in DOM, then scroll
+    // Navigate after a short delay to show the zoom effect
     setTimeout(() => {
-      const sectionId = mode === "business" ? "business" : "talent";
-      const element = document.getElementById(sectionId);
-      if (element) {
-        window.scrollTo({
-          top: element.offsetTop - 80,
-          behavior: "smooth"
-        });
-      }
-    }, 150);
-    
-    // End transition animation
-    setTimeout(() => {
-      setIsZooming(false);
+      router.push(mode === "business" ? "/business" : "/talent");
     }, 400);
   };
 
@@ -229,7 +214,7 @@ export default function Hero() {
               MyCo makes project work effortlessly. We connect businesses to experts.
             </motion.p>
 
-            <AnimatedToggle activeMode={activeMode} onToggle={handleToggle} />
+            <AnimatedToggle activeMode={null} onToggle={handleToggle} />
           </motion.div>
 
           {/* Right Column - 3D Globe (SMOOTH ANIMATION) */}

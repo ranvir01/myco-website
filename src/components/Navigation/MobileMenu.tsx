@@ -17,9 +17,9 @@ const NetworkGlobe = dynamic(() => import("../Hero/NetworkGlobe"), {
 
 interface MobileMenuProps {
   navLinks: { name: string; id: string }[];
-  modeLinks: { name: string; id: "business" | "talent" }[];
+  modeLinks: { name: string; href: string; id: string }[];
   onNavigate: (id: string) => void;
-  onModeNavigate: (mode: "business" | "talent") => void;
+  onModeNavigate: (href: string) => void;
   onClose: () => void;
 }
 
@@ -138,7 +138,7 @@ export default function MobileMenu({
                 whileHover={{ x: 4, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  onModeNavigate(link.id);
+                  onModeNavigate(link.href);
                   onClose();
                 }}
                 className={`w-full text-left rounded-xl px-4 py-3.5 text-base font-semibold transition-all active:scale-95 ${

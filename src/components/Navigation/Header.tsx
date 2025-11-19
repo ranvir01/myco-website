@@ -68,12 +68,12 @@ export default function Header() {
     { name: "Our Work", id: "portfolio" },
   ];
 
-  const modeLinks: { name: string; id: "business" | "talent" }[] = [
-    { name: "For Businesses", id: "business" },
-    { name: "For Talent", id: "talent" },
+  const modeLinks = [
+    { name: "For Businesses", href: "/business", id: "business" },
+    { name: "For Talent", href: "/talent", id: "talent" },
   ];
 
-  const handleModeNavigate = (mode: "business" | "talent") => {
+  const handleModeNavigate = (href: string) => {
     // Close mobile menu if open
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
@@ -81,23 +81,7 @@ export default function Header() {
       document.body.style.height = "unset";
     }
 
-    // Ensure business/talent sections render like hero toggle
-    window.dispatchEvent(new CustomEvent("showSections", { detail: { mode } }));
-
-    const sectionId = mode === "business" ? "business" : "talent";
-
-    // Give sections time to mount before scrolling
-    setTimeout(() => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        window.scrollTo({
-          top: element.offsetTop - 80,
-          behavior: "smooth",
-        });
-      } else if (window.location.pathname !== "/") {
-        window.location.href = `/#${sectionId}`;
-      }
-    }, 200);
+    window.location.href = href;
   };
 
   return (
@@ -164,7 +148,7 @@ export default function Header() {
               {modeLinks.map((link) => (
                 <motion.button
                   key={link.id}
-                  onClick={() => handleModeNavigate(link.id)}
+                  onClick={() => handleModeNavigate(link.href)}
                   whileHover={{ y: -1 }}
                   whileTap={{ scale: 0.95 }}
                   className={`group relative px-0 py-1 text-sm font-semibold transition-all duration-300 ${

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   authors: [{ name: "MyCo Network" }],
   creator: "MyCo Network",
   publisher: "MyCo Network",
-  metadataBase: new URL("https://myconsultingnetwork.com"),
+  metadataBase: new URL("https://myconsulting.network"),
   alternates: {
     canonical: "/",
   },
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "MyCo Network | Expert Consulting On-Demand - Trusted by Leading Businesses",
     description: "Full project lifecycle support with dedicated project managers. We connect businesses with expert consultants in strategy, technology, marketing, and more. Lower costs, higher quality.",
-    url: "https://myconsultingnetwork.com",
+    url: "https://myconsulting.network",
     siteName: "MyCo Network",
     images: [
       {
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   },
   verification: {
     // Add your verification codes here later
-    // google: "your-google-verification-code",
+    google: "ofCxuhGLRegks0czab1iEJ2n47TmEL3qgDtsq_bIS0o",
   },
 };
 
@@ -85,9 +85,9 @@ export default function RootLayout({
               name: "MyCo Network",
               alternateName: "MyConsulting Network",
               description: "Expert consulting network providing full project lifecycle support. We connect businesses with top consultants in strategy, technology, marketing, and more. Dedicated project managers, low-cost consulting, and 24/7 support.",
-              url: "https://myconsultingnetwork.com",
-              logo: "https://myconsultingnetwork.com/logos/MyCo_Network_Logo_PNG.png",
-              image: "https://myconsultingnetwork.com/MyConsulting_Network_Logo_PNG.png",
+              url: "https://myconsulting.network",
+              logo: "https://myconsulting.network/logos/MyCo_Network_Logo_PNG.png",
+              image: "https://myconsulting.network/MyConsulting_Network_Logo_PNG.png",
               priceRange: "$$",
               address: {
                 "@type": "PostalAddress",
