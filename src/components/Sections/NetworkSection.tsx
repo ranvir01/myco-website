@@ -29,7 +29,7 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
   const clients = [
     { name: "Tabletop Village", role: "Gaming & Entertainment", image: null },
     { name: "Blue Landscaping Services", role: "Landscaping Services", image: null },
-    { name: "VOPPL AR", role: "Artificial Intelligence", image: null },
+    { name: "VopplAR", role: "Artificial Intelligence", image: null },
     { name: "Goldstein & Company LLC", role: "Financial Services", image: null },
     { name: "Gibraltar Business Group", role: "Healthcare", image: null },
     { name: "Presidential Transportation", role: "Transportation Services", image: null },
