@@ -3,8 +3,23 @@
 import { motion } from "framer-motion";
 import { FaHandshake } from "react-icons/fa";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
+import Image from "next/image";
+import { useState } from "react";
 
 export default function AboutSection() {
+  const founders = [
+    {
+      name: "Ethan Lostroh",
+      role: "CEO + Operation and Management",
+      linkedin: "https://www.linkedin.com/in/ethan-lostroh/",
+    },
+    {
+      name: "Ranvir Thind",
+      role: "CFO + AI and R&D",
+      linkedin: "https://www.linkedin.com/in/ranvir-thind/",
+    },
+  ];
+
   return (
     <section
       id="about"
@@ -55,7 +70,7 @@ export default function AboutSection() {
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="flex flex-col items-center space-y-6 max-w-2xl mx-auto"
+            className="flex flex-col items-center space-y-6 max-w-2xl mx-auto mb-20"
           >
             <motion.div
               whileHover={{ scale: 1.1, rotate: 5 }}
@@ -65,6 +80,31 @@ export default function AboutSection() {
             </motion.div>
           </motion.div>
         </ScrollAnimationWrapper>
+
+        <div className="mb-12 text-center">
+           <div className="w-40 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mx-auto mb-12" />
+        </div>
+
+        {/* Founders Section */}
+        <ScrollAnimationWrapper>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-secondary mb-12"
+          >
+            Meet the Founders
+          </motion.h2>
+        </ScrollAnimationWrapper>
+
+        <div className="flex flex-wrap justify-center gap-12 md:gap-24">
+          {founders.map((founder, index) => (
+            <ScrollAnimationWrapper key={index} delay={0.2 + index * 0.1}>
+              <FounderCard founder={founder} />
+            </ScrollAnimationWrapper>
+          ))}
+        </div>
       </div>
 
       {/* Decorative Background Elements */}
@@ -74,3 +114,67 @@ export default function AboutSection() {
   );
 }
 
+function FounderCard({ founder }: { founder: { name: string; role: string; linkedin: string } }) {
+  const [imageError, setImageError] = useState(false);
+  
+  // Generate expected image path: /team/firstname-lastname.jpg (lowercase)
+  const expectedImagePath = `/team/${founder.name.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+  const shouldUseImage = !imageError;
+
+  const CardContent = (
+    <motion.div
+      whileHover={{ y: -10, scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      className="flex flex-col items-center text-center space-y-4 cursor-pointer group"
+    >
+      <div className="w-32 h-32 md:w-40 md:h-40 rounded-full relative overflow-hidden shadow-xl flex items-center justify-center ring-4 ring-white">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-light z-0" />
+        <div 
+          className="absolute inset-0 z-0 opacity-30" 
+          style={{ 
+            backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(27, 127, 78) 1px, transparent 0px)', 
+            backgroundSize: '40px 40px' 
+          }} 
+        />
+
+        {/* Initials/Image */}
+        <div className="relative z-10 text-white text-3xl md:text-4xl font-bold w-full h-full flex items-center justify-center">
+          {shouldUseImage ? (
+            <Image 
+              src={expectedImagePath} 
+              alt={founder.name} 
+              fill 
+              className="object-cover"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            founder.name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+          )}
+        </div>
+      </div>
+      <div>
+        <h3 className="font-bold text-xl md:text-2xl text-secondary group-hover:text-primary transition-colors">
+          {founder.name}
+        </h3>
+        <p className="text-base md:text-lg text-secondary-light font-medium">
+          {founder.role}
+        </p>
+      </div>
+    </motion.div>
+  );
+
+  return (
+    <a 
+      href={founder.linkedin} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="block"
+    >
+      {CardContent}
+    </a>
+  );
+}

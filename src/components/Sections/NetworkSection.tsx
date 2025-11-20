@@ -3,38 +3,82 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
+import { useState } from "react";
 
 interface NetworkSectionProps {
   activeMode: "business" | "talent" | null;
 }
 
+interface NetworkMember {
+  name: string;
+  role: string;
+  image: string | null;
+  linkedin: string | null;
+}
+
 export default function NetworkSection({ activeMode }: NetworkSectionProps) {
   // Talent network data - what businesses see
   const talents = [
-    { name: "Christy Johnson", role: "Advisor | Strategy", image: null },
-    { name: "Pim Jitnavasathien", role: "Product Designer", image: null },
-    { name: "Sahil Tayade", role: "Cloud Architect", image: null },
-    { name: "Ha Tien Nguyen", role: "UX Researcher", image: null },
-    { name: "Reuben Narad", role: "PhD Student - Operations", image: null },
-    { name: "Sam Foster", role: "Software Architect", image: null },
-    { name: "Tawsif Ahmed", role: "Electrical Engineer", image: null },
-    { name: "Terrell Kelly", role: "Operations Consultant", image: null },
-    { name: "JD Kaim", role: "Software Engineer", image: null },
-    { name: "Mia Chen", role: "Marketing Designer", image: null },
-    { name: "Henos Adhana", role: "SEO Consultant", image: null },
-    { name: "Bhagat Subedi", role: "Civil Engineer", image: null },
+    {
+      name: "Ben Niewiadomski",
+      role: "Strategy Consultant",
+      image: null,
+      linkedin: "https://www.linkedin.com/in/bniewiadomski1",
+    },
+    {
+      name: "Pim Jitnavasathien",
+      role: "Product Designer",
+      image: null,
+      linkedin: "https://www.linkedin.com/in/pim-jitnavasathien",
+    },
+    {
+      name: "Shane Blair",
+      role: "Software Engineer",
+      image: null,
+      linkedin: "https://www.linkedin.com/in/mcho6967",
+    },
+    {
+      name: "Ha Tien Nguyen",
+      role: "UX Researcher",
+      image: null,
+      linkedin: "https://www.linkedin.com/in/ha-tien-nguyen",
+    },
+    {
+      name: "Jonathan Murguia",
+      role: "Mechanical Engineer",
+      image: null,
+      linkedin: "https://www.linkedin.com/in/jonathan-murguia",
+    },
+    {
+      name: "Tawsif Ahmed",
+      role: "Electrical & Computer Engineer",
+      image: null,
+      linkedin: "https://www.linkedin.com/in/tawsifahmed29",
+    },
+    {
+      name: "Henos Adhana",
+      role: "SEO Consultant",
+      image: null,
+      linkedin: "https://www.linkedin.com/in/henos",
+    },
+    {
+      name: "Ulysses Vazquez-Perez",
+      role: "Business Analyst",
+      image: null,
+      linkedin: "https://www.linkedin.com/in/ulysses-vazquez",
+    },
   ];
 
   // Client network data - Real MyCo Network clients
   const clients = [
-    { name: "Tabletop Village", role: "Gaming & Entertainment", image: null },
-    { name: "Blue Landscaping Services", role: "Landscaping Services", image: null },
-    { name: "VopplAR", role: "Artificial Intelligence", image: null },
-    { name: "Goldstein & Company LLC", role: "Financial Services", image: null },
-    { name: "Gibraltar Business Group", role: "Healthcare", image: null },
-    { name: "Presidential Transportation", role: "Transportation Services", image: null },
-    { name: "Atlantis STEM", role: "Education & Technology", image: null },
-    { name: "Thind Transport", role: "Logistics & Distribution", image: null },
+    { name: "Tabletop Village", role: "Gaming & Entertainment", image: null, linkedin: null, LogoComponent: TabletopVillageLogo },
+    { name: "Blue Landscaping Services", role: "Landscaping Services", image: null, linkedin: null, LogoComponent: BlueLandscapingLogo },
+    { name: "VopplAR", role: "Artificial Intelligence", image: null, linkedin: null, LogoComponent: VopplARLogo },
+    { name: "Goldstein & Company LLC", role: "Financial Services", image: null, linkedin: null, LogoComponent: GoldsteinLogo },
+    { name: "Gibraltar Business Group", role: "Healthcare", image: null, linkedin: null, LogoComponent: GibraltarLogo },
+    { name: "Presidential Transportation", role: "Transportation Services", image: null, linkedin: null, LogoComponent: PresidentialLogo },
+    { name: "Atlantis STEM", role: "Education & Technology", image: null, linkedin: null, LogoComponent: AtlantisSTEMLogo },
+    { name: "Thind Transport", role: "Logistics & Distribution", image: null, linkedin: null, LogoComponent: ThindTransportLogo },
   ];
 
   const displayData = activeMode === "business" ? talents : clients;
@@ -88,26 +132,7 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
           {displayData.map((member, index) => (
             <ScrollAnimationWrapper key={index} delay={index * 0.05}>
-              <motion.div
-                whileHover={{ y: -10, scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="flex flex-col items-center text-center space-y-3"
-              >
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white text-2xl md:text-3xl font-bold shadow-lg">
-                  {member.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-secondary text-sm md:text-base">
-                    {member.name}
-                  </h3>
-                  <p className="text-xs md:text-sm text-secondary-light">
-                    {member.role}
-                  </p>
-                </div>
-              </motion.div>
+              <NetworkCard member={member} />
             </ScrollAnimationWrapper>
           ))}
         </div>
@@ -152,3 +177,77 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
   );
 }
 
+function NetworkCard({ member }: { member: NetworkMember }) {
+  const [imageError, setImageError] = useState(false);
+  
+  // Generate expected image path: /team/firstname-lastname.jpg (lowercase)
+  const expectedImagePath = `/team/${member.name.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+  const shouldUseImage = !imageError;
+
+  const CardContent = (
+    <motion.div
+      whileHover={{ y: -10, scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      className={`flex flex-col items-center text-center space-y-3 ${member.linkedin ? "cursor-pointer group" : ""}`}
+    >
+      <div className={`w-24 h-24 md:w-32 md:h-32 rounded-full relative overflow-hidden shadow-lg flex items-center justify-center ${member.LogoComponent ? "bg-white" : "bg-gradient-to-br from-primary to-primary-light"}`}>
+        {/* Background Pattern (Only for non-logo items) */}
+        {!member.LogoComponent && (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-light z-0" />
+            <div 
+              className="absolute inset-0 z-0 opacity-30" 
+              style={{ 
+                backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(27, 127, 78) 1px, transparent 0px)', 
+                backgroundSize: '40px 40px' 
+              }} 
+            />
+          </>
+        )}
+
+        {/* Initials/Image/Logo */}
+        <div className="relative z-10 text-white text-2xl md:text-3xl font-bold w-full h-full flex items-center justify-center">
+          {member.LogoComponent ? (
+            <div className="w-full h-full flex items-center justify-center p-4">
+              <member.LogoComponent className="w-full h-full object-contain" />
+            </div>
+          ) : shouldUseImage ? (
+            <Image 
+              src={member.image || expectedImagePath} 
+              alt={member.name} 
+              fill 
+              className="object-cover"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            member.name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+          )}
+        </div>
+      </div>
+      <div>
+        <h3 className={`font-semibold text-secondary text-sm md:text-base ${member.linkedin ? "group-hover:text-primary transition-colors" : ""}`}>
+          {member.name}
+        </h3>
+        <p className="text-xs md:text-sm text-secondary-light">
+          {member.role}
+        </p>
+      </div>
+    </motion.div>
+  );
+
+  return member.linkedin ? (
+    <a 
+      href={member.linkedin} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="block"
+    >
+      {CardContent}
+    </a>
+  ) : (
+    CardContent
+  );
+}
