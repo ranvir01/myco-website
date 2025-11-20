@@ -59,7 +59,7 @@ export default function Header() {
           if (sectionId === "home") {
             window.location.href = "/";
           } else {
-            window.location.href = `/#${sectionId}`;
+          window.location.href = `/#${sectionId}`;
           }
         }
       }
