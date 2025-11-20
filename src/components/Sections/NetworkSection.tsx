@@ -80,14 +80,14 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
 
   // Client network data - Real MyCo Network clients
   const clients = [
-    { name: "Tabletop Village", role: "Gaming & Entertainment", image: null, linkedin: null },
-    { name: "Blue Landscaping Services", role: "Landscaping Services", image: null, linkedin: null },
-    { name: "VopplAR", role: "Artificial Intelligence", image: null, linkedin: null },
-    { name: "Goldstein & Company LLC", role: "Financial Services", image: null, linkedin: null },
-    { name: "Gibraltar Business Group", role: "Healthcare", image: null, linkedin: null },
-    { name: "Presidential Transportation", role: "Transportation Services", image: null, linkedin: null },
-    { name: "Atlantis STEM", role: "Education & Technology", image: null, linkedin: null },
-    { name: "Thind Transport", role: "Logistics & Distribution", image: null, linkedin: null },
+    { name: "Tabletop Village", role: "Gaming & Entertainment", image: null, linkedin: null, LogoComponent: TabletopVillageLogo },
+    { name: "Blue Landscaping Services", role: "Landscaping Services", image: null, linkedin: null, LogoComponent: BlueLandscapingLogo },
+    { name: "VopplAR", role: "Artificial Intelligence", image: null, linkedin: null, LogoComponent: VopplARLogo },
+    { name: "Goldstein & Company LLC", role: "Financial Services", image: null, linkedin: null, LogoComponent: GoldsteinLogo },
+    { name: "Gibraltar Business Group", role: "Healthcare", image: null, linkedin: null, LogoComponent: GibraltarLogo },
+    { name: "Presidential Transportation", role: "Transportation Services", image: null, linkedin: null, LogoComponent: PresidentialLogo },
+    { name: "Atlantis STEM", role: "Education & Technology", image: null, linkedin: null, LogoComponent: AtlantisSTEMLogo },
+    { name: "Thind Transport", role: "Logistics & Distribution", image: null, linkedin: null, LogoComponent: ThindTransportLogo },
   ];
 
   const displayData = activeMode === "business" ? talents : clients;
@@ -199,20 +199,28 @@ function NetworkCard({ member }: { member: NetworkMember }) {
       transition={{ type: "spring", stiffness: 300 }}
       className={`flex flex-col items-center text-center space-y-3 ${member.linkedin ? "cursor-pointer group" : ""}`}
     >
-      <div className="w-24 h-24 md:w-32 md:h-32 rounded-full relative overflow-hidden shadow-lg flex items-center justify-center">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-light z-0" />
-        <div 
-          className="absolute inset-0 z-0 opacity-30" 
-          style={{ 
-            backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(27, 127, 78) 1px, transparent 0px)', 
-            backgroundSize: '40px 40px' 
-          }} 
-        />
+      <div className={`w-24 h-24 md:w-32 md:h-32 rounded-full relative overflow-hidden shadow-lg flex items-center justify-center ${member.LogoComponent ? "bg-white" : "bg-gradient-to-br from-primary to-primary-light"}`}>
+        {/* Background Pattern (Only for non-logo items) */}
+        {!member.LogoComponent && (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-light z-0" />
+            <div 
+              className="absolute inset-0 z-0 opacity-30" 
+              style={{ 
+                backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(27, 127, 78) 1px, transparent 0px)', 
+                backgroundSize: '40px 40px' 
+              }} 
+            />
+          </>
+        )}
 
-        {/* Initials/Image */}
+        {/* Initials/Image/Logo */}
         <div className="relative z-10 text-white text-2xl md:text-3xl font-bold w-full h-full flex items-center justify-center">
-          {shouldUseImage ? (
+          {member.LogoComponent ? (
+            <div className="w-full h-full flex items-center justify-center p-4">
+              <member.LogoComponent className="w-full h-full object-contain" />
+            </div>
+          ) : shouldUseImage ? (
             <Image 
               src={member.image || expectedImagePath} 
               alt={member.name} 
