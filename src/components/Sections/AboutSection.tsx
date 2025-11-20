@@ -10,12 +10,12 @@ export default function AboutSection() {
   const founders = [
     {
       name: "Ethan Lostroh",
-      role: "CEO + Operation and Management",
+      role: "CEO",
       linkedin: "https://www.linkedin.com/in/ethan-lostroh/",
     },
     {
       name: "Ranvir Thind",
-      role: "CFO + AI and R&D",
+      role: "CFO",
       linkedin: "https://www.linkedin.com/in/ranvir-thind/",
     },
   ];
