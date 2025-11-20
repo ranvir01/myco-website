@@ -4,13 +4,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
 import { useState } from "react";
-import { TabletopVillageLogo } from "@/components/Logos/TabletopVillageLogo";
-import { BlueLandscapingLogo } from "@/components/Logos/BlueLandscapingLogo";
-import { VopplARLogo } from "@/components/Logos/VopplARLogo";
-import { GoldsteinLogo } from "@/components/Logos/GoldsteinLogo";
-import { GibraltarLogo } from "@/components/Logos/GibraltarLogo";
-import { PresidentialLogo } from "@/components/Logos/PresidentialLogo";
-import { AtlantisSTEMLogo } from "@/components/Logos/AtlantisSTEMLogo";
 import { ThindTransportLogo } from "@/components/Logos/ThindTransportLogo";
 
 interface NetworkSectionProps {
@@ -80,13 +73,13 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
 
   // Client network data - Real MyCo Network clients
   const clients = [
-    { name: "Tabletop Village", role: "Gaming & Entertainment", image: null, linkedin: null, LogoComponent: TabletopVillageLogo },
-    { name: "Blue Landscaping Services", role: "Landscaping Services", image: null, linkedin: null, LogoComponent: BlueLandscapingLogo },
-    { name: "VopplAR", role: "Artificial Intelligence", image: null, linkedin: null, LogoComponent: VopplARLogo },
-    { name: "Goldstein & Company LLC", role: "Financial Services", image: null, linkedin: null, LogoComponent: GoldsteinLogo },
-    { name: "Gibraltar Business Group", role: "Healthcare", image: null, linkedin: null, LogoComponent: GibraltarLogo },
-    { name: "Presidential Transportation", role: "Transportation Services", image: null, linkedin: null, LogoComponent: PresidentialLogo },
-    { name: "Atlantis STEM", role: "Education & Technology", image: null, linkedin: null, LogoComponent: AtlantisSTEMLogo },
+    { name: "Tabletop Village", role: "Gaming & Entertainment", image: "/logos/clients/Tabletop_Village_Logo.png", linkedin: null },
+    { name: "Blue Landscaping Services", role: "Landscaping Services", image: "/logos/clients/Blue_Landscaping_Services_Logo.png", linkedin: null },
+    { name: "VopplAR", role: "Artificial Intelligence", image: "/logos/clients/VopplAR_Logo.png", linkedin: null },
+    { name: "Goldstein & Company LLC", role: "Financial Services", image: "/logos/clients/Goldstein__Company_Logo.png", linkedin: null },
+    { name: "Gibraltar Business Group", role: "Healthcare", image: "/logos/clients/Gibraltar_Business_Group_Logo.png", linkedin: null },
+    { name: "Presidential Transportation", role: "Transportation Services", image: "/logos/clients/Presidential_Transportation_Logo.png", linkedin: null },
+    { name: "Atlantis STEM", role: "Education & Technology", image: "/logos/clients/Atlantis_Steam_Logo.png", linkedin: null },
     { name: "Thind Transport", role: "Logistics & Distribution", image: null, linkedin: null, LogoComponent: ThindTransportLogo },
   ];
 
@@ -192,6 +185,7 @@ function NetworkCard({ member, index }: { member: NetworkMember; index: number }
   
   // Generate expected image path: /team/firstname-lastname.jpg (lowercase)
   const expectedImagePath = `/team/${member.name.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+  const isClientLogo = member.image && member.image.includes('/logos/clients/');
   const shouldUseImage = !imageError;
 
   const CardContent = (
@@ -200,9 +194,9 @@ function NetworkCard({ member, index }: { member: NetworkMember; index: number }
       transition={{ type: "spring", stiffness: 300 }}
       className={`flex flex-col items-center text-center space-y-3 ${member.linkedin ? "cursor-pointer group" : ""}`}
     >
-      <div className={`w-24 h-24 md:w-32 md:h-32 rounded-full relative overflow-hidden shadow-lg flex items-center justify-center ${member.LogoComponent ? "bg-white" : "bg-gradient-to-br from-primary to-primary-light"}`}>
+      <div className={`w-24 h-24 md:w-32 md:h-32 rounded-full relative overflow-hidden shadow-lg flex items-center justify-center ${isClientLogo || member.LogoComponent ? "bg-white" : "bg-gradient-to-br from-primary to-primary-light"}`}>
         {/* Background Pattern (Only for non-logo items) */}
-        {!member.LogoComponent && (
+        {!isClientLogo && !member.LogoComponent && (
           <>
             <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-light z-0" />
             <div 
@@ -220,6 +214,28 @@ function NetworkCard({ member, index }: { member: NetworkMember; index: number }
           {member.LogoComponent ? (
             <div className="w-full h-full flex items-center justify-center p-4">
               <member.LogoComponent className="w-full h-full object-contain" />
+            </div>
+          ) : isClientLogo ? (
+            <div className="w-full h-full flex items-center justify-center p-3">
+              {imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+                  {member.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </div>
+              )}
+              <Image 
+                src={member.image!} 
+                alt={member.name} 
+                width={128}
+                height={128}
+                className={`object-contain w-full h-full transition-opacity duration-500 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+                priority={index < 4}
+                quality={90}
+                onLoadingComplete={() => setImageLoading(false)}
+                onError={() => setImageError(true)}
+              />
             </div>
           ) : shouldUseImage ? (
             <>

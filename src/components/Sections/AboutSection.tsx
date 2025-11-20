@@ -116,6 +116,7 @@ export default function AboutSection() {
 
 function FounderCard({ founder }: { founder: { name: string; role: string; linkedin: string } }) {
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
   
   // Generate expected image path: /team/firstname-lastname.jpg (lowercase)
   const expectedImagePath = `/team/${founder.name.toLowerCase().replace(/\s+/g, '-')}.jpg`;
@@ -141,13 +142,27 @@ function FounderCard({ founder }: { founder: { name: string; role: string; linke
         {/* Initials/Image */}
         <div className="relative z-10 text-white text-3xl md:text-4xl font-bold w-full h-full flex items-center justify-center">
           {shouldUseImage ? (
-            <Image 
-              src={expectedImagePath} 
-              alt={founder.name} 
-              fill 
-              className="object-cover"
-              onError={() => setImageError(true)}
-            />
+            <>
+              {imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {founder.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </div>
+              )}
+              <Image 
+                src={expectedImagePath} 
+                alt={founder.name} 
+                fill 
+                sizes="(max-width: 768px) 128px, 160px"
+                className={`object-cover transition-opacity duration-500 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+                priority
+                quality={90}
+                onLoadingComplete={() => setImageLoading(false)}
+                onError={() => setImageError(true)}
+              />
+            </>
           ) : (
             founder.name
               .split(" ")
