@@ -141,7 +141,7 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
           {displayData.map((member, index) => (
             <ScrollAnimationWrapper key={index} delay={index * 0.05}>
-              <NetworkCard member={member} />
+              <NetworkCard member={member} index={index} />
             </ScrollAnimationWrapper>
           ))}
         </div>
@@ -186,8 +186,9 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
   );
 }
 
-function NetworkCard({ member }: { member: NetworkMember }) {
+function NetworkCard({ member, index }: { member: NetworkMember; index: number }) {
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
   
   // Generate expected image path: /team/firstname-lastname.jpg (lowercase)
   const expectedImagePath = `/team/${member.name.toLowerCase().replace(/\s+/g, '-')}.jpg`;
@@ -221,13 +222,27 @@ function NetworkCard({ member }: { member: NetworkMember }) {
               <member.LogoComponent className="w-full h-full object-contain" />
             </div>
           ) : shouldUseImage ? (
-            <Image 
-              src={member.image || expectedImagePath} 
-              alt={member.name} 
-              fill 
-              className="object-cover"
-              onError={() => setImageError(true)}
-            />
+            <>
+              {imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {member.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </div>
+              )}
+              <Image 
+                src={member.image || expectedImagePath} 
+                alt={member.name} 
+                fill 
+                sizes="(max-width: 768px) 96px, 128px"
+                className={`object-cover transition-opacity duration-500 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+                priority={index < 4}
+                quality={90}
+                onLoadingComplete={() => setImageLoading(false)}
+                onError={() => setImageError(true)}
+              />
+            </>
           ) : (
             member.name
               .split(" ")
