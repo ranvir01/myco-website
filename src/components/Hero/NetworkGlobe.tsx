@@ -2,28 +2,118 @@
 
 import { useRef, useMemo, useState, useEffect, useCallback } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Html } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 // Real network profiles - Mixed clients and consultants (always shown)
 const profiles = [
-  { id: 1, name: "Tabletop Village", role: "Gaming & Entertainment", type: "Business" },
-  { id: 2, name: "Christy Johnson", role: "Advisor | Strategy", type: "Expert" },
-  { id: 3, name: "Blue Landscaping", role: "Landscaping Services", type: "Business" },
-  { id: 4, name: "Pim Jitnavasathien", role: "Product Designer", type: "Expert" },
-  { id: 5, name: "VOPPL AR", role: "Augmented Reality Tech", type: "Business" },
-  { id: 6, name: "Sahil Tayade", role: "Cloud Architect", type: "Expert" },
-  { id: 7, name: "Goldstein & Company LLC", role: "Financial Services", type: "Business" },
-  { id: 8, name: "Reuben Narad", role: "PhD - Operations", type: "Expert" },
-  { id: 9, name: "Gibraltar Business Group", role: "Business Consulting", type: "Business" },
-  { id: 10, name: "Sam Foster", role: "Software Architect", type: "Expert" },
-  { id: 11, name: "Presidential Transpo", role: "Transportation Services", type: "Business" },
-  { id: 12, name: "Ha Tien Nguyen", role: "UX Researcher", type: "Expert" },
-  { id: 13, name: "Atlantis STEM", role: "Education & Technology", type: "Business" },
-  { id: 14, name: "Tawsif Ahmed", role: "Electrical Engineer", type: "Expert" },
-  { id: 15, name: "Terrell Kelly", role: "Operations Consultant", type: "Expert" },
-  { id: 16, name: "JD Kaim", role: "Software Engineer", type: "Expert" },
+  { 
+    id: 1, 
+    name: "Tabletop Village", 
+    role: "Gaming & Entertainment", 
+    type: "Business" as const,
+    image: "/logos/clients/Tabletop_Village_Logo.png"
+  },
+  { 
+    id: 2, 
+    name: "Ben Niewiadomski", 
+    role: "Strategy Consultant", 
+    type: "Expert" as const,
+    image: "/team/ben-niewiadomski.jpg"
+  },
+  { 
+    id: 3, 
+    name: "Blue Landscaping Services", 
+    role: "Landscaping Services", 
+    type: "Business" as const,
+    image: "/logos/clients/Blue_Landscaping_Services_Logo.png"
+  },
+  { 
+    id: 4, 
+    name: "Pim Jitnavasathien", 
+    role: "Product Designer", 
+    type: "Expert" as const,
+    image: "/team/pim-jitnavasathien.jpg"
+  },
+  { 
+    id: 5, 
+    name: "VopplAR", 
+    role: "Artificial Intelligence", 
+    type: "Business" as const,
+    image: "/logos/clients/VopplAR_Logo.png"
+  },
+  { 
+    id: 6, 
+    name: "Ha Tien Nguyen", 
+    role: "UX Researcher", 
+    type: "Expert" as const,
+    image: "/team/ha-tien-nguyen.jpg"
+  },
+  { 
+    id: 7, 
+    name: "Goldstein & Company LLC", 
+    role: "Financial Services", 
+    type: "Business" as const,
+    image: "/logos/clients/Goldstein__Company_Logo.png"
+  },
+  { 
+    id: 8, 
+    name: "Jonathan Murguia", 
+    role: "Mechanical Engineer", 
+    type: "Expert" as const,
+    image: "/team/jonathan-murguia.jpg"
+  },
+  { 
+    id: 9, 
+    name: "Gibraltar Business Group", 
+    role: "Healthcare", 
+    type: "Business" as const,
+    image: "/logos/clients/Gibraltar_Business_Group_Logo.png"
+  },
+  { 
+    id: 10, 
+    name: "Tawsif Ahmed", 
+    role: "Electrical & Computer Engineer", 
+    type: "Expert" as const,
+    image: "/team/tawsif-ahmed.jpg"
+  },
+  { 
+    id: 11, 
+    name: "Presidential Transportation", 
+    role: "Transportation Services", 
+    type: "Business" as const,
+    image: "/logos/clients/Presidential_Transportation_Logo.png"
+  },
+  { 
+    id: 12, 
+    name: "Henos Adhana", 
+    role: "SEO Consultant", 
+    type: "Expert" as const,
+    image: "/team/henos-adhana.jpg"
+  },
+  { 
+    id: 13, 
+    name: "Atlantis STEM", 
+    role: "Education & Technology", 
+    type: "Business" as const,
+    image: "/logos/clients/Atlantis_Steam_Logo.png"
+  },
+  { 
+    id: 14, 
+    name: "Ulysses Vazquez-Perez", 
+    role: "Business Analyst", 
+    type: "Expert" as const,
+    image: "/team/ulysses-vazquez-perez.jpg"
+  },
+  { 
+    id: 15, 
+    name: "Shane Blair", 
+    role: "Software Engineer", 
+    type: "Expert" as const,
+    image: "/team/shane-blair.jpg"
+  },
 ];
 
 // Interactive node component
@@ -239,6 +329,7 @@ export default function NetworkGlobe() {
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [autoShowProfile, setAutoShowProfile] = useState<typeof profiles[0] | null>(null);
   const [nodePositions, setNodePositions] = useState<Map<number, { x: number; y: number }>>(new Map());
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const autoShowIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -273,8 +364,12 @@ export default function NetworkGlobe() {
     });
   };
 
+  const handleImageError = (profileId: number) => {
+    setImageErrors(prev => new Set(prev).add(profileId));
+  };
+
   // Helper function to clamp tooltip position within container bounds
-  const clampTooltipPosition = useCallback((x: number, y: number, tooltipWidth: number = 220, tooltipHeight: number = 120) => {
+  const clampTooltipPosition = useCallback((x: number, y: number, tooltipWidth: number = 280, tooltipHeight: number = 140) => {
     if (!containerRef.current) return { x, y };
     
     const containerRect = containerRef.current.getBoundingClientRect();
@@ -299,7 +394,7 @@ export default function NetworkGlobe() {
   const autoShowTooltipPos = useMemo(() => {
     if (!autoShowProfile || hoveredProfile || !nodePositions.get(autoShowProfile.id)) return null;
     const nodePos = nodePositions.get(autoShowProfile.id)!;
-    return clampTooltipPosition(nodePos.x + 10, nodePos.y - 85, 240, 140);
+    return clampTooltipPosition(nodePos.x + 10, nodePos.y - 85, 280, 140);
   }, [autoShowProfile, hoveredProfile, nodePositions, clampTooltipPosition]);
 
   // Random auto-show tooltips
@@ -341,16 +436,98 @@ export default function NetworkGlobe() {
       }
     };
   }, []);
+
+  const renderTooltipContent = (profile: typeof profiles[0], isAutoShow: boolean = false) => {
+    const hasImage = profile.image && !imageErrors.has(profile.id);
+    const isClientLogo = hasImage && profile.image!.includes('/logos/clients/');
+    
+    return (
+      <div className={`bg-gradient-to-br from-white ${isAutoShow ? 'via-white to-primary/5' : 'to-gray-50/95'} backdrop-blur-md rounded-xl md:rounded-2xl shadow-2xl p-3 md:p-5 min-w-[180px] md:min-w-[260px] border-2 border-primary/20 relative overflow-hidden`}>
+        {/* Gradient accent bar */}
+        <div className={`absolute top-0 left-0 right-0 ${isAutoShow ? 'h-1.5' : 'h-1'} bg-gradient-to-r from-${profile.type === 'Business' ? 'blue-500' : 'primary'} via-primary-light to-${profile.type === 'Business' ? 'blue-500' : 'primary'}`}></div>
+        
+        <div className="flex items-start gap-3 md:gap-4">
+          {/* Profile Image/Logo */}
+          {hasImage && (
+            <div className={`flex-shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden ${isClientLogo ? 'bg-white p-2 md:p-2.5' : 'bg-gradient-to-br from-primary to-primary-light'} shadow-lg relative`}>
+              {!isClientLogo && (
+                <div 
+                  className="absolute inset-0 z-0 opacity-30" 
+                  style={{ 
+                    backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(27, 127, 78) 1px, transparent 0px)', 
+                    backgroundSize: '20px 20px' 
+                  }} 
+                />
+              )}
+              <Image 
+                src={profile.image!} 
+                alt={profile.name} 
+                fill={!isClientLogo}
+                width={isClientLogo ? 64 : undefined}
+                height={isClientLogo ? 64 : undefined}
+                sizes="64px"
+                className={`${isClientLogo ? 'object-contain w-full h-full' : 'object-cover'} ${!isClientLogo && 'relative z-10'}`}
+                onError={() => handleImageError(profile.id)}
+              />
+            </div>
+          )}
+          
+          {/* Fallback initials if no image */}
+          {!hasImage && (
+            <div className={`flex-shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-full ${profile.type === 'Business' ? 'bg-gradient-to-br from-blue-500 to-blue-600' : 'bg-gradient-to-br from-primary to-primary-light'} shadow-lg flex items-center justify-center`}>
+              <span className="text-white font-bold text-xs md:text-sm">
+                {profile.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+              </span>
+            </div>
+          )}
+          
+          <div className="flex-1 min-w-0">
+            {/* Type badge */}
+            <div className={`inline-flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-0.5 md:py-1 rounded-full text-[10px] md:text-xs font-bold mb-1.5 md:mb-2 ${
+              profile.type === 'Business' 
+                ? isAutoShow 
+                  ? 'bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-700 border-2 border-blue-500/40 shadow-lg shadow-blue-500/20'
+                  : 'bg-blue-500/10 text-blue-600 border border-blue-500/30'
+                : isAutoShow
+                  ? 'bg-gradient-to-r from-primary/20 to-primary-light/20 text-primary border-2 border-primary/40 shadow-lg shadow-primary/20'
+                  : 'bg-primary/10 text-primary border border-primary/30'
+            }`}>
+              <div className={`w-1.5 md:w-2 h-1.5 md:h-2 rounded-full ${isAutoShow ? 'animate-pulse' : ''} ${
+                profile.type === 'Business' ? isAutoShow ? 'bg-blue-500 shadow-lg shadow-blue-500/50' : 'bg-blue-500' : isAutoShow ? 'bg-primary shadow-lg shadow-primary/50' : 'bg-primary'
+              }`} />
+              {profile.type}
+            </div>
+            
+            <h4 className="font-bold text-secondary text-xs md:text-base lg:text-lg leading-tight truncate">{profile.name}</h4>
+            <p className="text-[10px] md:text-sm text-secondary-light mt-0.5 md:mt-1.5 leading-snug line-clamp-2">{profile.role}</p>
+          </div>
+        </div>
+        
+        {/* Decorative corner elements */}
+        {isAutoShow && (
+          <>
+            <div className="absolute bottom-0 right-0 w-16 md:w-24 h-16 md:h-24 bg-gradient-to-tl from-primary/10 to-transparent rounded-tl-full"></div>
+            <div className="absolute top-0 left-0 w-12 md:w-16 h-12 md:h-16 bg-gradient-to-br from-blue-500/5 to-transparent rounded-br-full"></div>
+          </>
+        )}
+        
+        {/* Subtle bottom decoration for hover */}
+        {!isAutoShow && (
+          <div className="absolute bottom-0 right-0 w-16 md:w-20 h-16 md:h-20 bg-gradient-to-tl from-primary/5 to-transparent rounded-tl-full"></div>
+        )}
+      </div>
+    );
+  };
   
   return (
     <div 
       ref={containerRef}
-      className="w-full aspect-square max-w-[500px] md:max-w-[700px] lg:max-w-[800px] max-h-[70vh] mx-auto relative"
+      className="w-full aspect-square max-w-[400px] md:max-w-[500px] lg:max-w-[700px] xl:max-w-[800px] max-h-[60vh] md:max-h-[70vh] mx-auto relative"
     >
       <Canvas
         camera={{ position: [0, 0, 4], fov: 75 }}
         className="cursor-grab active:cursor-grabbing"
-        dpr={[2, 3]}
+        dpr={[1.5, 2]}
         gl={{
           antialias: true,
           alpha: true,
@@ -381,7 +558,7 @@ export default function NetworkGlobe() {
         />
       </Canvas>
       
-      {/* Hover tooltip at exact node position - Enhanced Design */}
+      {/* Hover tooltip at exact node position - Enhanced Design with Images */}
       <AnimatePresence>
         {hoveredProfile && hoverTooltipPos && (
           <motion.div
@@ -396,33 +573,12 @@ export default function NetworkGlobe() {
               transform: 'translateX(-50%)',
             }}
           >
-            <div className="bg-gradient-to-br from-white to-gray-50/95 backdrop-blur-md rounded-xl shadow-2xl p-4 min-w-[200px] border-2 border-primary/20 relative overflow-hidden">
-              {/* Gradient accent bar */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary-light to-primary"></div>
-              
-              {/* Type badge */}
-              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-2 ${
-                hoveredProfile.type === 'Business' 
-                  ? 'bg-blue-500/10 text-blue-600 border border-blue-500/30' 
-                  : 'bg-primary/10 text-primary border border-primary/30'
-              }`}>
-                <div className={`w-2 h-2 rounded-full ${
-                  hoveredProfile.type === 'Business' ? 'bg-blue-500' : 'bg-primary'
-                }`} />
-                {hoveredProfile.type}
-              </div>
-              
-              <h4 className="font-bold text-secondary text-base leading-tight">{hoveredProfile.name}</h4>
-              <p className="text-sm text-secondary-light mt-1.5 leading-snug">{hoveredProfile.role}</p>
-              
-              {/* Subtle bottom decoration */}
-              <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-primary/5 to-transparent rounded-tl-full"></div>
-            </div>
+            {renderTooltipContent(hoveredProfile, false)}
           </motion.div>
         )}
       </AnimatePresence>
       
-      {/* Auto-show tooltip at node position - Enhanced Design */}
+      {/* Auto-show tooltip at node position - Enhanced Design with Images */}
       <AnimatePresence>
         {autoShowProfile && !hoveredProfile && autoShowTooltipPos && (
           <motion.div
@@ -437,34 +593,7 @@ export default function NetworkGlobe() {
               transform: 'translateX(-50%)',
             }}
           >
-            <div className="bg-gradient-to-br from-white via-white to-primary/5 backdrop-blur-lg rounded-2xl shadow-2xl p-5 min-w-[220px] border-2 border-primary/30 relative overflow-hidden">
-              {/* Animated gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5 opacity-50"></div>
-              
-              {/* Glowing top border */}
-              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
-              
-              <div className="relative z-10">
-                {/* Type badge with glow effect */}
-                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-3 ${
-                  autoShowProfile.type === 'Business' 
-                    ? 'bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-700 border-2 border-blue-500/40 shadow-lg shadow-blue-500/20' 
-                    : 'bg-gradient-to-r from-primary/20 to-primary-light/20 text-primary border-2 border-primary/40 shadow-lg shadow-primary/20'
-                }`}>
-                  <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${
-                    autoShowProfile.type === 'Business' ? 'bg-blue-500 shadow-lg shadow-blue-500/50' : 'bg-primary shadow-lg shadow-primary/50'
-                  }`} />
-                  {autoShowProfile.type}
-                </div>
-                
-                <h4 className="font-bold text-secondary text-lg leading-tight mb-2">{autoShowProfile.name}</h4>
-                <p className="text-sm text-secondary-light leading-relaxed">{autoShowProfile.role}</p>
-              </div>
-              
-              {/* Decorative corner element */}
-              <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-primary/10 to-transparent rounded-tl-full"></div>
-              <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-500/5 to-transparent rounded-br-full"></div>
-            </div>
+            {renderTooltipContent(autoShowProfile, true)}
           </motion.div>
         )}
       </AnimatePresence>
