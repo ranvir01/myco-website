@@ -1,20 +1,11 @@
 "use client";
 
 import { useRef, useMemo, useState, useEffect, useCallback } from "react";
-import { Canvas, useFrame, useThree, ThreeElements } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-
-// Extend JSX for Three.js elements (React 19 compatibility)
-declare global {
-  namespace React {
-    namespace JSX {
-      interface IntrinsicElements extends ThreeElements {}
-    }
-  }
-}
 
 // Real network profiles - Mixed clients and consultants (always shown)
 const profiles = [
