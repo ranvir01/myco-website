@@ -6,10 +6,10 @@ const nextConfig = {
   reactStrictMode: true,
   // Enable standalone output for Docker deployment
   output: 'standalone',
-  // Disable ESLint during builds (errors will still show in dev)
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // Transpile three.js related packages for proper module resolution
+  transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
+  // Empty turbopack config to use Turbopack (default in Next.js 16)
+  turbopack: {},
 }
 
 module.exports = nextConfig
