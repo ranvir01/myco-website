@@ -1,29 +1,26 @@
 # Multi-stage build for optimal image size
-FROM node:18-alpine AS deps
+FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies
 COPY package.json package-lock.json ./
-RUN npm ci --only=production
+RUN npm ci --legacy-peer-deps
 
 # Builder stage
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy dependencies
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Install all dependencies (including devDependencies) for build
-RUN npm ci
-
 # Build Next.js app
 ENV NEXT_TELEMETRY_DISABLED 1
 RUN npm run build
 
 # Production stage
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
