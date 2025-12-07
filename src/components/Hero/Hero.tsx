@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
-import { FiChevronUp } from "react-icons/fi";
+import { FiChevronUp, FiPhone, FiMail } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import AnimatedToggle from "./AnimatedToggle";
 
@@ -39,77 +39,83 @@ export default function Hero() {
     }, 400);
   };
 
+  const openContactModal = () => {
+    const event = new CustomEvent("openQuoteModal");
+    window.dispatchEvent(event);
+  };
+
   return (
-      <section
-          id="home"
-          className="relative z-10 min-h-[70vh] md:min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 py-6 md:py-12 lg:py-16"
-          onMouseMove={handleMouseMove}
-        >
-          {/* Simplified Natural Globe Shadow & Glow */}
-          
-          {/* Soft circular shadow beneath globe - like it's floating */}
-          <motion.div 
-            className="absolute top-1/2 right-[15%] -translate-y-1/2 pointer-events-none hidden lg:block"
-            animate={{
-              scale: [1, 1.05, 1],
-              opacity: [0.15, 0.2, 0.15]
-            }}
-            transition={{ 
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            style={{
-              width: '380px',
-              height: '380px',
-              background: 'radial-gradient(ellipse 100% 80% at 50% 60%, rgba(27,127,78,0.12) 0%, rgba(0,0,0,0.06) 35%, transparent 65%)',
-              filter: 'blur(40px)',
-            }}
-          />
-          
-          {/* Primary green glow emanating from globe */}
-          <motion.div 
-            className="absolute top-1/2 right-[15%] -translate-y-1/2 pointer-events-none hidden lg:block"
-            animate={{
-              scale: [1, 1.08, 1],
-              opacity: [0.2, 0.3, 0.2]
-            }}
-            transition={{ 
-              duration: 3.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            style={{
-              width: '420px',
-              height: '420px',
-              background: 'radial-gradient(circle at 50% 50%, rgba(27,127,78,0.15) 0%, rgba(16,185,129,0.12) 30%, rgba(86,179,101,0.08) 50%, transparent 70%)',
-              filter: 'blur(45px)',
-            }}
-          />
-          
-          {/* Subtle outer glow - atmospheric effect */}
-          <motion.div
-            className="absolute inset-0 pointer-events-none hidden lg:block"
-            animate={{
-              opacity: [0.1, 0.15, 0.1]
-            }}
-            transition={{ 
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            style={{
-              background: 'radial-gradient(circle 500px at 70% 50%, rgba(16,185,129,0.08) 0%, rgba(27,127,78,0.04) 30%, transparent 55%)',
-            }}
-          />
-          
-          {/* Subtle Dot Pattern */}
-          <div className="absolute inset-0 opacity-[0.03]">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle at 2px 2px, #1B7F4E 1px, transparent 0)`,
-              backgroundSize: '40px 40px'
-            }} />
-          </div>
+    <section
+      id="home"
+      aria-labelledby="hero-heading"
+      className="relative z-10 min-h-[70vh] md:min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 py-6 md:py-12 lg:py-16"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Simplified Natural Globe Shadow & Glow */}
+      
+      {/* Soft circular shadow beneath globe - like it's floating */}
+      <motion.div 
+        className="absolute top-1/2 right-[15%] -translate-y-1/2 pointer-events-none hidden lg:block"
+        animate={{
+          scale: [1, 1.05, 1],
+          opacity: [0.15, 0.2, 0.15]
+        }}
+        transition={{ 
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        style={{
+          width: '380px',
+          height: '380px',
+          background: 'radial-gradient(ellipse 100% 80% at 50% 60%, rgba(27,127,78,0.12) 0%, rgba(0,0,0,0.06) 35%, transparent 65%)',
+          filter: 'blur(40px)',
+        }}
+      />
+      
+      {/* Primary green glow emanating from globe */}
+      <motion.div 
+        className="absolute top-1/2 right-[15%] -translate-y-1/2 pointer-events-none hidden lg:block"
+        animate={{
+          scale: [1, 1.08, 1],
+          opacity: [0.2, 0.3, 0.2]
+        }}
+        transition={{ 
+          duration: 3.5,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        style={{
+          width: '420px',
+          height: '420px',
+          background: 'radial-gradient(circle at 50% 50%, rgba(27,127,78,0.15) 0%, rgba(16,185,129,0.12) 30%, rgba(86,179,101,0.08) 50%, transparent 70%)',
+          filter: 'blur(45px)',
+        }}
+      />
+      
+      {/* Subtle outer glow - atmospheric effect */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none hidden lg:block"
+        animate={{
+          opacity: [0.1, 0.15, 0.1]
+        }}
+        transition={{ 
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        style={{
+          background: 'radial-gradient(circle 500px at 70% 50%, rgba(16,185,129,0.08) 0%, rgba(27,127,78,0.04) 30%, transparent 55%)',
+        }}
+      />
+      
+      {/* Subtle Dot Pattern */}
+      <div className="absolute inset-0 opacity-[0.03]">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 2px 2px, #1B7F4E 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }} />
+      </div>
 
       {/* Clean Professional Transition */}
       <AnimatePresence>
@@ -184,26 +190,38 @@ export default function Hero() {
             }}
             className="space-y-4 md:space-y-6 lg:space-y-8 lg:pr-8"
           >
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.8 }}
-                  className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-secondary leading-tight"
-                >
-                  Leverage Our{" "}
-                  <span 
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl block mt-1 md:mt-2"
-                    style={{
-                      background: 'linear-gradient(135deg, #1B7F4E 0%, #56B365 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      filter: 'drop-shadow(0 0 20px rgba(27,127,78,0.3))'
-                    }}
-                  >
-                    Network!
-                  </span>
-                </motion.h1>
+            {/* Trust Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20"
+            >
+              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+              <span className="text-sm font-medium text-primary">Trusted by 12+ Growing Businesses</span>
+            </motion.div>
+
+            <motion.h1
+              id="hero-heading"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-secondary leading-tight font-heading"
+            >
+              Leverage Our{" "}
+              <span 
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl block mt-1 md:mt-2"
+                style={{
+                  background: 'linear-gradient(135deg, #1B7F4E 0%, #56B365 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  filter: 'drop-shadow(0 0 20px rgba(27,127,78,0.3))'
+                }}
+              >
+                Network!
+              </span>
+            </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -211,10 +229,60 @@ export default function Hero() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-base sm:text-lg md:text-xl lg:text-2xl text-secondary-light max-w-xl leading-relaxed"
             >
-              MyCo makes project work effortlessly. We connect businesses to experts.
+              <strong>MyConsulting Network</strong> makes project work effortless. We connect businesses with top consultants — with <em>dedicated project managers</em>, <em>low-cost solutions</em>, and <em>24/7 support</em>.
             </motion.p>
 
+            {/* Value Props */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="flex flex-wrap gap-3"
+            >
+              {[
+                { icon: "✓", text: "Dedicated PMs" },
+                { icon: "✓", text: "Low-Cost" },
+                { icon: "✓", text: "24/7 Support" },
+              ].map((prop) => (
+                <span
+                  key={prop.text}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg text-sm font-medium text-secondary-light shadow-sm border border-gray-100"
+                >
+                  <span className="text-primary">{prop.icon}</span>
+                  {prop.text}
+                </span>
+              ))}
+            </motion.div>
+
             <AnimatedToggle activeMode={null} onToggle={handleToggle} />
+
+            {/* Quick Contact Options */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+              className="flex flex-wrap items-center gap-4 pt-2"
+            >
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={openContactModal}
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                Get Started Free
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </motion.button>
+              
+              <a
+                href="mailto:info@myconsulting.network"
+                className="inline-flex items-center gap-2 text-secondary-light hover:text-primary transition-colors duration-300"
+              >
+                <FiMail className="w-4 h-4" />
+                <span className="text-sm font-medium">info@myconsulting.network</span>
+              </a>
+            </motion.div>
           </motion.div>
 
           {/* Right Column - 3D Globe (SMOOTH ANIMATION) */}
@@ -234,10 +302,11 @@ export default function Hero() {
               transformOrigin: "center center",
               willChange: "transform, opacity, filter",
             }}
+            aria-hidden="true"
           >
             <div className="w-full max-w-[400px] md:max-w-none" style={{ 
               transform: "translateZ(0)",
-              backfaceVisibility: "hidden" as any,
+              backfaceVisibility: "hidden" as const,
             }}>
               <NetworkGlobe />
             </div>
@@ -251,6 +320,7 @@ export default function Hero() {
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
         className="absolute bottom-2 md:bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center space-y-3 z-10"
+        aria-hidden="true"
       >
         <motion.div
           animate={{ y: [0, -10, 0] }}
@@ -261,10 +331,9 @@ export default function Hero() {
         </motion.div>
         <p className="text-secondary-light text-base font-medium text-center">
           Choose your network<br />
-          <span className="text-secondary font-semibold">Business</span> or <span className="text-primary font-semibold">Expert</span>
+          <span className="text-secondary font-semibold">Business</span> or <span className="text-primary font-semibold">Consultant</span>
         </p>
       </motion.div>
     </section>
   );
 }
-

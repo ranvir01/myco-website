@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { FiMail, FiLinkedin, FiArrowRight } from "react-icons/fi";
 
 export default function Footer() {
   const scrollToSection = (sectionId: string) => {
@@ -28,14 +29,33 @@ export default function Footer() {
     }, 50);
   };
 
+  const openContactModal = () => {
+    const event = new CustomEvent("openQuoteModal");
+    window.dispatchEvent(event);
+  };
+
   const quickLinks = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
     { name: "Portfolio", id: "portfolio" },
   ];
 
+  const services = [
+    "Business Plans",
+    "Feasibility Analysis",
+    "SEO & Marketing",
+    "Software Development",
+    "Cloud Architecture",
+    "Project Management",
+  ];
+
   return (
-    <footer id="contact" className="relative text-white py-16 overflow-hidden">
+    <footer 
+      id="contact" 
+      className="relative text-white py-16 overflow-hidden"
+      role="contentinfo"
+      aria-label="Site footer"
+    >
       {/* Seamless Space Horizon - Blends from green-50 to website primary green */}
       <div className="absolute inset-0">
         {/* Base layer - Smooth green transition using theme colors */}
@@ -105,26 +125,69 @@ export default function Footer() {
       </div>
 
       <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-white rounded-2xl p-8 md:p-10 shadow-xl mb-12 text-center"
+        >
+          <h2 className="text-2xl md:text-3xl font-bold text-secondary mb-4 font-heading">
+            Ready to Start Your Project?
+          </h2>
+          <p className="text-secondary-light mb-6 max-w-xl mx-auto">
+            Get in touch today and let&apos;s discuss how we can help your business grow.
+          </p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={openContactModal}
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            Let&apos;s Talk
+            <FiArrowRight className="w-5 h-5" />
+          </motion.button>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Logo and Description */}
-          <div className="space-y-4">
+          <div className="md:col-span-2 space-y-4">
             <Image
               src="/logos/MyCo_Network_Logo.png"
-              alt="MyCo Network"
+              alt="MyCo Network - Expert Consulting On-Demand"
               width={300}
               height={75}
               className="h-16 w-auto object-contain"
               style={{ maxWidth: '100%' }}
             />
-            <p className="text-gray-800 leading-relaxed">
-              Connecting businesses with expert talent. Your trusted project
-              broker for success.
+            <p className="text-gray-800 leading-relaxed max-w-md">
+              <strong>MyConsulting Network</strong> connects businesses with expert talent. Your trusted project partner for strategy, technology, marketing, and more.
             </p>
+            
+            {/* Contact Info */}
+            <address className="not-italic space-y-2">
+              <a
+                href="mailto:info@myconsulting.network"
+                className="flex items-center gap-2 text-gray-800 hover:text-primary transition-colors"
+              >
+                <FiMail className="w-5 h-5" />
+                <span>info@myconsulting.network</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/myconsultingnetwork"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-800 hover:text-primary transition-colors"
+              >
+                <FiLinkedin className="w-5 h-5" />
+                <span>Connect on LinkedIn</span>
+              </a>
+            </address>
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-4 text-gray-900">Quick Links</h3>
+          <nav aria-label="Quick links">
+            <h3 className="text-xl font-bold mb-4 text-gray-900 font-heading">Quick Links</h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.id}>
@@ -138,33 +201,44 @@ export default function Footer() {
                   </motion.button>
                 </li>
               ))}
-            </ul>
-          </div>
-
-          {/* Contact and Social */}
-          <div>
-            <h3 className="text-xl font-bold mb-4 text-gray-900">Connect With Us</h3>
-            <div className="space-y-4">
-              <p className="text-gray-800">
-                Email:{" "}
-                <a
-                  href="mailto:info@myconsulting.network"
-                  className="text-gray-900 hover:underline hover:decoration-2 transition-all"
+              <li>
+                <Link
+                  href="/business"
+                  className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium"
                 >
-                  info@myconsulting.network
-                </a>
-              </p>
-            </div>
-          </div>
+                  For Businesses
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/experts"
+                  className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium"
+                >
+                  For Consultants
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+          {/* Services */}
+          <nav aria-label="Our services">
+            <h3 className="text-xl font-bold mb-4 text-gray-900 font-heading">Services</h3>
+            <ul className="space-y-2">
+              {services.map((service) => (
+                <li key={service}>
+                  <span className="text-gray-800 text-sm">{service}</span>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-300 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-gray-700 text-sm">
-            © {new Date().getFullYear()} MyConsulting Network. All rights
-            reserved.
+            © {new Date().getFullYear()} MyConsulting Network. All rights reserved.
           </p>
-          <div className="flex space-x-6 text-sm">
+          <nav className="flex space-x-6 text-sm" aria-label="Legal">
             <Link
               href="/privacy"
               className="text-gray-800 hover:underline hover:decoration-2 transition-all"
@@ -177,10 +251,9 @@ export default function Footer() {
             >
               Terms of Service
             </Link>
-          </div>
+          </nav>
         </div>
       </div>
     </footer>
   );
 }
-

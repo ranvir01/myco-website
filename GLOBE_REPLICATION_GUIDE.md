@@ -1,22 +1,33 @@
+# 🌍 Network Globe - Exact Replication Code
+
+## Quick Start
+
+### 1. Install Dependencies
+
+```bash
+npm install three @react-three/fiber @react-three/drei framer-motion
+npm install -D @types/three
+```
+
+---
+
+## 2. Complete NetworkGlobe.tsx Code
+
+Copy this entire file to `src/components/Hero/NetworkGlobe.tsx`:
+
+```tsx
 "use client";
 
 import { useRef, useMemo, useState, useEffect, useCallback } from "react";
-import { Canvas, useFrame, useThree, ThreeElements } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-// Extend JSX for Three.js elements (React 19 compatibility)
-declare global {
-  namespace React {
-    namespace JSX {
-      interface IntrinsicElements extends ThreeElements {}
-    }
-  }
-}
-
-// Real network profiles - Mixed clients and consultants (always shown)
+// ============================================================
+// PROFILE DATA - Customize with your own profiles
+// ============================================================
 const profiles = [
   { 
     id: 1, 
@@ -125,7 +136,9 @@ const profiles = [
   },
 ];
 
-// Interactive node component
+// ============================================================
+// INTERACTIVE NODE COMPONENT
+// ============================================================
 function InteractiveNode({ position, profile, onHover, isActive, onPositionUpdate }: { 
   position: [number, number, number];
   profile: typeof profiles[0];
@@ -140,7 +153,7 @@ function InteractiveNode({ position, profile, onHover, isActive, onPositionUpdat
   
   useFrame(() => {
     if (meshRef.current) {
-      // Always calculate and update screen position for this node
+      // Calculate screen position for tooltip positioning
       const vector = new THREE.Vector3(...position);
       meshRef.current.parent?.localToWorld(vector);
       vector.project(camera);
@@ -148,10 +161,8 @@ function InteractiveNode({ position, profile, onHover, isActive, onPositionUpdat
       const x = (vector.x * 0.5 + 0.5) * size.width;
       const y = (-(vector.y * 0.5) + 0.5) * size.height;
       
-      // Update position for this profile
       onPositionUpdate(profile.id, { x, y });
       
-      // If hovered, also call the hover callback
       if (hovered) {
         onHover(profile, { x, y });
       }
@@ -187,7 +198,9 @@ function InteractiveNode({ position, profile, onHover, isActive, onPositionUpdat
   );
 }
 
-// Globe points component
+// ============================================================
+// GLOBE POINTS COMPONENT - Core 3D visualization
+// ============================================================
 function GlobePoints({ onNodeHover, activeProfile, onPositionUpdate }: { 
   onNodeHover: (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => void;
   activeProfile: typeof profiles[0] | null;
@@ -197,27 +210,30 @@ function GlobePoints({ onNodeHover, activeProfile, onPositionUpdate }: {
   const linesRef = useRef<THREE.LineSegments>(null);
   const nodesGroupRef = useRef<THREE.Group>(null);
 
-  // Generate sphere points with some interactive nodes
+  // ============================================================
+  // FIBONACCI SPHERE ALGORITHM - Even point distribution
+  // ============================================================
   const { positions, connections, interactiveIndices } = useMemo(() => {
-    const numPoints = 400;
+    const numPoints = 400;  // Total points on globe
     const positions = new Float32Array(numPoints * 3);
     const connectionsList: number[][] = [];
 
+    // Golden ratio for even distribution
     const goldenRatio = (1 + Math.sqrt(5)) / 2;
     const angleIncrement = Math.PI * 2 * goldenRatio;
 
     for (let i = 0; i < numPoints; i++) {
       const t = i / numPoints;
-      const inclination = Math.acos(1 - 2 * t);
-      const azimuth = angleIncrement * i;
+      const inclination = Math.acos(1 - 2 * t);  // Latitude
+      const azimuth = angleIncrement * i;         // Longitude
 
-      const radius = 2.3;
+      const radius = 2.3;  // Globe radius
       positions[i * 3] = radius * Math.sin(inclination) * Math.cos(azimuth);
       positions[i * 3 + 1] = radius * Math.sin(inclination) * Math.sin(azimuth);
       positions[i * 3 + 2] = radius * Math.cos(inclination);
     }
 
-    // Create connections
+    // Create connection lines between nearby points
     for (let i = 0; i < numPoints; i++) {
       for (let j = i + 1; j < numPoints; j++) {
         const dx = positions[i * 3] - positions[j * 3];
@@ -225,13 +241,13 @@ function GlobePoints({ onNodeHover, activeProfile, onPositionUpdate }: {
         const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
         const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-        if (distance < 0.55) {
+        if (distance < 0.55) {  // Connection threshold
           connectionsList.push([i, j]);
         }
       }
     }
 
-    // Select some points to be interactive (evenly distributed)
+    // Select points for interactive profile nodes
     const interactiveIndices: number[] = [];
     const step = Math.floor(numPoints / profiles.length);
     for (let i = 0; i < profiles.length; i++) {
@@ -241,6 +257,7 @@ function GlobePoints({ onNodeHover, activeProfile, onPositionUpdate }: {
     return { positions, connections: connectionsList, interactiveIndices };
   }, []);
 
+  // Build line geometry
   const linePositions = useMemo(() => {
     const linePos = new Float32Array(connections.length * 6);
     connections.forEach((conn, i) => {
@@ -255,7 +272,9 @@ function GlobePoints({ onNodeHover, activeProfile, onPositionUpdate }: {
     return linePos;
   }, [positions, connections]);
 
-  // Slower rotation animation
+  // ============================================================
+  // ROTATION ANIMATION - 0.03 radians per frame delta
+  // ============================================================
   useFrame((state, delta) => {
     if (pointsRef.current) {
       pointsRef.current.rotation.y += delta * 0.03;
@@ -270,7 +289,7 @@ function GlobePoints({ onNodeHover, activeProfile, onPositionUpdate }: {
 
   return (
     <>
-      {/* Base globe points */}
+      {/* BASE GLOBE POINTS */}
       <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -290,7 +309,7 @@ function GlobePoints({ onNodeHover, activeProfile, onPositionUpdate }: {
         />
       </points>
 
-      {/* Connection lines */}
+      {/* CONNECTION LINES */}
       <lineSegments ref={linesRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -309,7 +328,7 @@ function GlobePoints({ onNodeHover, activeProfile, onPositionUpdate }: {
         />
       </lineSegments>
 
-      {/* Interactive nodes */}
+      {/* INTERACTIVE PROFILE NODES */}
       <group ref={nodesGroupRef}>
         {interactiveIndices.map((index, i) => {
           const position: [number, number, number] = [
@@ -333,6 +352,9 @@ function GlobePoints({ onNodeHover, activeProfile, onPositionUpdate }: {
   );
 }
 
+// ============================================================
+// MAIN NETWORK GLOBE COMPONENT
+// ============================================================
 export default function NetworkGlobe() {
   const [hoveredProfile, setHoveredProfile] = useState<typeof profiles[0] | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -344,20 +366,18 @@ export default function NetworkGlobe() {
   const autoShowIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleNodeHover = (profile: typeof profiles[0] | null, screenPos: { x: number; y: number } | null) => {
-    // Clear any existing timeout
     if (hideTimeoutRef.current) {
       clearTimeout(hideTimeoutRef.current);
       hideTimeoutRef.current = null;
     }
 
     setHoveredProfile(profile);
-    setAutoShowProfile(null); // Clear auto-show when user manually hovers
+    setAutoShowProfile(null);
     
     if (screenPos) {
       setTooltipPos(screenPos);
     }
 
-    // Auto-hide tooltip after 2.5 seconds
     if (profile) {
       hideTimeoutRef.current = setTimeout(() => {
         setHoveredProfile(null);
@@ -377,7 +397,7 @@ export default function NetworkGlobe() {
     setImageErrors(prev => new Set(prev).add(profileId));
   };
 
-  // Helper function to clamp tooltip position within container bounds
+  // Clamp tooltip to container bounds
   const clampTooltipPosition = useCallback((x: number, y: number, tooltipWidth: number = 280, tooltipHeight: number = 140) => {
     if (!containerRef.current) return { x, y };
     
@@ -393,40 +413,35 @@ export default function NetworkGlobe() {
     };
   }, []);
 
-  // Calculate clamped position for hover tooltip
   const hoverTooltipPos = useMemo(() => {
     if (!hoveredProfile) return null;
     return clampTooltipPosition(tooltipPos.x + 10, tooltipPos.y - 80);
   }, [hoveredProfile, tooltipPos, clampTooltipPosition]);
 
-  // Calculate clamped position for auto-show tooltip
   const autoShowTooltipPos = useMemo(() => {
     if (!autoShowProfile || hoveredProfile || !nodePositions.get(autoShowProfile.id)) return null;
     const nodePos = nodePositions.get(autoShowProfile.id)!;
     return clampTooltipPosition(nodePos.x + 10, nodePos.y - 85, 280, 140);
   }, [autoShowProfile, hoveredProfile, nodePositions, clampTooltipPosition]);
 
-  // Random auto-show tooltips
+  // ============================================================
+  // AUTO-SHOW TOOLTIPS - Random popups every 8-15 seconds
+  // ============================================================
   useEffect(() => {
     const showRandomTooltip = () => {
-      // Only show if user is not currently hovering
       if (!hoveredProfile) {
-        // Randomly select a profile
         const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
         setAutoShowProfile(randomProfile);
 
-        // Hide after 3 seconds
         setTimeout(() => {
           setAutoShowProfile(null);
         }, 3000);
       }
 
-      // Schedule next random popup between 8-15 seconds
       const nextDelay = Math.random() * 7000 + 8000;
       autoShowIntervalRef.current = setTimeout(showRandomTooltip, nextDelay);
     };
 
-    // First popup after 5 seconds
     const initialTimeout = setTimeout(showRandomTooltip, 5000);
 
     return () => {
@@ -437,7 +452,6 @@ export default function NetworkGlobe() {
     };
   }, [hoveredProfile]);
 
-  // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (hideTimeoutRef.current) {
@@ -446,6 +460,9 @@ export default function NetworkGlobe() {
     };
   }, []);
 
+  // ============================================================
+  // TOOLTIP RENDER FUNCTION
+  // ============================================================
   const renderTooltipContent = (profile: typeof profiles[0], isAutoShow: boolean = false) => {
     const hasImage = profile.image && !imageErrors.has(profile.id);
     const isClientLogo = hasImage && profile.image!.includes('/logos/clients/');
@@ -520,7 +537,6 @@ export default function NetworkGlobe() {
           </>
         )}
         
-        {/* Subtle bottom decoration for hover */}
         {!isAutoShow && (
           <div className="absolute bottom-0 right-0 w-16 md:w-20 h-16 md:h-20 bg-gradient-to-tl from-primary/5 to-transparent rounded-tl-full"></div>
         )}
@@ -528,6 +544,9 @@ export default function NetworkGlobe() {
     );
   };
   
+  // ============================================================
+  // MAIN RENDER
+  // ============================================================
   return (
     <div 
       ref={containerRef}
@@ -567,7 +586,7 @@ export default function NetworkGlobe() {
         />
       </Canvas>
       
-      {/* Hover tooltip at exact node position - Enhanced Design with Images */}
+      {/* HOVER TOOLTIP */}
       <AnimatePresence>
         {hoveredProfile && hoverTooltipPos && (
           <motion.div
@@ -587,7 +606,7 @@ export default function NetworkGlobe() {
         )}
       </AnimatePresence>
       
-      {/* Auto-show tooltip at node position - Enhanced Design with Images */}
+      {/* AUTO-SHOW TOOLTIP */}
       <AnimatePresence>
         {autoShowProfile && !hoveredProfile && autoShowTooltipPos && (
           <motion.div
@@ -609,3 +628,94 @@ export default function NetworkGlobe() {
     </div>
   );
 }
+```
+
+---
+
+## 3. Usage in Your Page
+
+```tsx
+import dynamic from "next/dynamic";
+
+// IMPORTANT: Disable SSR for Three.js
+const NetworkGlobe = dynamic(() => import("./NetworkGlobe"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full min-h-[400px] flex items-center justify-center">
+      <div className="animate-pulse text-green-500">Loading...</div>
+    </div>
+  ),
+});
+
+export default function Hero() {
+  return (
+    <section className="min-h-screen flex items-center justify-center">
+      <NetworkGlobe />
+    </section>
+  );
+}
+```
+
+---
+
+## 4. Required Tailwind Colors (tailwind.config.ts)
+
+```typescript
+colors: {
+  primary: {
+    DEFAULT: "#1B7F4E",
+    light: "#56B365",
+    dark: "#0F5A35",
+  },
+  secondary: {
+    DEFAULT: "#2C3E50",
+    light: "#34495E",
+  },
+}
+```
+
+---
+
+## 🎨 Brand Colors Reference
+
+| Color | Hex | Usage |
+|-------|-----|-------|
+| Primary Green | `#1B7F4E` | Main brand, globe points, nodes |
+| Primary Light | `#56B365` | Lines, gradients, accents |
+| Primary Dark | `#0a4d2e` | Hover states |
+| Secondary | `#2C3E50` | Text |
+| Blue (Business) | `#3B82F6` | Business type badges |
+
+---
+
+## ⚙️ Animation Parameters
+
+| Parameter | Value | Location |
+|-----------|-------|----------|
+| Globe Radius | `2.3` | Line ~158 |
+| Point Count | `400` | Line ~153 |
+| Connection Distance | `0.55` | Line ~171 |
+| Rotation Speed | `0.03` rad/delta | Line ~204 |
+| Point Size | `0.03` | Line ~219 |
+| Point Opacity | `0.4` | Line ~223 |
+| Line Opacity | `0.15` | Line ~238 |
+| Camera Position | `[0, 0, 4]` | Line ~399 |
+| Camera FOV | `75` | Line ~399 |
+| Auto-rotate Speed | `0.2` | Line ~416 |
+| Auto-popup Delay | `5000ms` first, then `8000-15000ms` | Lines ~358-362 |
+| Tooltip Duration | `3000ms` | Line ~355 |
+
+---
+
+## 📦 Package Versions
+
+```json
+{
+  "three": "^0.160.0",
+  "@react-three/fiber": "^8.15.0",
+  "@react-three/drei": "^9.88.0",
+  "framer-motion": "^10.16.0"
+}
+```
+
+

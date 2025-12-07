@@ -20,7 +20,7 @@ export default function FAQSection({ activeMode }: FAQSectionProps) {
     },
     {
       question: "What makes MyCo different from traditional consulting firms?",
-      answer: "MyCo operates on a network model with significantly lower costs than traditional firms. We provide full project lifecycle support, dedicated project managers, and low-cost consulting by leveraging our network of independent experts. You get enterprise-level expertise without the enterprise-level fees."
+      answer: "MyCo operates on a network model with significantly lower costs than traditional firms. We provide full project lifecycle support, dedicated project managers, and low-cost consulting by leveraging our network of independent consultants. You get enterprise-level quality without the enterprise-level fees."
     },
     {
       question: "How quickly can you match me with talent?",
@@ -60,7 +60,7 @@ export default function FAQSection({ activeMode }: FAQSectionProps) {
     },
     {
       question: "How does project assignment work?",
-      answer: "When a client project matches your expertise, our team reaches out with project details, scope, timeline, and compensation. You have full autonomy to accept or decline based on your availability and interest. We respect your independence and schedule."
+      answer: "When a client project matches your skills, our team reaches out with project details, scope, timeline, and compensation. You have full autonomy to accept or decline based on your availability and interest. We respect your independence and schedule."
     },
     {
       question: "What support does MyCo provide during projects?",

@@ -11,7 +11,7 @@ export default function BusinessSection() {
       icon: <FaUserTie className="text-6xl text-primary mb-4" />,
       title: "Project Manager",
       description:
-        "Dedicated project managers to oversee your initiatives from start to finish. Expert coordination and execution.",
+        "Dedicated project managers to oversee your initiatives from start to finish. Professional coordination and execution.",
     },
     {
       icon: <FaPhoneAlt className="text-6xl text-primary mb-4" />,
@@ -23,7 +23,7 @@ export default function BusinessSection() {
       icon: <FaCogs className="text-6xl text-primary mb-4" />,
       title: "Solve Any Problem",
       description:
-        "From strategy to execution, our expert consultants tackle any business challenge with proven solutions.",
+        "From strategy to execution, our consultants tackle any business challenge with proven solutions.",
     },
   ];
 

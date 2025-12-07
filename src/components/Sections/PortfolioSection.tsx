@@ -9,38 +9,43 @@ export default function PortfolioSection() {
   // Real MyCo Network project case studies
   const projects = [
     {
-      icon: <FaBriefcase className="text-5xl text-primary mb-4" />,
+      icon: <FaBriefcase className="text-5xl text-primary mb-4" aria-hidden="true" />,
       title: "Marketing Strategy",
       description: "Creatively devised a marketing strategy to sponsor school clubs, expanding the service offerings. We implemented the proof of concept, growing the bottom line by over 300%.",
       tags: ["Strategy", "Planning", "Implementation"],
       client: "Tabletop Village",
+      result: "300% growth",
     },
     {
-      icon: <FaChartLine className="text-5xl text-primary mb-4" />,
+      icon: <FaChartLine className="text-5xl text-primary mb-4" aria-hidden="true" />,
       title: "Website Optimization & Marketing",
       description: "Transformed Blue Landscaping's online presence with strategic SEO and conversion optimization, turning their extra budget into measurable customer growth.",
       tags: ["SEO", "Marketing", "Growth"],
       client: "Blue Landscaping",
+      result: "Increased leads",
     },
     {
-      icon: <FaCode className="text-5xl text-primary mb-4" />,
+      icon: <FaCode className="text-5xl text-primary mb-4" aria-hidden="true" />,
       title: "Feasibility Analysis & Planning",
       description: "Comprehensive competitor analysis, project lifecycle planning, and resource budgeting for technology initiatives. Data-driven insights for strategic decision-making.",
       tags: ["Analysis", "Planning", "Research"],
       client: "Multiple Clients",
+      result: "Data-driven decisions",
     },
     {
-      icon: <FaPalette className="text-5xl text-primary mb-4" />,
+      icon: <FaPalette className="text-5xl text-primary mb-4" aria-hidden="true" />,
       title: "Full Project Lifecycle Support",
       description: "From requirements gathering to project execution and monitoring - we provide dedicated project managers, low-cost consulting, and 24/7 support throughout your entire project journey.",
       tags: ["PM", "Support", "Execution"],
       client: "All Clients",
+      result: "End-to-end support",
     },
   ];
 
   return (
     <section
       id="portfolio"
+      aria-labelledby="portfolio-heading"
       className="py-20 md:py-32 relative overflow-hidden"
     >
       {/* Seamless gradient blend from white to light green for footer */}
@@ -57,17 +62,29 @@ export default function PortfolioSection() {
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-300/60 to-transparent" />
       </div>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-gradient-to-r from-primary/30 via-primary/80 to-primary/30" />
+      
       <div className="container-custom relative z-10">
         <ScrollAnimationWrapper>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-6"
-          >
-            What We&apos;ve Done
-          </motion.h2>
+          <header className="text-center mb-12">
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-block px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4"
+            >
+              Our Work
+            </motion.span>
+            <motion.h2
+              id="portfolio-heading"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-6 font-heading"
+            >
+              What We&apos;ve Done
+            </motion.h2>
+          </header>
         </ScrollAnimationWrapper>
 
         <ScrollAnimationWrapper delay={0.2}>
@@ -78,43 +95,51 @@ export default function PortfolioSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-xl text-center text-secondary-light mb-16 max-w-3xl mx-auto"
           >
-            Below are some real projects we did for real businesses.
+            Real projects. Real results. Here&apos;s how we&apos;ve helped businesses like yours succeed.
           </motion.p>
         </ScrollAnimationWrapper>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           {projects.map((project, index) => (
             <ScrollAnimationWrapper key={index} delay={index * 0.1}>
-              <Card className="h-full">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 + index * 0.1, type: "spring" }}
-                >
-                  {project.icon}
-                </motion.div>
-                <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-3">
-                  {project.title}
-                </h3>
-                {project.client && (
-                  <p className="text-sm font-semibold text-primary mb-3">
-                    {project.client}
+              <Card className="h-full hover-lift">
+                <article>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + index * 0.1, type: "spring" }}
+                  >
+                    {project.icon}
+                  </motion.div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-3 font-heading">
+                    {project.title}
+                  </h3>
+                  {project.client && (
+                    <p className="text-sm font-semibold text-primary mb-2">
+                      {project.client}
+                    </p>
+                  )}
+                  {project.result && (
+                    <p className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-3">
+                      <span>✓</span> {project.result}
+                    </p>
+                  )}
+                  <p className="text-secondary-light text-lg mb-4 leading-relaxed">
+                    {project.description}
                   </p>
-                )}
-                <p className="text-secondary-light text-lg mb-4 leading-relaxed">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                  <div className="flex flex-wrap gap-2" role="list" aria-label="Project tags">
+                    {project.tags.map((tag, tagIndex) => (
+                      <span
+                        key={tagIndex}
+                        role="listitem"
+                        className="px-3 py-1 bg-gray-100 text-secondary-light rounded-full text-sm font-medium"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </article>
               </Card>
             </ScrollAnimationWrapper>
           ))}
@@ -128,6 +153,9 @@ export default function PortfolioSection() {
             transition={{ delay: 0.6, duration: 0.6 }}
             className="text-center mt-16"
           >
+            <p className="text-secondary-light mb-4">
+              Ready to add your success story to our portfolio?
+            </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -135,9 +163,12 @@ export default function PortfolioSection() {
                 const event = new CustomEvent("openQuoteModal");
                 window.dispatchEvent(event);
               }}
-              className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
             >
               Let&apos;s Talk
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
             </motion.button>
           </motion.div>
         </ScrollAnimationWrapper>
@@ -145,4 +176,3 @@ export default function PortfolioSection() {
     </section>
   );
 }
-

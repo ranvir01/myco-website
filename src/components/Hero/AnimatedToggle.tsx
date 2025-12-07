@@ -46,7 +46,7 @@ export default function AnimatedToggle({
               : "bg-white text-primary border-2 border-primary hover:bg-primary hover:text-white shadow-lg"
           }`}
         >
-          Expert
+          Consultant
         </motion.button>
       </div>
     </div>
