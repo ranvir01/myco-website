@@ -23,7 +23,7 @@ export default function Home() {
       
       <Header />
       
-      <main id="main-content" className="min-h-screen pt-[52px] md:pt-[70px]">
+      <main id="main-content" className="min-h-screen pt-[70px] md:pt-[80px]">
         {/* Hero Section - Primary landing */}
         <Hero />
         

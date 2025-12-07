@@ -48,7 +48,7 @@ export default function Hero() {
     <section
       id="home"
       aria-labelledby="hero-heading"
-      className="relative z-10 min-h-[auto] md:min-h-[calc(100vh-70px)] flex items-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 pt-4 pb-6 md:py-8 lg:py-12 safe-area-inset"
+      className="relative z-10 min-h-[auto] md:min-h-[calc(100vh-70px)] flex items-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 pt-6 pb-6 md:py-8 lg:py-12 safe-area-inset"
       onMouseMove={handleMouseMove}
     >
       {/* Simplified Natural Globe Shadow & Glow */}
