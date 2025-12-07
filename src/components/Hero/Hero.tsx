@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
-import { FiChevronUp, FiPhone, FiMail } from "react-icons/fi";
+import { FiChevronUp, FiMail } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import AnimatedToggle from "./AnimatedToggle";
 
@@ -48,7 +48,7 @@ export default function Hero() {
     <section
       id="home"
       aria-labelledby="hero-heading"
-      className="relative z-10 min-h-[auto] md:min-h-[calc(100vh-70px)] flex items-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 pt-6 pb-12 md:py-8 lg:py-12"
+      className="relative z-10 min-h-[auto] md:min-h-[calc(100vh-70px)] flex items-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 pt-8 pb-10 md:py-8 lg:py-12 safe-area-inset"
       onMouseMove={handleMouseMove}
     >
       {/* Simplified Natural Globe Shadow & Glow */}
@@ -174,8 +174,8 @@ export default function Hero() {
         )}
       </AnimatePresence>
 
-      <div className="container-custom relative z-10 px-4 sm:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 items-center">
+      <div className="container-custom relative z-10 px-5 sm:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-8 lg:gap-10 items-center">
           {/* Left Column - Text and Toggle */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -195,10 +195,10 @@ export default function Hero() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-primary/10 rounded-full border border-primary/20"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20 shadow-sm"
             >
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse flex-shrink-0" />
-              <span className="text-xs sm:text-sm font-medium text-primary">Trusted by 12+ Growing Businesses</span>
+              <span className="w-2.5 h-2.5 bg-primary rounded-full animate-pulse flex-shrink-0" />
+              <span className="text-sm font-semibold text-primary tracking-tight">Trusted by 12+ Growing Businesses</span>
             </motion.div>
 
             <motion.h1
@@ -206,11 +206,11 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-secondary leading-tight font-heading"
+              className="text-[1.75rem] leading-[1.15] sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-secondary font-heading"
             >
               Leverage Our{" "}
               <span 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl block mt-0.5 sm:mt-1"
+                className="text-[2.25rem] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl block mt-1"
                 style={{
                   background: 'linear-gradient(135deg, #1B7F4E 0%, #56B365 100%)',
                   WebkitBackgroundClip: 'text',
@@ -227,17 +227,17 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-sm sm:text-base md:text-lg lg:text-xl text-secondary-light max-w-xl mx-auto md:mx-0 leading-relaxed"
+              className="text-[0.95rem] leading-relaxed sm:text-base md:text-lg lg:text-xl text-secondary-light max-w-xl mx-auto md:mx-0"
             >
-              <strong>MyConsulting Network</strong> makes project work effortless. We connect businesses with top consultants — with <em>dedicated project managers</em>, <em>low-cost solutions</em>, and <em>24/7 support</em>.
+              <strong className="text-secondary">MyConsulting Network</strong> makes project work effortless. We connect businesses with top consultants — with <em>dedicated project managers</em>, <em>low-cost solutions</em>, and <em>24/7 support</em>.
             </motion.p>
 
-            {/* Value Props */}
+            {/* Value Props - Better mobile layout */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="flex flex-wrap gap-2 sm:gap-3 justify-center md:justify-start"
+              className="flex flex-wrap gap-2.5 justify-center md:justify-start"
             >
               {[
                 { icon: "✓", text: "Dedicated PMs" },
@@ -246,9 +246,9 @@ export default function Hero() {
               ].map((prop) => (
                 <span
                   key={prop.text}
-                  className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 bg-white rounded-lg text-xs sm:text-sm font-medium text-secondary-light shadow-sm border border-gray-100"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg text-sm font-medium text-secondary-light shadow-sm border border-gray-100/80"
                 >
-                  <span className="text-primary">{prop.icon}</span>
+                  <span className="text-primary font-bold">{prop.icon}</span>
                   {prop.text}
                 </span>
               ))}
@@ -256,18 +256,18 @@ export default function Hero() {
 
             <AnimatedToggle activeMode={null} onToggle={handleToggle} />
 
-            {/* Quick Contact Options */}
+            {/* Quick Contact Options - Better mobile spacing */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-4 pt-2"
+              className="flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-start gap-4 pt-1"
             >
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={openContactModal}
-                className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center gap-2.5 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 shadow-lg hover:shadow-xl active:shadow-md min-h-[48px]"
               >
                 Get Started Free
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -277,10 +277,10 @@ export default function Hero() {
               
               <a
                 href="mailto:info@myconsulting.network"
-                className="inline-flex items-center gap-2 text-secondary-light hover:text-primary transition-colors duration-300"
+                className="inline-flex items-center gap-2 text-secondary-light hover:text-primary transition-colors duration-300 py-2 min-h-[44px]"
               >
-                <FiMail className="w-4 h-4" />
-                <span className="text-xs sm:text-sm font-medium">info@myconsulting.network</span>
+                <FiMail className="w-4 h-4 flex-shrink-0" />
+                <span className="text-sm font-medium">info@myconsulting.network</span>
               </a>
             </motion.div>
           </motion.div>

@@ -193,14 +193,15 @@ export default function Header() {
               </motion.div>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Enhanced touch target */}
             <motion.button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="md:hidden flex items-center justify-center rounded-lg text-secondary hover:text-primary hover:bg-gray-100 active:bg-gray-200 transition-colors duration-200"
-              style={{ width: '32px', height: '32px', fontSize: '20px' }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="md:hidden flex items-center justify-center rounded-xl text-secondary hover:text-primary bg-gray-50 hover:bg-gray-100 active:bg-gray-200 transition-all duration-200 border border-gray-200/60 shadow-sm touch-manipulation"
+              style={{ width: '44px', height: '44px', fontSize: '22px' }}
               aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
             >
               <motion.div
                 animate={{ rotate: isMobileMenuOpen ? 180 : 0 }}

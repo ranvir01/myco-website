@@ -124,78 +124,77 @@ export default function Footer() {
         />
       </div>
 
-      <div className="container-custom relative z-10">
+      <div className="container-custom relative z-10 px-5 sm:px-6">
         {/* CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-white rounded-2xl p-8 md:p-10 shadow-xl mb-12 text-center"
+          className="bg-white rounded-2xl p-6 sm:p-8 md:p-10 shadow-xl mb-10 md:mb-12 text-center"
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-secondary mb-4 font-heading">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-secondary mb-3 md:mb-4 font-heading">
             Ready to Start Your Project?
           </h2>
-          <p className="text-secondary-light mb-6 max-w-xl mx-auto">
+          <p className="text-secondary-light mb-5 md:mb-6 max-w-xl mx-auto text-sm sm:text-base">
             Get in touch today and let&apos;s discuss how we can help your business grow.
           </p>
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             onClick={openContactModal}
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-semibold text-base sm:text-lg transition-all duration-300 shadow-lg hover:shadow-xl min-h-[48px] touch-manipulation"
           >
             Let&apos;s Talk
             <FiArrowRight className="w-5 h-5" />
           </motion.button>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          {/* Logo and Description */}
-          <div className="md:col-span-2 space-y-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-12">
+          {/* Logo and Description - Full width on mobile */}
+          <div className="col-span-2 space-y-4">
             <Image
               src="/logos/MyCo_Network_Logo.png"
               alt="MyCo Network - Expert Consulting On-Demand"
               width={300}
               height={75}
-              className="h-16 w-auto object-contain"
+              className="h-14 sm:h-16 w-auto object-contain mx-auto md:mx-0"
               style={{ maxWidth: '100%' }}
             />
-            <p className="text-gray-800 leading-relaxed max-w-md">
+            <p className="text-gray-800 leading-relaxed max-w-md text-sm sm:text-base text-center md:text-left">
               <strong>MyConsulting Network</strong> connects businesses with expert talent. Your trusted project partner for strategy, technology, marketing, and more.
             </p>
             
             {/* Contact Info */}
-            <address className="not-italic space-y-2">
+            <address className="not-italic space-y-2 flex flex-col items-center md:items-start">
               <a
                 href="mailto:info@myconsulting.network"
-                className="flex items-center gap-2 text-gray-800 hover:text-primary transition-colors"
+                className="flex items-center gap-2 text-gray-800 hover:text-primary transition-colors min-h-[44px] text-sm sm:text-base"
               >
-                <FiMail className="w-5 h-5" />
+                <FiMail className="w-5 h-5 flex-shrink-0" />
                 <span>info@myconsulting.network</span>
               </a>
               <a
                 href="https://www.linkedin.com/company/myconsultingnetwork"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-800 hover:text-primary transition-colors"
+                className="flex items-center gap-2 text-gray-800 hover:text-primary transition-colors min-h-[44px] text-sm sm:text-base"
               >
-                <FiLinkedin className="w-5 h-5" />
+                <FiLinkedin className="w-5 h-5 flex-shrink-0" />
                 <span>Connect on LinkedIn</span>
               </a>
             </address>
           </div>
 
           {/* Quick Links */}
-          <nav aria-label="Quick links">
-            <h3 className="text-xl font-bold mb-4 text-gray-900 font-heading">Quick Links</h3>
-            <ul className="space-y-2">
+          <nav aria-label="Quick links" className="col-span-1">
+            <h3 className="text-lg sm:text-xl font-bold mb-3 md:mb-4 text-gray-900 font-heading">Quick Links</h3>
+            <ul className="space-y-1.5 sm:space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.id}>
                   <motion.button
-                    whileHover={{ x: 5 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => scrollToSection(link.id)}
-                    className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all cursor-pointer font-medium"
+                    className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all cursor-pointer font-medium text-sm sm:text-base min-h-[36px] flex items-center"
                   >
                     {link.name}
                   </motion.button>
@@ -204,7 +203,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/business"
-                  className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium"
+                  className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium text-sm sm:text-base min-h-[36px] flex items-center"
                 >
                   For Businesses
                 </Link>
@@ -212,7 +211,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/experts"
-                  className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium"
+                  className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium text-sm sm:text-base min-h-[36px] flex items-center"
                 >
                   For Consultants
                 </Link>
@@ -221,12 +220,12 @@ export default function Footer() {
           </nav>
 
           {/* Services */}
-          <nav aria-label="Our services">
-            <h3 className="text-xl font-bold mb-4 text-gray-900 font-heading">Services</h3>
-            <ul className="space-y-2">
+          <nav aria-label="Our services" className="col-span-1">
+            <h3 className="text-lg sm:text-xl font-bold mb-3 md:mb-4 text-gray-900 font-heading">Services</h3>
+            <ul className="space-y-1.5 sm:space-y-2">
               {services.map((service) => (
                 <li key={service}>
-                  <span className="text-gray-800 text-sm">{service}</span>
+                  <span className="text-gray-800 text-xs sm:text-sm">{service}</span>
                 </li>
               ))}
             </ul>
@@ -234,20 +233,20 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-300 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <p className="text-gray-700 text-sm">
+        <div className="border-t border-gray-300 pt-6 md:pt-8 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 safe-area-bottom">
+          <p className="text-gray-700 text-xs sm:text-sm text-center md:text-left">
             © {new Date().getFullYear()} MyConsulting Network. All rights reserved.
           </p>
-          <nav className="flex space-x-6 text-sm" aria-label="Legal">
+          <nav className="flex gap-4 sm:gap-6 text-xs sm:text-sm" aria-label="Legal">
             <Link
               href="/privacy"
-              className="text-gray-800 hover:underline hover:decoration-2 transition-all"
+              className="text-gray-800 hover:underline hover:decoration-2 transition-all min-h-[36px] flex items-center"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="text-gray-800 hover:underline hover:decoration-2 transition-all"
+              className="text-gray-800 hover:underline hover:decoration-2 transition-all min-h-[36px] flex items-center"
             >
               Terms of Service
             </Link>

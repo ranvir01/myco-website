@@ -46,7 +46,7 @@ export default function PortfolioSection() {
     <section
       id="portfolio"
       aria-labelledby="portfolio-heading"
-      className="py-20 md:py-32 relative overflow-hidden"
+      className="py-12 md:py-32 relative overflow-hidden"
     >
       {/* Seamless gradient blend from white to light green for footer */}
       <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50/40 via-emerald-50/30 to-green-50" />
@@ -63,9 +63,9 @@ export default function PortfolioSection() {
       </div>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-gradient-to-r from-primary/30 via-primary/80 to-primary/30" />
       
-      <div className="container-custom relative z-10">
+      <div className="container-custom relative z-10 px-5 sm:px-6">
         <ScrollAnimationWrapper>
-          <header className="text-center mb-12">
+          <header className="text-center mb-8 md:mb-12">
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -80,7 +80,7 @@ export default function PortfolioSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-6 font-heading"
+              className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-4 md:mb-6 font-heading"
             >
               What We&apos;ve Done
             </motion.h2>
@@ -93,13 +93,13 @@ export default function PortfolioSection() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-xl text-center text-secondary-light mb-16 max-w-3xl mx-auto"
+            className="text-base sm:text-lg md:text-xl text-center text-secondary-light mb-10 md:mb-16 max-w-3xl mx-auto"
           >
             Real projects. Real results. Here&apos;s how we&apos;ve helped businesses like yours succeed.
           </motion.p>
         </ScrollAnimationWrapper>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-12">
           {projects.map((project, index) => (
             <ScrollAnimationWrapper key={index} delay={index * 0.1}>
               <Card className="h-full hover-lift">
@@ -109,10 +109,11 @@ export default function PortfolioSection() {
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 + index * 0.1, type: "spring" }}
+                    className="[&>svg]:text-4xl [&>svg]:md:text-5xl [&>svg]:text-primary [&>svg]:mb-3 [&>svg]:md:mb-4"
                   >
                     {project.icon}
                   </motion.div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-3 font-heading">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-secondary mb-2 md:mb-3 font-heading">
                     {project.title}
                   </h3>
                   {project.client && (
@@ -121,19 +122,19 @@ export default function PortfolioSection() {
                     </p>
                   )}
                   {project.result && (
-                    <p className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-3">
+                    <p className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-medium mb-2 md:mb-3">
                       <span>✓</span> {project.result}
                     </p>
                   )}
-                  <p className="text-secondary-light text-lg mb-4 leading-relaxed">
+                  <p className="text-secondary-light text-sm sm:text-base md:text-lg mb-3 md:mb-4 leading-relaxed">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2" role="list" aria-label="Project tags">
+                  <div className="flex flex-wrap gap-1.5 md:gap-2" role="list" aria-label="Project tags">
                     {project.tags.map((tag, tagIndex) => (
                       <span
                         key={tagIndex}
                         role="listitem"
-                        className="px-3 py-1 bg-gray-100 text-secondary-light rounded-full text-sm font-medium"
+                        className="px-2.5 py-1 bg-gray-100 text-secondary-light rounded-full text-xs sm:text-sm font-medium"
                       >
                         {tag}
                       </span>
@@ -151,19 +152,19 @@ export default function PortfolioSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="text-center mt-16"
+            className="text-center mt-10 md:mt-16"
           >
-            <p className="text-secondary-light mb-4">
+            <p className="text-secondary-light mb-4 text-sm md:text-base">
               Ready to add your success story to our portfolio?
             </p>
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => {
                 const event = new CustomEvent("openQuoteModal");
                 window.dispatchEvent(event);
               }}
-              className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
+              className="bg-primary hover:bg-primary-dark text-white px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center gap-2 min-h-[48px] touch-manipulation"
             >
               Let&apos;s Talk
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

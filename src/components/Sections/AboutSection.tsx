@@ -27,7 +27,7 @@ export default function AboutSection() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="py-16 md:py-24 relative overflow-hidden"
+      className="py-12 md:py-24 relative overflow-hidden"
     >
       {/* Seamless gradient blend from gray to white */}
       <div className="absolute inset-0 bg-gradient-to-b from-gray-50 via-white to-white" />
@@ -38,9 +38,9 @@ export default function AboutSection() {
       </div>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-gradient-to-r from-primary/30 via-primary/60 to-primary/30" />
       
-      <div className="container-custom relative z-10">
+      <div className="container-custom relative z-10 px-5 sm:px-6">
         <ScrollAnimationWrapper>
-          <header className="text-center mb-12">
+          <header className="text-center mb-8 md:mb-12">
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -55,7 +55,7 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-8 font-heading"
+              className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-6 md:mb-8 font-heading"
             >
               What Do We Do?
             </motion.h2>
@@ -68,9 +68,9 @@ export default function AboutSection() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-xl md:text-2xl text-center text-secondary-light max-w-4xl mx-auto mb-12"
+            className="text-base sm:text-lg md:text-2xl text-center text-secondary-light max-w-4xl mx-auto mb-10 md:mb-12 leading-relaxed"
           >
-            As a hub for all professional services, we spend our time <strong>organizing projects</strong>, <strong>vetting consultants</strong>, and <strong>solving business challenges</strong>. Whether you need strategy consulting, software development, SEO optimization, or project management — we connect you with the right talent.
+            As a hub for all professional services, we spend our time <strong className="text-secondary">organizing projects</strong>, <strong className="text-secondary">vetting consultants</strong>, and <strong className="text-secondary">solving business challenges</strong>. Whether you need strategy consulting, software development, SEO optimization, or project management — we connect you with the right talent.
           </motion.p>
         </ScrollAnimationWrapper>
 
@@ -80,7 +80,7 @@ export default function AboutSection() {
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="flex flex-col items-center space-y-6 max-w-2xl mx-auto mb-16"
+            className="flex flex-col items-center space-y-4 md:space-y-6 max-w-2xl mx-auto mb-10 md:mb-16"
           >
             <motion.div
               whileHover={{ scale: 1.1, rotate: 5 }}
@@ -88,9 +88,9 @@ export default function AboutSection() {
               className="relative"
             >
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
-              <FaHandshake className="text-8xl md:text-9xl text-primary relative z-10" aria-hidden="true" />
+              <FaHandshake className="text-6xl sm:text-8xl md:text-9xl text-primary relative z-10" aria-hidden="true" />
             </motion.div>
-            <p className="text-lg text-secondary-light text-center max-w-lg">
+            <p className="text-base sm:text-lg text-secondary-light text-center max-w-lg">
               We believe in partnerships, not transactions. Your success is our success.
             </p>
           </motion.div>
@@ -98,7 +98,7 @@ export default function AboutSection() {
 
         {/* Service Cards */}
         <ScrollAnimationWrapper delay={0.4}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {services.map((service, index) => (
               <motion.article
                 key={service.title}
@@ -107,11 +107,11 @@ export default function AboutSection() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="bg-white rounded-2xl p-6 shadow-soft border border-gray-100 hover:shadow-lg hover:border-primary/20 transition-all duration-300"
+                className="bg-white rounded-xl md:rounded-2xl p-5 md:p-6 shadow-soft border border-gray-100 hover:shadow-lg hover:border-primary/20 transition-all duration-300"
               >
-                <service.icon className="text-4xl text-primary mb-4" aria-hidden="true" />
-                <h3 className="text-xl font-bold text-secondary mb-2 font-heading">{service.title}</h3>
-                <p className="text-secondary-light">{service.description}</p>
+                <service.icon className="text-3xl md:text-4xl text-primary mb-3 md:mb-4" aria-hidden="true" />
+                <h3 className="text-lg md:text-xl font-bold text-secondary mb-2 font-heading">{service.title}</h3>
+                <p className="text-secondary-light text-sm md:text-base">{service.description}</p>
               </motion.article>
             ))}
           </div>
