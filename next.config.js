@@ -8,8 +8,11 @@ const nextConfig = {
   output: 'standalone',
   // Transpile three.js related packages for proper module resolution
   transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
-  // Empty turbopack config to use Turbopack (default in Next.js 16)
-  turbopack: {},
+  // Webpack configuration for three.js compatibility (Turbopack not compatible with @react-three/fiber)
+  webpack: (config) => {
+    config.externals = [...(config.externals || []), { canvas: 'canvas' }];
+    return config;
+  },
 }
 
 module.exports = nextConfig
