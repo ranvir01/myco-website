@@ -48,7 +48,7 @@ export default function Hero() {
     <section
       id="home"
       aria-labelledby="hero-heading"
-      className="relative z-10 min-h-[auto] md:min-h-[calc(100vh-70px)] flex items-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 py-8 sm:py-10 md:py-8 lg:py-12"
+      className="relative z-10 min-h-[auto] md:min-h-[calc(100vh-70px)] flex items-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 pt-6 pb-12 md:py-8 lg:py-12"
       onMouseMove={handleMouseMove}
     >
       {/* Simplified Natural Globe Shadow & Glow */}
@@ -188,17 +188,17 @@ export default function Hero() {
               duration: isZooming ? 0.4 : 0.8,
               ease: isZooming ? [0.25, 0.1, 0.25, 1] : "easeOut"
             }}
-            className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 md:pr-4 lg:pr-8 text-center md:text-left"
+            className="space-y-5 md:space-y-4 lg:space-y-6 md:pr-4 lg:pr-8 text-center md:text-left"
           >
             {/* Trust Badge - Mobile Optimized */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="inline-flex items-center gap-1 sm:gap-1.5 md:gap-2 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 bg-primary/10 rounded-full border border-primary/20 max-w-full"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-primary/10 rounded-full border border-primary/20"
             >
-              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-pulse flex-shrink-0" />
-              <span className="text-[10px] sm:text-xs md:text-sm font-medium text-primary whitespace-nowrap">Trusted by 12+ Growing Businesses</span>
+              <span className="w-2 h-2 bg-primary rounded-full animate-pulse flex-shrink-0" />
+              <span className="text-xs sm:text-sm font-medium text-primary">Trusted by 12+ Growing Businesses</span>
             </motion.div>
 
             <motion.h1
