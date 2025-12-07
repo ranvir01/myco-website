@@ -48,7 +48,7 @@ export default function Hero() {
     <section
       id="home"
       aria-labelledby="hero-heading"
-      className="relative z-10 min-h-[calc(100vh-60px)] sm:min-h-[calc(100vh-50px)] md:min-h-[calc(100vh-70px)] flex items-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 py-2 sm:py-4 md:py-8 lg:py-12"
+      className="relative z-10 min-h-[auto] md:min-h-[calc(100vh-70px)] flex items-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 py-8 sm:py-10 md:py-8 lg:py-12"
       onMouseMove={handleMouseMove}
     >
       {/* Simplified Natural Globe Shadow & Glow */}
@@ -175,7 +175,7 @@ export default function Hero() {
       </AnimatePresence>
 
       <div className="container-custom relative z-10 px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4 md:gap-6 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 items-center">
           {/* Left Column - Text and Toggle */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -188,7 +188,7 @@ export default function Hero() {
               duration: isZooming ? 0.4 : 0.8,
               ease: isZooming ? [0.25, 0.1, 0.25, 1] : "easeOut"
             }}
-            className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6 lg:pr-8 text-center lg:text-left"
+            className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 md:pr-4 lg:pr-8 text-center md:text-left"
           >
             {/* Trust Badge - Mobile Optimized */}
             <motion.div
@@ -227,7 +227,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-sm sm:text-base md:text-lg lg:text-xl text-secondary-light max-w-xl mx-auto lg:mx-0 leading-relaxed"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-secondary-light max-w-xl mx-auto md:mx-0 leading-relaxed"
             >
               <strong>MyConsulting Network</strong> makes project work effortless. We connect businesses with top consultants — with <em>dedicated project managers</em>, <em>low-cost solutions</em>, and <em>24/7 support</em>.
             </motion.p>
@@ -237,7 +237,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start"
+              className="flex flex-wrap gap-2 sm:gap-3 justify-center md:justify-start"
             >
               {[
                 { icon: "✓", text: "Dedicated PMs" },
@@ -261,7 +261,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 md:gap-4 pt-0.5 sm:pt-1 md:pt-2"
+              className="flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-4 pt-2"
             >
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -285,7 +285,7 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Right Column - 3D Globe (SMOOTH ANIMATION) */}
+          {/* Right Column - 3D Globe (Hidden on mobile, visible md+) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ 
@@ -297,14 +297,14 @@ export default function Hero() {
               duration: isZooming ? 0.4 : 0.8,
               ease: isZooming ? [0.25, 0.1, 0.25, 1] : "easeOut"
             }}
-            className="relative flex items-center justify-center mt-1 sm:mt-2 lg:mt-0 min-h-[140px] sm:min-h-[180px] md:min-h-[250px] lg:min-h-[350px] xl:min-h-[400px]"
+            className="hidden md:flex relative items-center justify-center lg:mt-0 min-h-[250px] lg:min-h-[350px] xl:min-h-[400px]"
             style={{
               transformOrigin: "center center",
               willChange: "transform, opacity, filter",
             }}
             aria-hidden="true"
           >
-            <div className="w-full max-w-[200px] sm:max-w-[280px] md:max-w-[350px] lg:max-w-none" style={{ 
+            <div className="w-full max-w-[350px] lg:max-w-none" style={{ 
               transform: "translateZ(0)",
               backfaceVisibility: "hidden" as const,
             }}>
