@@ -48,7 +48,7 @@ export default function Hero() {
     <section
       id="home"
       aria-labelledby="hero-heading"
-      className="relative z-10 min-h-[70vh] md:min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 py-6 md:py-12 lg:py-16"
+      className="relative z-10 min-h-[calc(100vh-60px)] sm:min-h-[calc(100vh-50px)] md:min-h-[calc(100vh-70px)] flex items-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 py-2 sm:py-4 md:py-8 lg:py-12"
       onMouseMove={handleMouseMove}
     >
       {/* Simplified Natural Globe Shadow & Glow */}
@@ -174,8 +174,8 @@ export default function Hero() {
         )}
       </AnimatePresence>
 
-      <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 auto-rows-fr items-center">
+      <div className="container-custom relative z-10 px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4 md:gap-6 lg:gap-8 items-center">
           {/* Left Column - Text and Toggle */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -188,17 +188,17 @@ export default function Hero() {
               duration: isZooming ? 0.4 : 0.8,
               ease: isZooming ? [0.25, 0.1, 0.25, 1] : "easeOut"
             }}
-            className="space-y-4 md:space-y-6 lg:space-y-8 lg:pr-8"
+            className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6 lg:pr-8 text-center lg:text-left"
           >
-            {/* Trust Badge */}
+            {/* Trust Badge - Mobile Optimized */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20"
+              className="inline-flex items-center gap-1 sm:gap-1.5 md:gap-2 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 bg-primary/10 rounded-full border border-primary/20 max-w-full"
             >
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span className="text-sm font-medium text-primary">Trusted by 12+ Growing Businesses</span>
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-pulse flex-shrink-0" />
+              <span className="text-[10px] sm:text-xs md:text-sm font-medium text-primary whitespace-nowrap">Trusted by 12+ Growing Businesses</span>
             </motion.div>
 
             <motion.h1
@@ -206,11 +206,11 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-secondary leading-tight font-heading"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-secondary leading-tight font-heading"
             >
               Leverage Our{" "}
               <span 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl block mt-1 md:mt-2"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl block mt-0.5 sm:mt-1"
                 style={{
                   background: 'linear-gradient(135deg, #1B7F4E 0%, #56B365 100%)',
                   WebkitBackgroundClip: 'text',
@@ -227,7 +227,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-base sm:text-lg md:text-xl lg:text-2xl text-secondary-light max-w-xl leading-relaxed"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-secondary-light max-w-xl mx-auto lg:mx-0 leading-relaxed"
             >
               <strong>MyConsulting Network</strong> makes project work effortless. We connect businesses with top consultants — with <em>dedicated project managers</em>, <em>low-cost solutions</em>, and <em>24/7 support</em>.
             </motion.p>
@@ -237,7 +237,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="flex flex-wrap gap-3"
+              className="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start"
             >
               {[
                 { icon: "✓", text: "Dedicated PMs" },
@@ -246,7 +246,7 @@ export default function Hero() {
               ].map((prop) => (
                 <span
                   key={prop.text}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white rounded-lg text-sm font-medium text-secondary-light shadow-sm border border-gray-100"
+                  className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 bg-white rounded-lg text-xs sm:text-sm font-medium text-secondary-light shadow-sm border border-gray-100"
                 >
                   <span className="text-primary">{prop.icon}</span>
                   {prop.text}
@@ -261,13 +261,13 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="flex flex-wrap items-center gap-4 pt-2"
+              className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 md:gap-4 pt-0.5 sm:pt-1 md:pt-2"
             >
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={openContactModal}
-                className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 Get Started Free
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -280,7 +280,7 @@ export default function Hero() {
                 className="inline-flex items-center gap-2 text-secondary-light hover:text-primary transition-colors duration-300"
               >
                 <FiMail className="w-4 h-4" />
-                <span className="text-sm font-medium">info@myconsulting.network</span>
+                <span className="text-xs sm:text-sm font-medium">info@myconsulting.network</span>
               </a>
             </motion.div>
           </motion.div>
@@ -297,14 +297,14 @@ export default function Hero() {
               duration: isZooming ? 0.4 : 0.8,
               ease: isZooming ? [0.25, 0.1, 0.25, 1] : "easeOut"
             }}
-            className="relative flex items-center justify-center mt-4 lg:mt-0 min-h-[200px] sm:min-h-[250px] md:min-h-[320px] lg:min-h-[400px]"
+            className="relative flex items-center justify-center mt-1 sm:mt-2 lg:mt-0 min-h-[140px] sm:min-h-[180px] md:min-h-[250px] lg:min-h-[350px] xl:min-h-[400px]"
             style={{
               transformOrigin: "center center",
               willChange: "transform, opacity, filter",
             }}
             aria-hidden="true"
           >
-            <div className="w-full max-w-[400px] md:max-w-none" style={{ 
+            <div className="w-full max-w-[200px] sm:max-w-[280px] md:max-w-[350px] lg:max-w-none" style={{ 
               transform: "translateZ(0)",
               backfaceVisibility: "hidden" as const,
             }}>
@@ -314,22 +314,22 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Business/Talent Button Indicator */}
+      {/* Business/Talent Button Indicator - Only visible on xl+ screens */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-2 md:bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center space-y-3 z-10"
+        className="absolute bottom-4 xl:bottom-8 left-1/2 -translate-x-1/2 hidden xl:flex flex-col items-center space-y-2 z-10"
         aria-hidden="true"
       >
         <motion.div
-          animate={{ y: [0, -10, 0] }}
+          animate={{ y: [0, -8, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="text-3xl text-primary"
+          className="text-2xl text-primary"
         >
           <FiChevronUp />
         </motion.div>
-        <p className="text-secondary-light text-base font-medium text-center">
+        <p className="text-secondary-light text-sm font-medium text-center">
           Choose your network<br />
           <span className="text-secondary font-semibold">Business</span> or <span className="text-primary font-semibold">Consultant</span>
         </p>
