@@ -278,6 +278,22 @@ img {
   max-height: 250px !important;
 }
 
+/* Mobile hero globe - compact version for hero section */
+.mobile-hero-globe > div {
+  max-width: 280px !important;
+  max-height: 200px !important;
+  width: 100% !important;
+  height: 200px !important;
+  margin: 0 auto !important;
+}
+
+.mobile-hero-globe canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 280px !important;
+  max-height: 200px !important;
+}
+
 /* Glass morphism effect */
 .glass {
   @apply backdrop-blur-md bg-white/80 border border-white/20;
