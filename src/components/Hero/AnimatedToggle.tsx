@@ -12,15 +12,10 @@ export default function AnimatedToggle({
   onToggle,
 }: AnimatedToggleProps) {
   return (
-    <div className="flex flex-col items-center md:items-start space-y-3 md:space-y-5 w-full">
-      <motion.p
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="text-sm sm:text-base md:text-lg lg:text-xl text-secondary-light font-medium text-center md:text-left"
-      >
+    <div className="flex flex-col items-center md:items-start space-y-3 md:space-y-5 w-full" suppressHydrationWarning>
+      <p className="text-sm sm:text-base md:text-lg lg:text-xl text-secondary-light font-medium text-center md:text-left">
         Who are you?
-      </motion.p>
+      </p>
 
       <div className="flex gap-2.5 sm:gap-3 md:gap-4 w-full max-w-md md:max-w-none justify-center md:justify-start">
         <motion.button

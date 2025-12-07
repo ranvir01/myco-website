@@ -27,22 +27,16 @@ export default function AboutSection() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="py-20 md:py-32 relative overflow-hidden"
+      className="py-16 md:py-24 relative overflow-hidden"
     >
       {/* Seamless gradient blend from gray to white */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-100 via-gray-50/80 via-gray-50/40 to-white" />
-      
-      {/* Top fade overlay to blend with previous section */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-gray-100 to-transparent" />
-      
-      {/* Bottom fade overlay to blend with next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 via-white to-white" />
       
       {/* Elegant separation line at top - subtle but noticeable */}
       <div className="absolute top-0 left-0 right-0 h-px">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-400/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-300/50 to-transparent" />
       </div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-gradient-to-r from-primary/30 via-primary/80 to-primary/30" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-gradient-to-r from-primary/30 via-primary/60 to-primary/30" />
       
       <div className="container-custom relative z-10">
         <ScrollAnimationWrapper>
@@ -104,7 +98,7 @@ export default function AboutSection() {
 
         {/* Service Cards */}
         <ScrollAnimationWrapper delay={0.4}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {services.map((service, index) => (
               <motion.article
                 key={service.title}
@@ -122,10 +116,6 @@ export default function AboutSection() {
             ))}
           </div>
         </ScrollAnimationWrapper>
-
-        <div className="mb-12 text-center">
-          <div className="w-40 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mx-auto mb-12" />
-        </div>
       </div>
 
       {/* Decorative Background Elements */}

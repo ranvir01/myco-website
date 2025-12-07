@@ -337,7 +337,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <head>
         {/* Preconnect to improve performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -363,7 +363,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-body">{children}</body>
+      <body className="font-body" suppressHydrationWarning>{children}</body>
     </html>
   );
 }
