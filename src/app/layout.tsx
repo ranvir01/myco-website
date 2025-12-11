@@ -189,6 +189,8 @@ const organizationSchema = {
   foundingDate: "2023",
   sameAs: [
     "https://www.linkedin.com/company/myconsultingnetwork",
+    "https://twitter.com/myconetwork",
+    "https://facebook.com/myconsultingnetwork"
   ],
   aggregateRating: {
     "@type": "AggregateRating",

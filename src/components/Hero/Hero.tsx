@@ -341,13 +341,15 @@ export default function Hero() {
         <motion.div
           animate={{ y: [0, -8, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="text-2xl text-primary"
+          className="text-2xl text-primary cursor-pointer"
+          onClick={() => {
+            document.getElementById('trust')?.scrollIntoView({ behavior: 'smooth' });
+          }}
         >
-          <FiChevronUp />
+          <FiChevronUp className="rotate-180" />
         </motion.div>
         <p className="text-secondary-light text-sm font-medium text-center">
-          Choose your network<br />
-          <span className="text-secondary font-semibold">Business</span> or <span className="text-primary font-semibold">Consultant</span>
+          Scroll for more
         </p>
       </motion.div>
     </section>

@@ -52,6 +52,9 @@ const stats = [
 ];
 
 export default function TrustSection() {
+  // Triple the clients list to ensure smooth infinite scroll without gaps
+  const marqueeClients = [...clients, ...clients, ...clients];
+
   return (
     <section
       id="trust"
@@ -123,32 +126,35 @@ export default function TrustSection() {
           </motion.div>
         </ScrollAnimationWrapper>
 
-        {/* Client Logos */}
+        {/* Client Logos - Infinite Marquee */}
         <ScrollAnimationWrapper delay={0.2}>
-          <div className="mb-8 md:mb-12">
+          <div className="mb-8 md:mb-12 overflow-hidden relative group">
             <p className="text-center text-secondary-light text-xs sm:text-sm font-medium mb-6 md:mb-8 uppercase tracking-wider">
               Companies We&apos;ve Helped Grow
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-6 items-center">
-              {clients.map((client, index) => (
-                <motion.div
-                  key={client.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 flex items-center justify-center h-16 md:h-20 shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/20 transition-all duration-300"
-                >
-                  <Image
-                    src={client.logo}
-                    alt={`${client.name} logo - ${client.industry}`}
-                    width={120}
-                    height={40}
-                    className="max-h-10 md:max-h-12 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                  />
-                </motion.div>
-              ))}
+            
+            {/* Gradient masks for seamless edges */}
+            <div className="absolute top-0 left-0 h-full w-8 md:w-20 bg-gradient-to-r from-white via-white/80 to-transparent z-20 pointer-events-none" />
+            <div className="absolute top-0 right-0 h-full w-8 md:w-20 bg-gradient-to-l from-white via-white/80 to-transparent z-20 pointer-events-none" />
+            
+            {/* Marquee Track */}
+            <div className="flex w-full overflow-hidden mask-image-gradient">
+              <div className="flex animate-marquee whitespace-nowrap py-4">
+                {marqueeClients.map((client, index) => (
+                  <div 
+                    key={`${client.name}-${index}`}
+                    className="mx-4 md:mx-8 w-32 md:w-40 flex items-center justify-center grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all duration-300"
+                  >
+                     <Image
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      width={140}
+                      height={60}
+                      className="max-h-12 md:max-h-16 w-auto object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </ScrollAnimationWrapper>
@@ -226,4 +232,3 @@ export default function TrustSection() {
     </section>
   );
 }
-

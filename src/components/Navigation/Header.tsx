@@ -94,7 +94,7 @@ export default function Header() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white/95 backdrop-blur-md ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80 bg-white/95 ${
           isScrolled
             ? "shadow-lg border-b border-gray-200/50"
             : ""
