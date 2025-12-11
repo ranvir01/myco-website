@@ -42,7 +42,7 @@ export default function MobileMenu({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-40 md:hidden"
+      className="fixed inset-0 z-[60] md:hidden"
     >
       {/* Backdrop with blur effect */}
       <motion.div
@@ -82,9 +82,8 @@ export default function MobileMenu({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
-          className="flex items-center justify-between px-6 py-3 border-b border-gray-100"
+          className="flex items-center justify-end px-6 py-3 border-b border-gray-100"
         >
-          <h2 className="text-xl font-bold text-secondary font-heading">Menu</h2>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

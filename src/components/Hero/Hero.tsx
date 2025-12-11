@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import AnimatedToggle from "./AnimatedToggle";
 import ParallaxElement from "@/components/UI/ParallaxElement";
 import TextHighlight from "@/components/UI/TextHighlight";
+import AIMatchButton from "@/components/UI/AIMatchButton";
 
 // Dynamically import NetworkGlobe to avoid SSR issues
 const NetworkGlobe = dynamic(() => import("./NetworkGlobe"), {
@@ -303,6 +304,10 @@ export default function Hero() {
                 <FiMail className="w-4 h-4 flex-shrink-0" />
                 <span className="text-[13px] font-medium">info@myconsulting.network</span>
               </a>
+              
+              <div className="hidden sm:block">
+                <AIMatchButton onClick={openContactModal} />
+              </div>
             </motion.div>
           </motion.div>
 

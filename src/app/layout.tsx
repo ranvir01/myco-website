@@ -143,6 +143,10 @@ export const metadata: Metadata = {
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": ["#hero-heading", "#about-heading"]
+  },
   "@id": "https://myconsulting.network/#organization",
   name: "MyConsulting Network",
   alternateName: ["MyCo Network", "MyConsulting", "MyCo"],
@@ -337,6 +341,27 @@ import ScrollProgress from "@/components/UI/ScrollProgress";
 import ExitIntentModal from "@/components/UI/ExitIntentModal";
 import CookieConsent from "@/components/UI/CookieConsent";
 import DynamicTitle from "@/components/UI/DynamicTitle";
+import AIGreeting from "@/components/UI/AIGreeting";
+
+// Blog Schema (Generic fallback)
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Expert Consulting Network",
+  "author": {
+    "@type": "Organization",
+    "name": "MyConsulting Network"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "MyConsulting Network",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://myconsulting.network/logos/MyCo_Network_Logo_PNG.png"
+    }
+  },
+  "image": "https://myconsulting.network/og-image.png"
+};
 
 export default function RootLayout({
   children,
@@ -373,9 +398,16 @@ export default function RootLayout({
             __html: JSON.stringify(websiteSchema),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(articleSchema),
+          }}
+        />
       </head>
       <body className="font-body" suppressHydrationWarning>
         <DynamicTitle />
+        <AIGreeting />
         <ScrollProgress />
         <ExitIntentModal />
         <CookieConsent />

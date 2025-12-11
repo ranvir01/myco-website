@@ -6,6 +6,7 @@ import Image from "next/image";
 import { HiMenu, HiX } from "react-icons/hi";
 import Button from "@/components/UI/Button";
 import MobileMenu from "./MobileMenu";
+import CommandPalette from "@/components/UI/CommandPalette";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -172,6 +173,8 @@ export default function Header() {
                 </motion.button>
               ))}
             </div>
+
+            <CommandPalette />
 
             {/* Get Quote Button */}
             <div className="hidden md:block">
