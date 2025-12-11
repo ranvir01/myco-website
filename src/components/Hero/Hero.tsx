@@ -6,6 +6,8 @@ import dynamic from "next/dynamic";
 import { FiChevronUp, FiMail } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import AnimatedToggle from "./AnimatedToggle";
+import ParallaxElement from "@/components/UI/ParallaxElement";
+import TextHighlight from "@/components/UI/TextHighlight";
 
 // Dynamically import NetworkGlobe to avoid SSR issues
 const NetworkGlobe = dynamic(() => import("./NetworkGlobe"), {
@@ -53,25 +55,28 @@ export default function Hero() {
     >
       {/* Simplified Natural Globe Shadow & Glow */}
       
-      {/* Soft circular shadow beneath globe - like it's floating */}
-      <motion.div 
-        className="absolute top-1/2 right-[15%] -translate-y-1/2 pointer-events-none hidden lg:block"
-        animate={{
-          scale: [1, 1.05, 1],
-          opacity: [0.15, 0.2, 0.15]
-        }}
-        transition={{ 
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        style={{
-          width: '380px',
-          height: '380px',
-          background: 'radial-gradient(ellipse 100% 80% at 50% 60%, rgba(27,127,78,0.12) 0%, rgba(0,0,0,0.06) 35%, transparent 65%)',
-          filter: 'blur(40px)',
-        }}
-      />
+      <ParallaxElement speed={0.1} className="absolute inset-0 pointer-events-none">
+        {/* Soft circular shadow beneath globe - like it's floating */}
+        <motion.div 
+          className="absolute top-1/2 right-[15%] -translate-y-1/2 pointer-events-none hidden lg:block"
+          animate={{
+            scale: [1, 1.05, 1],
+            opacity: [0.15, 0.2, 0.15]
+          }}
+          transition={{ 
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          style={{
+            width: '380px',
+            height: '380px',
+            background: 'radial-gradient(ellipse 100% 80% at 50% 60%, rgba(27,127,78,0.12) 0%, rgba(0,0,0,0.06) 35%, transparent 65%)',
+            filter: 'blur(40px)',
+            mixBlendMode: 'multiply'
+          }}
+        />
+      </ParallaxElement>
       
       {/* Primary green glow emanating from globe */}
       <motion.div 
@@ -229,7 +234,7 @@ export default function Hero() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-[0.9rem] leading-[1.6] sm:text-base md:text-lg lg:text-xl text-secondary-light max-w-xl mx-auto md:mx-0"
             >
-              <strong className="text-secondary">MyConsulting Network</strong> makes project work effortless. We connect businesses with top consultants — with <em>dedicated project managers</em>, <em>low-cost solutions</em>, and <em>24/7 support</em>.
+              <strong className="text-secondary">MyConsulting Network</strong> makes project work effortless. We connect businesses with top consultants — with <TextHighlight>dedicated project managers</TextHighlight>, <em>low-cost solutions</em>, and <em>24/7 support</em>.
             </motion.p>
 
             {/* Mobile Globe - Only visible on mobile */}

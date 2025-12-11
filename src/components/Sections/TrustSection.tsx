@@ -1,7 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
 import CounterAnimation from "@/components/UI/CounterAnimation";
 
@@ -52,8 +54,24 @@ const stats = [
 ];
 
 export default function TrustSection() {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
   // Triple the clients list to ensure smooth infinite scroll without gaps
   const marqueeClients = [...clients, ...clients, ...clients];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % clients.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % clients.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + clients.length) % clients.length);
+  };
 
   return (
     <section
@@ -161,43 +179,73 @@ export default function TrustSection() {
 
         {/* Testimonial Carousel */}
         <ScrollAnimationWrapper delay={0.3}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {clients.slice(0, 3).map((client, index) => (
-              <motion.article
-                key={client.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl md:rounded-2xl p-5 md:p-6 shadow-soft border border-gray-100 hover:shadow-lg transition-all duration-300"
-              >
-                <div className="flex items-center gap-3 mb-3 md:mb-4">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-gray-50 flex items-center justify-center">
+          <div className="relative max-w-4xl mx-auto px-4 sm:px-12">
+            <div className="overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.article
+                  key={currentTestimonial}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.5 }}
+                  className="bg-white rounded-xl md:rounded-2xl p-6 md:p-8 shadow-soft border border-gray-100 text-center"
+                >
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-gray-50 flex items-center justify-center">
                     <Image
-                      src={client.logo}
-                      alt={client.name}
-                      width={40}
-                      height={40}
-                      className="w-6 h-6 md:w-8 md:h-8 object-contain"
+                      src={clients[currentTestimonial].logo}
+                      alt={clients[currentTestimonial].name}
+                      width={64}
+                      height={64}
+                      className="w-10 h-10 object-contain"
                     />
                   </div>
+                  <blockquote className="text-lg md:text-xl text-secondary-light italic leading-relaxed mb-6">
+                    &ldquo;{clients[currentTestimonial].testimonial}&rdquo;
+                  </blockquote>
                   <div>
-                    <h3 className="font-semibold text-secondary text-sm md:text-base">{client.name}</h3>
-                    <p className="text-xs text-secondary-light">{client.industry}</p>
+                    <h3 className="font-bold text-secondary text-lg">{clients[currentTestimonial].name}</h3>
+                    <p className="text-sm text-primary font-medium">{clients[currentTestimonial].industry}</p>
                   </div>
-                </div>
-                <blockquote className="text-secondary-light italic leading-relaxed text-sm md:text-base">
-                  &ldquo;{client.testimonial}&rdquo;
-                </blockquote>
-                <div className="mt-3 md:mt-4 flex text-primary">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-3.5 h-3.5 md:w-4 md:h-4 fill-current" viewBox="0 0 20 20">
-                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                    </svg>
-                  ))}
-                </div>
-              </motion.article>
-            ))}
+                  <div className="mt-4 flex justify-center text-primary">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                      </svg>
+                    ))}
+                  </div>
+                </motion.article>
+              </AnimatePresence>
+            </div>
+            
+            {/* Navigation Buttons */}
+            <button
+              onClick={prevTestimonial}
+              className="absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-md text-secondary hover:text-primary transition-all hidden sm:block"
+              aria-label="Previous testimonial"
+            >
+              <FiChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={nextTestimonial}
+              className="absolute right-0 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-md text-secondary hover:text-primary transition-all hidden sm:block"
+              aria-label="Next testimonial"
+            >
+              <FiChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Dots */}
+            <div className="flex justify-center gap-2 mt-6">
+              {clients.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTestimonial(index)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    currentTestimonial === index ? "bg-primary w-6" : "bg-gray-300"
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </ScrollAnimationWrapper>
 

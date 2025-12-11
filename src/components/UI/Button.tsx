@@ -2,6 +2,7 @@
 
 import { ButtonHTMLAttributes, ReactNode } from "react";
 import { motion, HTMLMotionProps } from "framer-motion";
+import { triggerHaptic } from "@/lib/haptics";
 
 interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
   children: ReactNode;
@@ -34,6 +35,10 @@ export default function Button({
     <motion.button
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
+      onClick={(e) => {
+        triggerHaptic();
+        props.onClick?.(e as any);
+      }}
       className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
       {...props}
     >
@@ -41,4 +46,3 @@ export default function Button({
     </motion.button>
   );
 }
-

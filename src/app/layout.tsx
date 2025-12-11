@@ -333,6 +333,11 @@ const websiteSchema = {
   },
 };
 
+import ScrollProgress from "@/components/UI/ScrollProgress";
+import ExitIntentModal from "@/components/UI/ExitIntentModal";
+import CookieConsent from "@/components/UI/CookieConsent";
+import DynamicTitle from "@/components/UI/DynamicTitle";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -341,6 +346,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <head>
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#1B7F4E" />
+
         {/* Preconnect to improve performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -365,7 +374,13 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-body" suppressHydrationWarning>{children}</body>
+      <body className="font-body" suppressHydrationWarning>
+        <DynamicTitle />
+        <ScrollProgress />
+        <ExitIntentModal />
+        <CookieConsent />
+        {children}
+      </body>
     </html>
   );
 }

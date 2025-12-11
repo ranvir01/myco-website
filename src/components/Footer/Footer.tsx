@@ -220,16 +220,25 @@ export default function Footer() {
           </nav>
 
           {/* Services */}
-          <nav aria-label="Our services" className="col-span-1">
-            <h3 className="text-lg sm:text-xl font-bold mb-3 md:mb-4 text-gray-900 font-heading">Services</h3>
-            <ul className="space-y-1.5 sm:space-y-2">
-              {services.map((service) => (
-                <li key={service}>
-                  <span className="text-gray-800 text-xs sm:text-sm">{service}</span>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {/* Newsletter - New */}
+          <div className="col-span-2 md:col-span-1">
+             <h3 className="text-lg sm:text-xl font-bold mb-3 md:mb-4 text-gray-900 font-heading">Stay Updated</h3>
+             <p className="text-gray-600 text-sm mb-4">Get the latest insights on consulting and project management.</p>
+             <form className="space-y-2">
+               <input 
+                 type="email" 
+                 placeholder="Your email address" 
+                 className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-secondary"
+               />
+               <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-2 rounded-lg transition-colors"
+               >
+                 Subscribe
+               </motion.button>
+             </form>
+          </div>
         </div>
 
         {/* Bottom Bar */}

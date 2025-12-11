@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { FaHandshake, FaProjectDiagram, FaUserTie, FaClock } from "react-icons/fa";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
+import ParallaxElement from "@/components/UI/ParallaxElement";
 
 const services = [
   {
@@ -119,8 +120,13 @@ export default function AboutSection() {
       </div>
 
       {/* Decorative Background Elements */}
-      <div className="absolute top-10 left-10 w-32 h-32 bg-primary/5 rounded-full blur-3xl" aria-hidden="true" />
-      <div className="absolute bottom-10 right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl" aria-hidden="true" />
+      <ParallaxElement speed={0.2} className="absolute top-10 left-10 pointer-events-none">
+        <div className="w-32 h-32 bg-primary/5 rounded-full blur-3xl" aria-hidden="true" />
+      </ParallaxElement>
+      
+      <ParallaxElement speed={0.3} className="absolute bottom-10 right-10 pointer-events-none">
+        <div className="w-40 h-40 bg-primary/5 rounded-full blur-3xl" aria-hidden="true" />
+      </ParallaxElement>
     </section>
   );
 }

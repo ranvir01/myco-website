@@ -3,7 +3,9 @@
 import { motion } from "framer-motion";
 import { FaBriefcase, FaCode, FaChartLine, FaPalette } from "react-icons/fa";
 import Card from "@/components/UI/Card";
+import TiltCard from "@/components/UI/TiltCard";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
+import TextReveal from "@/components/UI/TextReveal";
 
 export default function PortfolioSection() {
   // Real MyCo Network project case studies
@@ -74,16 +76,12 @@ export default function PortfolioSection() {
             >
               Our Work
             </motion.span>
-            <motion.h2
-              id="portfolio-heading"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-4 md:mb-6 font-heading"
-            >
-              What We&apos;ve Done
-            </motion.h2>
+            <div className="flex justify-center mb-4 md:mb-6">
+              <TextReveal 
+                text="What We've Done" 
+                className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-center text-secondary font-heading justify-center"
+              />
+            </div>
           </header>
         </ScrollAnimationWrapper>
 
@@ -102,9 +100,10 @@ export default function PortfolioSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-12">
           {projects.map((project, index) => (
             <ScrollAnimationWrapper key={index} delay={index * 0.1}>
-              <Card className="h-full hover-lift">
-                <article>
-                  <motion.div
+              <TiltCard className="h-full">
+                <Card className="h-full hover-lift">
+                  <article>
+                    <motion.div
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
@@ -140,8 +139,9 @@ export default function PortfolioSection() {
                       </span>
                     ))}
                   </div>
-                </article>
-              </Card>
+                  </article>
+                </Card>
+              </TiltCard>
             </ScrollAnimationWrapper>
           ))}
         </div>
