@@ -479,3 +479,31 @@ img {
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
+/* Horizontal Scroll Snap for Mobile */
+.snap-x-mandatory {
+  scroll-snap-type: x mandatory;
+}
+
+.snap-center {
+  scroll-snap-align: center;
+}
+
+/* Hide scrollbar for clean horizontal scroll */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Breathing Animation */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+

@@ -97,9 +97,10 @@ export default function PortfolioSection() {
           </motion.p>
         </ScrollAnimationWrapper>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-12">
+        <div className="flex md:grid md:grid-cols-2 gap-5 md:gap-12 overflow-x-auto md:overflow-visible snap-x-mandatory scrollbar-hide pb-8 md:pb-0 px-4 md:px-0 -mx-4 md:mx-0">
           {projects.map((project, index) => (
-            <ScrollAnimationWrapper key={index} delay={index * 0.1}>
+            <div key={index} className="min-w-[85vw] md:min-w-0 snap-center">
+            <ScrollAnimationWrapper delay={index * 0.1}>
               <TiltCard className="h-full">
                 <Card className="h-full hover-lift">
                   <article>
@@ -143,6 +144,7 @@ export default function PortfolioSection() {
                 </Card>
               </TiltCard>
             </ScrollAnimationWrapper>
+            </div>
           ))}
         </div>
 

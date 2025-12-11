@@ -9,6 +9,7 @@ import AnimatedToggle from "./AnimatedToggle";
 import ParallaxElement from "@/components/UI/ParallaxElement";
 import TextHighlight from "@/components/UI/TextHighlight";
 import AIMatchButton from "@/components/UI/AIMatchButton";
+import MobileParticleBackground from "./MobileParticleBackground";
 
 // Dynamically import NetworkGlobe to avoid SSR issues
 const NetworkGlobe = dynamic(() => import("./NetworkGlobe"), {
@@ -54,6 +55,7 @@ export default function Hero() {
       className="relative z-10 min-h-[auto] md:min-h-[calc(100vh-70px)] flex items-center overflow-hidden bg-gradient-to-br from-white via-gray-50 to-green-50 pt-6 pb-6 md:py-8 lg:py-12 safe-area-inset"
       onMouseMove={handleMouseMove}
     >
+      <MobileParticleBackground />
       {/* Simplified Natural Globe Shadow & Glow */}
       
       <ParallaxElement speed={0.1} className="absolute inset-0 pointer-events-none">
@@ -289,7 +291,7 @@ export default function Hero() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={openContactModal}
-                className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-xl font-semibold text-[15px] transition-all duration-200 shadow-lg hover:shadow-xl active:shadow-md min-h-[44px] touch-manipulation"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-xl font-semibold text-[15px] transition-all duration-200 shadow-lg hover:shadow-xl active:shadow-md min-h-[44px] touch-manipulation animate-breathe"
               >
                 Get Started Free
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

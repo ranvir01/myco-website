@@ -155,7 +155,7 @@ export default function TrustSection() {
             <div className="absolute top-0 left-0 h-full w-8 md:w-20 bg-gradient-to-r from-white via-white/80 to-transparent z-20 pointer-events-none" />
             <div className="absolute top-0 right-0 h-full w-8 md:w-20 bg-gradient-to-l from-white via-white/80 to-transparent z-20 pointer-events-none" />
             
-            {/* Marquee Track */}
+            {/* Client Logos - Infinite Marquee */}
             <div className="flex w-full overflow-hidden mask-image-gradient">
               <div className="flex animate-marquee whitespace-nowrap py-4">
                 {marqueeClients.map((client, index) => (
@@ -267,7 +267,7 @@ export default function TrustSection() {
                 const event = new CustomEvent("openQuoteModal");
                 window.dispatchEvent(event);
               }}
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl min-h-[48px] touch-manipulation"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl min-h-[48px] touch-manipulation animate-breathe"
             >
               Start Your Project
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
