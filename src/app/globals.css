@@ -439,6 +439,31 @@ img {
   }
 }
 
+/* Mobile specific spacing improvements */
+@media (max-width: 768px) {
+  /* Increase base font size for better readability */
+  html {
+    font-size: 16px;
+  }
+  
+  /* Optimize vertical rhythm */
+  h1 {
+    font-size: 2.25rem !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+  }
+  
+  h2 {
+    font-size: 1.875rem !important;
+    line-height: 1.25 !important;
+  }
+  
+  p {
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+  }
+}
+
 /* Page Transition */
 .page-transition-enter {
   opacity: 0;

@@ -1,11 +1,24 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { FiMail, FiLinkedin, FiArrowRight } from "react-icons/fi";
+import { FiMail, FiLinkedin, FiArrowRight, FiChevronDown } from "react-icons/fi";
 
 export default function Footer() {
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+
+  const toggleSection = (section: string) => {
+    // Only toggle on mobile
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) return;
+    
+    setOpenSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   const scrollToSection = (sectionId: string) => {
     // Close mobile menu if it's open
     if (document.body.style.overflow === "hidden") {
@@ -186,40 +199,82 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <nav aria-label="Quick links" className="col-span-1">
-            <h3 className="text-lg sm:text-xl font-bold mb-3 md:mb-4 text-gray-900 font-heading">Quick Links</h3>
-            <ul className="space-y-1.5 sm:space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.id}>
-                  <motion.button
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => scrollToSection(link.id)}
-                    className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all cursor-pointer font-medium text-sm sm:text-base min-h-[36px] flex items-center"
-                  >
-                    {link.name}
-                  </motion.button>
-                </li>
-              ))}
-              <li>
-                <Link
-                  href="/business"
-                  className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium text-sm sm:text-base min-h-[36px] flex items-center"
+          <nav aria-label="Quick links" className="col-span-2 md:col-span-1 border-b md:border-none border-white/10 pb-4 md:pb-0">
+            <button 
+              onClick={() => toggleSection('quickLinks')}
+              className="w-full flex items-center justify-between md:cursor-default"
+            >
+              <h3 className="text-lg sm:text-xl font-bold mb-0 md:mb-4 text-gray-900 font-heading">Quick Links</h3>
+              <FiChevronDown className={`md:hidden text-gray-500 transition-transform duration-300 ${openSections['quickLinks'] ? 'rotate-180' : ''}`} />
+            </button>
+            
+            <AnimatePresence>
+              {(openSections['quickLinks'] || (typeof window !== 'undefined' && window.innerWidth >= 768)) && (
+                <motion.ul 
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="space-y-1.5 sm:space-y-2 overflow-hidden mt-3 md:mt-0"
                 >
-                  For Businesses
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/experts"
-                  className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium text-sm sm:text-base min-h-[36px] flex items-center"
-                >
-                  For Consultants
-                </Link>
-              </li>
-            </ul>
+                  {quickLinks.map((link) => (
+                    <li key={link.id}>
+                      <motion.button
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => scrollToSection(link.id)}
+                        className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all cursor-pointer font-medium text-sm sm:text-base min-h-[36px] flex items-center"
+                      >
+                        {link.name}
+                      </motion.button>
+                    </li>
+                  ))}
+                  <li>
+                    <Link
+                      href="/business"
+                      className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium text-sm sm:text-base min-h-[36px] flex items-center"
+                    >
+                      For Businesses
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/experts"
+                      className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium text-sm sm:text-base min-h-[36px] flex items-center"
+                    >
+                      For Consultants
+                    </Link>
+                  </li>
+                </motion.ul>
+              )}
+            </AnimatePresence>
           </nav>
 
           {/* Services */}
+          <nav aria-label="Our services" className="col-span-2 md:col-span-1 border-b md:border-none border-white/10 pb-4 md:pb-0">
+            <button 
+              onClick={() => toggleSection('services')}
+              className="w-full flex items-center justify-between md:cursor-default"
+            >
+              <h3 className="text-lg sm:text-xl font-bold mb-0 md:mb-4 text-gray-900 font-heading">Services</h3>
+              <FiChevronDown className={`md:hidden text-gray-500 transition-transform duration-300 ${openSections['services'] ? 'rotate-180' : ''}`} />
+            </button>
+            
+            <AnimatePresence>
+              {(openSections['services'] || (typeof window !== 'undefined' && window.innerWidth >= 768)) && (
+                <motion.ul 
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="space-y-1.5 sm:space-y-2 overflow-hidden mt-3 md:mt-0"
+                >
+                  {services.map((service) => (
+                    <li key={service}>
+                      <span className="text-gray-800 text-xs sm:text-sm">{service}</span>
+                    </li>
+                  ))}
+                </motion.ul>
+              )}
+            </AnimatePresence>
+          </nav>
           {/* Newsletter - New */}
           <div className="col-span-2 md:col-span-1">
              <h3 className="text-lg sm:text-xl font-bold mb-3 md:mb-4 text-gray-900 font-heading">Stay Updated</h3>

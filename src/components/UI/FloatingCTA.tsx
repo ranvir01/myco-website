@@ -12,8 +12,13 @@ export default function FloatingCTA() {
   useEffect(() => {
     // Show CTA after user scrolls past hero section
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const heroHeight = window.innerHeight * 0.7;
+      // Use documentElement or body for better compatibility
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      
+      // Mobile-specific threshold: show sooner on mobile
+      const heroHeight = window.innerWidth < 768 
+        ? window.innerHeight * 0.5 
+        : window.innerHeight * 0.7;
       
       if (scrollY > heroHeight) {
         setIsVisible(true);
@@ -23,9 +28,9 @@ export default function FloatingCTA() {
       }
     };
 
-    // Auto-expand CTA after 10 seconds on page if user hasn't seen it
+    // Only auto-expand on desktop to be less intrusive on mobile
     const autoExpandTimeout = setTimeout(() => {
-      if (!hasSeenCTA && isVisible) {
+      if (!hasSeenCTA && isVisible && window.innerWidth >= 768) {
         setIsExpanded(true);
         setHasSeenCTA(true);
         
@@ -69,7 +74,7 @@ export default function FloatingCTA() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 10 }}
                 transition={{ duration: 0.2 }}
-                className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 w-64"
+                className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 w-64 origin-bottom-right"
               >
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-semibold text-secondary">Quick Contact</span>
@@ -89,7 +94,7 @@ export default function FloatingCTA() {
                 <div className="space-y-2">
                   <button
                     onClick={openContactModal}
-                    className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300"
+                    className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 touch-manipulation"
                   >
                     Get Free Quote
                     <FiArrowRight className="w-4 h-4" />
@@ -97,7 +102,7 @@ export default function FloatingCTA() {
                   
                   <a
                     href="mailto:info@myconsulting.network"
-                    className="w-full flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-secondary px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300"
+                    className="w-full flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-secondary px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 touch-manipulation"
                   >
                     <FiMail className="w-4 h-4" />
                     Email Us
@@ -112,7 +117,7 @@ export default function FloatingCTA() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.2 }}
                 onClick={() => setIsExpanded(true)}
-                className="relative p-4 bg-primary hover:bg-primary-dark text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className="relative p-4 bg-primary hover:bg-primary-dark text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group touch-manipulation"
                 aria-label="Open quick contact"
               >
                 <FiMessageCircle className="w-6 h-6" />
