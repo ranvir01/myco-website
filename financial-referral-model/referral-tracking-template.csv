@@ -1,0 +1,7 @@
+Partner ID,Partner Name,Partner Email,Partner Phone,Partner Start Date,Referral ID,Referral Type,Referred Name,Referred Company,Referred Email,Referral Date,Referral Status,First Project Date,Cliff Date,Total Projects,Total TPC,Cumulative Payout,Last Payout Date,Notes
+P001,John Smith,john@example.com,555-123-4567,2026-01-15,R001,Client,Jane Doe,Acme Corp,jane@acme.com,2026-01-20,Active,2026-02-15,2029-02-15,2,3000,300,2026-03-15,Strong relationship
+P001,John Smith,john@example.com,555-123-4567,2026-01-15,R002,Client,Bob Wilson,Tech Inc,bob@tech.com,2026-03-10,Qualified,,,0,0,0,,In proposal stage
+P002,Sarah Johnson,sarah@example.com,555-234-5678,2026-02-01,R003,Consultant,Mike Brown,,mike@email.com,2026-02-05,Active,2026-02-20,N/A,4,6000,90,2026-05-01,Top performer
+P003,David Lee,david@example.com,555-345-6789,2026-02-15,R004,Client,Lisa Chen,Growth Co,lisa@growth.com,2026-02-20,Pending,,,0,0,0,,Initial contact
+P003,David Lee,david@example.com,555-345-6789,2026-02-15,R005,Client,Tom Harris,Scale Up,tom@scaleup.com,2026-03-01,Closed,,,0,0,0,,No budget
+

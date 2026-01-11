@@ -1,0 +1,7 @@
+Month,Year,Partner ID,Partner Name,Referral ID,Client Name,Project ID,Project TPC,Consultant Allocation,Referral Type,Years Since First Project,Applicable Rate,Calculated Payout,Payment Status,Payment Date,Payment Method,Notes
+January,2026,P001,John Smith,R001,Acme Corp,PRJ001,1500,1125,Client,1,10%,150,Paid,2026-02-15,ACH,First project payout
+February,2026,P001,John Smith,R001,Acme Corp,PRJ002,1500,1125,Client,1,10%,150,Paid,2026-03-15,ACH,Second project
+February,2026,P002,Sarah Johnson,R003,Tech Client,PRJ003,1500,1125,Consultant,1,1.5%,16.88,Paid,2026-03-15,ACH,Consultant referral
+March,2026,P001,John Smith,R001,Acme Corp,PRJ004,2000,1500,Client,1,10%,200,Pending,,,Awaiting client payment
+March,2026,P003,David Lee,R004,Growth Co,PRJ005,1500,1125,Client,1,10%,150,Pending,,,New client first project
+

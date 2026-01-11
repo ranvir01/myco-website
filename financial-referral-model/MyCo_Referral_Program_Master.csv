@@ -1,0 +1,161 @@
+"MYCO REFERRAL PROGRAM - MASTER WORKBOOK",,,,,,
+"Generated: January 2026",,,,,,
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 1: FINAL APPROVED PAYOUT STRUCTURE",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Component","Rate","Base","Per $1,500 Project","Notes",,
+"Consultant Payout","75%","of TPC","$1,125","Paid to consultants for work",,
+"MyCo Gross Margin","25%","of TPC","$375","Before RO payouts",,
+"RO Client (Years 1-3)","10%","of TPC","$150","High rate to incentivize referrals",,
+"RO Client (Year 4+)","3%","of TPC","$45","Reduced after cliff",,
+"RO Consultant","1.5%","of Allocated Cost","$16.88","Based on consultant allocation",,
+"Cliff Year","Year 4","","","Rate drops after 3 years",,
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 2: MONEY FLOW DIAGRAM (Per $1,500 Project)",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Step","From","To","Amount","Percentage",,
+"1","Client","MyCo","$1,500","100%",,
+"2","MyCo","Consultants","$1,125","75%",,
+"3","MyCo","RO Client (Yr 1-3)","$150","10%",,
+"4","MyCo","RO Consultant","$16.88","~1.1%",,
+"5","MyCo","Keeps (Net)","$208.12","~13.9%",,
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 3: PARTNER EARNINGS PROJECTIONS (Single Client Referral)",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Year","Projects","TPC/Project","Annual Revenue","RO Client Rate","RO Client Payout","Cumulative Payout"
+"1","2","$1,500","$3,000","10%","$300","$300"
+"2","2","$1,500","$3,000","10%","$300","$600"
+"3","2","$1,500","$3,000","10%","$300","$900"
+"4","2","$1,500","$3,000","3%","$90","$990"
+"5","2","$1,500","$3,000","3%","$90","$1,080"
+"6","2","$1,500","$3,000","3%","$90","$1,170"
+"7","2","$1,500","$3,000","3%","$90","$1,260"
+"8","2","$1,500","$3,000","3%","$90","$1,350"
+"9","2","$1,500","$3,000","3%","$90","$1,440"
+"10","2","$1,500","$3,000","3%","$90","$1,530"
+,,,,,,
+"SUMMARY:","","","","5-Year Total:","$1,080",""
+"","","","","10-Year Total:","$1,530",""
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 4: MULTIPLE REFERRALS EARNINGS",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Clients Referred","5-Year Earnings","10-Year Earnings","Meets $1K Target?","Meets $5K Target?",,
+"1","$1,080","$1,530","YES","NO",,
+"2","$2,160","$3,060","YES","NO",,
+"3","$3,240","$4,590","YES","NO",,
+"4","$4,320","$6,120","YES","YES",,
+"5","$5,400","$7,650","YES","YES",,
+"10","$10,800","$15,300","YES","YES",,
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 5: SCENARIO ANALYSIS",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Scenario","TPC","Projects/Year","5-Year Partner Earnings","MyCo Net/Project","Assessment"
+"Pessimistic","$800","1","$360","$111","Below target"
+"Base Case","$1,500","2","$1,080","$208","Meets target"
+"Optimistic","$3,000","3","$3,240","$417","Exceeds target"
+"Enterprise","$5,000","2","$3,600","$694","Excellent"
+"Premium Enterprise","$10,000","2","$7,200","$1,388","Consider cap"
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 6: STRESS TEST RESULTS",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Test Scenario","TPC","Partner 5-Year","MyCo Net/Project","Viability",,
+"Micro Projects","$200","$144","$28","NOT VIABLE",,
+"Small Projects","$500","$360","$69","MARGINAL",,
+"Low-End","$800","$576","$111","ACCEPTABLE",,
+"Standard","$1,500","$1,080","$208","GOOD",,
+"High Value","$3,000","$2,160","$417","EXCELLENT",,
+"Enterprise","$5,000","$3,600","$694","EXCELLENT",,
+"Premium","$10,000","$7,200","$1,388","CAP RECOMMENDED",,
+,,,,,,
+"MINIMUM VIABLE TPC:","$400","","","",""
+"BREAK-EVEN FOR $1K PARTNER EARNINGS:","$1,390 TPC with 2 projects/year","","","",""
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 7: KEY METRICS",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Metric","Target","Result","Status",,,
+"Partner 5-Year Earnings","≥ $1,000","$1,080","✓ MET",,,
+"MyCo Net Margin","≥ 7%","13.9%","✓ MET",,,
+"RO Client > RO Consultant","Yes","6.4x higher","✓ MET",,,
+"Sustainable Long-term","Yes","Yes","✓ MET",,,
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 8: REVIEW CHECKLIST",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Order","Document","Category","Action","Status","Reviewed By","Date"
+"1","EXECUTIVE_SUMMARY.md","Core","Confirm final rates","",""
+"2","referral-calculator.html","Core","Test in browser","",""
+"3","SCENARIO_ANALYSIS.md","Analysis","Verify projections","",""
+"4","STRESS_TEST_ANALYSIS.md","Analysis","Confirm thresholds","",""
+"5","PARTNER_SALES_DECK.md","Partner","Review pitch","",""
+"6","PARTNER_EARNINGS_EXAMPLES.md","Partner","Verify math","",""
+"7","PARTNER_FAQ.md","Partner","Check accuracy","",""
+"8","PARTNER_ONBOARDING_GUIDE.md","Partner","Review flow","",""
+"9","PARTNER_QUICK_CARD.md","Partner","Confirm key info","",""
+"10","PARTNER_AGREEMENT_TEMPLATE.md","Legal","ATTORNEY REVIEW","",""
+"11","REFERRAL_TERMS.md","Legal","Legal compliance","",""
+"12","PAYOUT_SCHEDULE.md","Legal","Payment terms clear","",""
+"13","referral-tracking-template.csv","Tracking","Test in Excel","",""
+"14","payout-calculator-template.csv","Tracking","Test in Excel","",""
+"15","partner-performance-dashboard.html","Tracking","Test in browser","",""
+"16","TRACKING_GUIDE.md","Tracking","Review process","",""
+"17","FINAL_REVIEW_CHECKLIST.md","Process","Complete checklist","",""
+"18","ADVANCED_SCENARIOS.md","Future","Review (no action)","",""
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 9: PARTNER TRACKING TEMPLATE",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Partner ID","Partner Name","Partner Email","Referral ID","Referral Type","Client/Consultant Name","Company","Referral Date","Status","First Project Date","Cliff Date","Total Projects","Total TPC","Cumulative Payout","Last Payout Date"
+"P001","","","R001","Client","","","","Pending","","","0","$0","$0",""
+"P001","","","R002","Client","","","","","","","0","$0","$0",""
+"P002","","","R003","Consultant","","","","","","N/A","0","$0","$0",""
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 10: MONTHLY PAYOUT CALCULATOR",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Month","Year","Partner ID","Partner Name","Referral ID","Client Name","Project TPC","Referral Type","Years Active","Rate","Calculated Payout","Payment Status","Payment Date"
+"","","","","","","","Client","","10%","=TPC*0.10","Pending",""
+"","","","","","","","Client","","3%","=TPC*0.03","",""
+"","","","","","","","Consultant","","1.5%","=AC*0.015","",""
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 11: RATE QUICK REFERENCE",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Referral Type","Years 1-3","Year 4+","Calculation Base","Example ($1,500 TPC)",,
+"Client Referral","10%","3%","Total Project Cost","$150 / $45",,
+"Consultant Referral","1.5%","1.5%","Allocated Cost (75% of TPC)","$16.88",,
+,,,,,,
+"Payment Terms:","Within 30 days of client payment",,,,
+"Minimum Payout:","$50",,,,
+"Payment Method:","ACH (preferred), Check, Wire",,,,
+,,,,,,
+"================================================================================",,,,,,
+"SECTION 12: CONTACT INFORMATION",,,,,,
+"================================================================================",,,,,,
+,,,,,,
+"Purpose","Contact",,,,,
+"Partner Questions","partners@myco.com",,,,,
+"Payment Issues","accounting@myco.com",,,,,
+"Partner Portal","partners.myco.com",,,,,
+"Phone","(555) 123-4567",,,,,
+,,,,,,
+"================================================================================",,,,,,
+"END OF MASTER WORKBOOK",,,,,,
+"================================================================================",,,,,,

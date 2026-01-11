@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCo Complete Payout Structure Model</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --success: #4ecca3;
+            --warning: #ffc107;
+            --text: #edf2f4;
+            --muted: #8d99ae;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+            color: var(--success);
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .tab-btn:hover { background: rgba(255,255,255,0.2); }
+        .tab-btn.active { background: var(--accent); color: white; }
+        
+        .tab-content {
+            display: none;
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .tab-content.active { display: block; }
+        
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            background: rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .input-group.highlight {
+            border: 2px solid var(--accent);
+            background: rgba(233,69,96,0.1);
+        }
+        
+        .input-group.consultant {
+            border: 2px solid var(--warning);
+            background: rgba(255,193,7,0.1);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 1rem;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.85rem;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: right;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        th { background: rgba(233,69,96,0.3); font-weight: 600; }
+        td:first-child, th:first-child { text-align: left; }
+        tr:nth-child(even) { background: rgba(255,255,255,0.03); }
+        tr:hover { background: rgba(255,255,255,0.08); }
+        
+        .highlight-good { background: rgba(78,204,163,0.3) !important; color: var(--success); font-weight: bold; }
+        .highlight-bad { background: rgba(233,69,96,0.3) !important; color: var(--accent); }
+        .highlight-warning { background: rgba(255,193,7,0.3) !important; color: var(--warning); }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+        
+        .card {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .card-value { font-size: 1.5rem; font-weight: bold; margin: 8px 0; }
+        .card-label { color: var(--muted); font-size: 0.8rem; }
+        .card.success .card-value { color: var(--success); }
+        .card.danger .card-value { color: var(--accent); }
+        .card.warning .card-value { color: var(--warning); }
+        
+        .flow-diagram {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        
+        .flow-box {
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .flow-box.client { background: rgba(78,204,163,0.3); border: 2px solid var(--success); }
+        .flow-box.myco { background: rgba(233,69,96,0.3); border: 2px solid var(--accent); }
+        .flow-box.consultant { background: rgba(255,193,7,0.3); border: 2px solid var(--warning); }
+        .flow-box.ro { background: rgba(100,149,237,0.3); border: 2px solid cornflowerblue; }
+        
+        .flow-arrow { font-size: 1.5rem; color: var(--muted); }
+        
+        .recommendation {
+            background: linear-gradient(135deg, rgba(78,204,163,0.2), rgba(233,69,96,0.2));
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid var(--success);
+        }
+        
+        .section-title {
+            background: rgba(233,69,96,0.2);
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 20px 0 15px 0;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .tab-btn { padding: 8px 12px; font-size: 0.75rem; }
+            .card-value { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MyCo Complete Payout Structure Model</h1>
+            <p>Optimize ALL payout percentages: Consultant, RO Client, RO Consultant</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('structure')">💰 Full Structure</button>
+            <button class="tab-btn" onclick="showTab('scenarios')">📊 Scenario Matrix</button>
+            <button class="tab-btn" onclick="showTab('consultant')">👨‍💼 Consultant Rate</button>
+            <button class="tab-btn" onclick="showTab('roClient')">🤝 RO Client</button>
+            <button class="tab-btn" onclick="showTab('roConsultant')">📋 RO Consultant</button>
+            <button class="tab-btn" onclick="showTab('margin')">📈 MyCo Margin</button>
+            <button class="tab-btn" onclick="showTab('partner')">✅ Partner Check</button>
+            <button class="tab-btn" onclick="showTab('recommend')">🎯 Recommendation</button>
+            <button class="tab-btn" onclick="showTab('stressTest')">🔥 Stress Test</button>
+            <button class="tab-btn" onclick="showTab('cashflow')">💸 Cash Flow</button>
+            <button class="tab-btn" onclick="showTab('breakeven')">⚖️ Break-Even</button>
+            <button class="tab-btn" onclick="showTab('compare')">👥 Compare Partners</button>
+            <button class="tab-btn" onclick="showTab('tiered')">🏆 Tiered Program</button>
+            <button class="tab-btn" onclick="exportReport()">📄 Export</button>
+        </div>
+        
+        <!-- TAB 1: FULL STRUCTURE -->
+        <div id="structure" class="tab-content active">
+            <h2>💰 Complete Payout Structure</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Configure all percentages. See how money flows from client to all parties.</p>
+            
+            <div class="section-title">📋 Project Parameters</div>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Total Project Cost (TPC)</label>
+                    <select id="tpc" onchange="recalculateAll()">
+                        <option value="500">$500 (Low)</option>
+                        <option value="800">$800 (From PDF Example)</option>
+                        <option value="1500" selected>$1,500 (Mid)</option>
+                        <option value="3000">$3,000 (High)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Projects per Client/Year</label>
+                    <select id="projectsPerYear" onchange="recalculateAll()">
+                        <option value="1">1 project/year</option>
+                        <option value="2" selected>2 projects/year</option>
+                        <option value="3">3 projects/year</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Model Horizon (Years)</label>
+                    <input type="number" id="horizon" value="10" min="5" max="20" onchange="recalculateAll()">
+                </div>
+            </div>
+            
+            <div class="section-title" style="background: rgba(255,193,7,0.2);">👨‍💼 Consultant Payout (% of TPC)</div>
+            <div class="input-grid">
+                <div class="input-group consultant">
+                    <label>Consultant Payout Rate (%)</label>
+                    <input type="number" id="consultantRate" value="75" min="50" max="95" onchange="recalculateAll()">
+                    <small style="color: var(--success); font-size: 0.75rem;">FINAL: 75% (was 85% in PDF)</small>
+                </div>
+                <div class="input-group">
+                    <label>MyCo Margin (Auto-calculated)</label>
+                    <input type="text" id="mycoMarginDisplay" value="15%" disabled style="background: rgba(78,204,163,0.2);">
+                </div>
+            </div>
+            
+            <div class="section-title" style="background: rgba(100,149,237,0.2);">🤝 RO (Client) Payout Structure</div>
+            <div class="input-grid">
+                <div class="input-group highlight">
+                    <label>RO Client % of TPC (Years 1-3)</label>
+                    <input type="number" id="roClientEarly" value="10" min="0" max="15" step="0.5" onchange="recalculateAll()">
+                    <small style="color: var(--success); font-size: 0.75rem;">FINAL: 10% (was 2.5% in PDF)</small>
+                </div>
+                <div class="input-group highlight">
+                    <label>RO Client % of TPC (Year 4+)</label>
+                    <input type="number" id="roClientLate" value="3" min="0" max="10" step="0.5" onchange="recalculateAll()">
+                </div>
+                <div class="input-group">
+                    <label>Cliff Year</label>
+                    <select id="cliffYear" onchange="recalculateAll()">
+                        <option value="2">After Year 1</option>
+                        <option value="3">After Year 2</option>
+                        <option value="4" selected>After Year 3</option>
+                        <option value="5">After Year 4</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="section-title" style="background: rgba(255,193,7,0.2);">📋 RO (Consultant) Payout</div>
+            <div class="input-grid">
+                <div class="input-group consultant">
+                    <label>RO Consultant % of Allocated Cost (AC)</label>
+                    <input type="number" id="roConsultantRate" value="1.5" min="0" max="10" step="0.5" onchange="recalculateAll()">
+                    <small style="color: var(--success); font-size: 0.75rem;">FINAL: 1.5% (was 5% in PDF)</small>
+                </div>
+                <div class="input-group">
+                    <label>Avg Consultants per Project</label>
+                    <input type="number" id="avgConsultants" value="2" min="1" max="5" onchange="recalculateAll()">
+                </div>
+            </div>
+            
+            <div class="section-title" style="background: rgba(78,204,163,0.2);">💵 Partner Targets</div>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Partner Target Minimum (5yr)</label>
+                    <input type="number" id="targetMin" value="1000" onchange="recalculateAll()">
+                </div>
+                <div class="input-group">
+                    <label>Partner Target Ideal (5yr)</label>
+                    <input type="number" id="targetIdeal" value="5000" onchange="recalculateAll()">
+                </div>
+            </div>
+            
+            <h3>Money Flow Diagram (Per Project)</h3>
+            <div class="flow-diagram">
+                <div class="flow-row">
+                    <div class="flow-box client">
+                        <div style="font-size: 0.8rem;">CLIENT PAYS</div>
+                        <div style="font-size: 1.5rem; font-weight: bold;" id="flowTPC">$1,500</div>
+                        <div style="font-size: 0.7rem;">Total Project Cost</div>
+                    </div>
+                </div>
+                <div class="flow-row">
+                    <span class="flow-arrow">↓</span>
+                </div>
+                <div class="flow-row">
+                    <div class="flow-box consultant">
+                        <div style="font-size: 0.8rem;">CONSULTANTS</div>
+                        <div style="font-size: 1.3rem; font-weight: bold;" id="flowConsultant">$1,275</div>
+                        <div style="font-size: 0.7rem;" id="flowConsultantPct">85% of TPC</div>
+                    </div>
+                    <div class="flow-box myco">
+                        <div style="font-size: 0.8rem;">MyCo MARGIN</div>
+                        <div style="font-size: 1.3rem; font-weight: bold;" id="flowMycoGross">$225</div>
+                        <div style="font-size: 0.7rem;" id="flowMycoPct">15% of TPC</div>
+                    </div>
+                </div>
+                <div class="flow-row">
+                    <span class="flow-arrow" style="margin-left: 200px;">↓</span>
+                </div>
+                <div class="flow-row">
+                    <div class="flow-box ro">
+                        <div style="font-size: 0.8rem;">RO (Client)</div>
+                        <div style="font-size: 1.2rem; font-weight: bold;" id="flowROClient">$75</div>
+                        <div style="font-size: 0.7rem;" id="flowROClientPct">5% of TPC</div>
+                    </div>
+                    <div class="flow-box ro">
+                        <div style="font-size: 0.8rem;">RO (Consultant)</div>
+                        <div style="font-size: 1.2rem; font-weight: bold;" id="flowROConsultant">$64</div>
+                        <div style="font-size: 0.7rem;" id="flowROConsultantPct">5% of AC</div>
+                    </div>
+                    <div class="flow-box myco">
+                        <div style="font-size: 0.8rem;">MyCo NET</div>
+                        <div style="font-size: 1.2rem; font-weight: bold;" id="flowMycoNet">$86</div>
+                        <div style="font-size: 0.7rem;" id="flowMycoNetPct">5.7% of TPC</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="summary-cards">
+                <div class="card">
+                    <div class="card-label">Consultant Gets</div>
+                    <div class="card-value" id="sumConsultant">$1,275</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">RO Client (Yr 1)</div>
+                    <div class="card-value" id="sumROClient">$75</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">RO Consultant</div>
+                    <div class="card-value" id="sumROConsultant">$64</div>
+                </div>
+                <div class="card success">
+                    <div class="card-label">MyCo Net</div>
+                    <div class="card-value" id="sumMycoNet">$86</div>
+                </div>
+            </div>
+            
+            <h3>Profitability Check</h3>
+            <div class="summary-cards">
+                <div class="card" id="profitCard">
+                    <div class="card-label">MyCo Net as % of TPC</div>
+                    <div class="card-value" id="mycoNetPct">5.7%</div>
+                </div>
+                <div class="card" id="marginAfterROCard">
+                    <div class="card-label">Margin After RO Payouts</div>
+                    <div class="card-value" id="marginAfterRO">38%</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Total RO as % of Margin</div>
+                    <div class="card-value" id="roOfMargin">62%</div>
+                </div>
+                <div class="card" id="sustainableCard">
+                    <div class="card-label">Structure Sustainable?</div>
+                    <div class="card-value" id="sustainable">⚠️</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TAB 2: SCENARIO MATRIX -->
+        <div id="scenarios" class="tab-content">
+            <h2>📊 Scenario Matrix</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Compare different payout structure combinations.</p>
+            
+            <h3>Pre-Defined Scenarios</h3>
+            <div id="scenarioMatrix"></div>
+            
+            <h3 style="margin-top: 30px;">Scenario Comparison - 5 Year Partner Earnings</h3>
+            <div id="scenarioComparison"></div>
+            
+            <div class="recommendation">
+                <h3>📋 Scenario Definitions</h3>
+                <ul style="line-height: 2; padding-left: 20px;">
+                    <li><strong>Scenario A (Conservative):</strong> 70% to consultants, 30% margin, high RO rates</li>
+                    <li><strong>Scenario B (Competitive):</strong> 80% to consultants, 20% margin, moderate RO</li>
+                    <li><strong>Scenario C (Current PDF):</strong> 85% to consultants, 15% margin, 2.5% flat RO</li>
+                    <li><strong>Scenario D (Balanced):</strong> 75% to consultants, 25% margin, cliff RO</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- TAB 3: CONSULTANT RATE ANALYSIS -->
+        <div id="consultant" class="tab-content">
+            <h2>👨‍💼 Consultant Payout Rate Analysis</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Find the optimal consultant payout rate.</p>
+            
+            <h3>Industry Benchmarks</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Platform Type</th>
+                        <th>Consultant Rate</th>
+                        <th>Platform Margin</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Freelance Platforms (Upwork, Fiverr)</td>
+                        <td>80-90%</td>
+                        <td>10-20%</td>
+                        <td>Industry reports</td>
+                    </tr>
+                    <tr>
+                        <td>Consulting Networks (GLG, Catalant)</td>
+                        <td>60-75%</td>
+                        <td>25-40%</td>
+                        <td>Industry reports</td>
+                    </tr>
+                    <tr>
+                        <td>Traditional Staffing</td>
+                        <td>65-80%</td>
+                        <td>20-35%</td>
+                        <td>SIA reports</td>
+                    </tr>
+                    <tr class="highlight-warning">
+                        <td>MyCo (Current from PDF)</td>
+                        <td>85%</td>
+                        <td>15%</td>
+                        <td>Your PDFs</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 style="margin-top: 30px;">Consultant Rate Impact Analysis</h3>
+            <div id="consultantRateTable"></div>
+            
+            <div class="recommendation">
+                <h3>💡 Key Insight</h3>
+                <p id="consultantInsight">At 85% consultant payout, MyCo only keeps 15% margin. After RO payouts, MyCo may have very thin margins. Consider whether 75-80% consultant rate is more sustainable.</p>
+            </div>
+        </div>
+        
+        <!-- TAB 4: RO CLIENT ANALYSIS -->
+        <div id="roClient" class="tab-content">
+            <h2>🤝 RO (Client) Rate Analysis</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Optimize the client referrer payout structure.</p>
+            
+            <h3>Current Structure Impact</h3>
+            <div class="summary-cards">
+                <div class="card">
+                    <div class="card-label">RO Client (5-Year)</div>
+                    <div class="card-value" id="roClient5yr">$0</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">RO Client (10-Year)</div>
+                    <div class="card-value" id="roClient10yr">$0</div>
+                </div>
+                <div class="card" id="roClientMeetsCard">
+                    <div class="card-label">Meets $1K Target?</div>
+                    <div class="card-value" id="roClientMeets">NO</div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 30px;">RO Client Rate Sensitivity</h3>
+            <div id="roClientSensitivity"></div>
+            
+            <h3 style="margin-top: 30px;">Year-by-Year Breakdown (Current Settings)</h3>
+            <div id="roClientYearlyTable"></div>
+        </div>
+        
+        <!-- TAB 5: RO CONSULTANT ANALYSIS -->
+        <div id="roConsultant" class="tab-content">
+            <h2>📋 RO (Consultant) Rate Analysis</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Analyze the consultant referrer payout.</p>
+            
+            <h3>Current Structure</h3>
+            <div class="summary-cards">
+                <div class="card">
+                    <div class="card-label">RO Consultant Rate</div>
+                    <div class="card-value" id="roConsultantRateDisplay">5%</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Per Project Payout</div>
+                    <div class="card-value" id="roConsultantPerProject">$64</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">5-Year Earnings</div>
+                    <div class="card-value" id="roConsultant5yr">$638</div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 30px;">RO Consultant Rate Comparison</h3>
+            <div id="roConsultantTable"></div>
+            
+            <div class="recommendation">
+                <h3>📊 RO Client vs RO Consultant</h3>
+                <p>The RO (Client) should earn significantly more than RO (Consultant) because client referrals drive direct new business. Current ratio is shown below:</p>
+                <div class="summary-cards" style="margin-top: 15px;">
+                    <div class="card">
+                        <div class="card-label">RO Client / RO Consultant Ratio</div>
+                        <div class="card-value" id="roRatio">1.2x</div>
+                    </div>
+                    <div class="card" id="roRatioCard">
+                        <div class="card-label">Ratio Assessment</div>
+                        <div class="card-value" id="roRatioAssessment">LOW</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TAB 6: MYCO MARGIN ANALYSIS -->
+        <div id="margin" class="tab-content">
+            <h2>📈 MyCo Margin Analysis</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Ensure MyCo remains profitable after all payouts.</p>
+            
+            <h3>Margin Breakdown</h3>
+            <div class="summary-cards">
+                <div class="card">
+                    <div class="card-label">Gross Margin (% of TPC)</div>
+                    <div class="card-value" id="grossMarginPct">15%</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">RO Client Takes</div>
+                    <div class="card-value" id="roClientTakes">5%</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">RO Consultant Takes</div>
+                    <div class="card-value" id="roConsultantTakes">4.3%</div>
+                </div>
+                <div class="card success" id="netMarginCard">
+                    <div class="card-label">Net Margin (% of TPC)</div>
+                    <div class="card-value" id="netMarginPct">5.7%</div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Minimum Viable Margin Analysis</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Expense Category</th>
+                        <th>Estimated % of TPC</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Platform Operations</td>
+                        <td>2-5%</td>
+                        <td>Tech, hosting, tools</td>
+                    </tr>
+                    <tr>
+                        <td>Admin & Overhead</td>
+                        <td>2-5%</td>
+                        <td>Staff, legal, accounting</td>
+                    </tr>
+                    <tr>
+                        <td>Marketing & Growth</td>
+                        <td>1-3%</td>
+                        <td>Client acquisition</td>
+                    </tr>
+                    <tr>
+                        <td>Reserve/Profit</td>
+                        <td>2-5%</td>
+                        <td>Growth capital, buffer</td>
+                    </tr>
+                    <tr class="highlight-warning">
+                        <td><strong>Minimum Needed</strong></td>
+                        <td><strong>7-18%</strong></td>
+                        <td>Before RO payouts</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 style="margin-top: 30px;">Margin Scenarios</h3>
+            <div id="marginScenarios"></div>
+        </div>
+        
+        <!-- TAB 7: PARTNER CHECK -->
+        <div id="partner" class="tab-content">
+            <h2>✅ Partner Earnings Reality Check</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Can partners realistically earn $1,000-5,000?</p>
+            
+            <h3>Single Referral - RO Client Earnings</h3>
+            <div id="singleRefCheck"></div>
+            
+            <h3 style="margin-top: 30px;">Multiple Referrals Needed</h3>
+            <div id="multiRefCheck"></div>
+            
+            <h3 style="margin-top: 30px;">RO Consultant Earnings</h3>
+            <div id="consultantRefCheck"></div>
+            
+            <div class="recommendation">
+                <h3>📊 Partner Reality</h3>
+                <ul style="line-height: 2; padding-left: 20px;" id="partnerInsights"></ul>
+            </div>
+        </div>
+        
+        <!-- TAB 8: RECOMMENDATION -->
+        <div id="recommend" class="tab-content">
+            <h2>🎯 Recommended Structure</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Optimal payout structure based on all constraints.</p>
+            
+            <div class="recommendation">
+                <h3>🏆 Recommended Payout Structure</h3>
+                <table style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Current (PDF)</th>
+                            <th>Recommended</th>
+                            <th>Rationale</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recommendationTable">
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Recommended Structure Results</h3>
+            <div class="summary-cards" id="recommendedResults"></div>
+            
+            <h3 style="margin-top: 30px;">Implementation Considerations</h3>
+            <ul style="line-height: 2; padding-left: 20px;">
+                <li><strong>Consultant Rate:</strong> Balance attraction with sustainability</li>
+                <li><strong>RO Client Cliff:</strong> High early rates incentivize referrals, lower rates protect long-term margins</li>
+                <li><strong>RO Consultant:</strong> Keep low relative to RO Client since client referrals are more valuable</li>
+                <li><strong>Lock-in Warning:</strong> These percentages cannot be changed after implementation</li>
+            </ul>
+            
+            <div id="finalRecommendation" style="margin-top: 30px;"></div>
+        </div>
+        
+        <!-- TAB 9: STRESS TEST -->
+        <div id="stressTest" class="tab-content">
+            <h2>🔥 Stress Test Scenarios</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Test the payout structure under extreme conditions.</p>
+            
+            <h3>Extreme Low TPC Scenarios</h3>
+            <div id="stressLowTPC"></div>
+            
+            <h3 style="margin-top: 30px;">Extreme High TPC Scenarios</h3>
+            <div id="stressHighTPC"></div>
+            
+            <h3 style="margin-top: 30px;">Edge Cases</h3>
+            <div id="stressEdgeCases"></div>
+            
+            <div class="recommendation" style="margin-top: 30px;">
+                <h3>📊 Stress Test Summary</h3>
+                <div id="stressSummary"></div>
+            </div>
+        </div>
+        
+        <!-- TAB 10: CASH FLOW -->
+        <div id="cashflow" class="tab-content">
+            <h2>💸 Cash Flow Timeline</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Visualize cash flow over time for a referral relationship.</p>
+            
+            <div class="summary-cards">
+                <div class="card">
+                    <div class="card-label">Total 5-Year Revenue</div>
+                    <div class="card-value" id="cfTotalRevenue">$0</div>
+                </div>
+                <div class="card success">
+                    <div class="card-label">Total 5-Year MyCo Net</div>
+                    <div class="card-value" id="cfTotalMycoNet">$0</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Total Partner Payouts</div>
+                    <div class="card-value" id="cfTotalPartner">$0</div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Year-by-Year Cash Flow</h3>
+            <div id="cashflowTable"></div>
+            
+            <h3 style="margin-top: 30px;">Cumulative Cash Flow Chart</h3>
+            <div id="cashflowChart" style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;"></div>
+            
+            <h3 style="margin-top: 30px;">Payment Timing Analysis</h3>
+            <div id="paymentTiming"></div>
+        </div>
+        
+        <!-- TAB 11: BREAK-EVEN -->
+        <div id="breakeven" class="tab-content">
+            <h2>⚖️ Break-Even Analysis</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Calculate minimum requirements to meet partner and MyCo targets.</p>
+            
+            <h3>Partner Break-Even: Reach $1,000 in 5 Years</h3>
+            <div id="partnerBreakeven"></div>
+            
+            <h3 style="margin-top: 30px;">MyCo Break-Even: Minimum Viable Project</h3>
+            <div id="mycoBreakeven"></div>
+            
+            <h3 style="margin-top: 30px;">Sensitivity: What-If Scenarios</h3>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>What if TPC changes to:</label>
+                    <input type="number" id="beWhatIfTPC" value="1000" onchange="updateBreakeven()">
+                </div>
+                <div class="input-group">
+                    <label>What if projects/year changes to:</label>
+                    <input type="number" id="beWhatIfProjects" value="1" onchange="updateBreakeven()">
+                </div>
+            </div>
+            <div id="whatIfResults" style="margin-top: 20px;"></div>
+        </div>
+        
+        <!-- TAB 12: COMPARE PARTNERS -->
+        <div id="compare" class="tab-content">
+            <h2>👥 Partner Comparison Tool</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Compare earnings across multiple partners with different referral profiles.</p>
+            
+            <h3>Partner Profiles</h3>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Partner A - Clients Referred</label>
+                    <input type="number" id="partnerAClients" value="1" min="1" max="20" onchange="updateCompare()">
+                </div>
+                <div class="input-group">
+                    <label>Partner B - Clients Referred</label>
+                    <input type="number" id="partnerBClients" value="3" min="1" max="20" onchange="updateCompare()">
+                </div>
+                <div class="input-group">
+                    <label>Partner C - Clients Referred</label>
+                    <input type="number" id="partnerCClients" value="5" min="1" max="20" onchange="updateCompare()">
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 30px;">5-Year Earnings Comparison</h3>
+            <div id="partnerComparisonTable"></div>
+            
+            <div id="partnerComparisonChart" style="margin-top: 20px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;"></div>
+        </div>
+        
+        <!-- TAB 13: TIERED PROGRAM -->
+        <div id="tiered" class="tab-content">
+            <h2>🏆 Tiered Partner Program</h2>
+            <p style="margin-bottom: 20px; color: var(--muted);">Explore volume-based rate increases for high-performing partners.</p>
+            
+            <h3>Tier Definitions</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tier</th>
+                        <th>Cumulative Revenue</th>
+                        <th>RO Client (Yr 1-3)</th>
+                        <th>RO Client (Yr 4+)</th>
+                        <th>Bonus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🥉 Bronze</td>
+                        <td>$0 - $15,000</td>
+                        <td>10%</td>
+                        <td>3%</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>🥈 Silver</td>
+                        <td>$15,001 - $50,000</td>
+                        <td>12%</td>
+                        <td>4%</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>🥇 Gold</td>
+                        <td>$50,001 - $150,000</td>
+                        <td>14%</td>
+                        <td>5%</td>
+                        <td>$500</td>
+                    </tr>
+                    <tr class="highlight-good">
+                        <td>💎 Platinum</td>
+                        <td>$150,001+</td>
+                        <td>15%</td>
+                        <td>6%</td>
+                        <td>$1,000 + Retreat</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 style="margin-top: 30px;">Tier Progression Simulator</h3>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Clients Referred per Year</label>
+                    <input type="number" id="tierClientsPerYear" value="2" min="1" max="10" onchange="updateTiered()">
+                </div>
+                <div class="input-group">
+                    <label>Average Client TPC/Year</label>
+                    <input type="number" id="tierAvgTPC" value="3000" min="500" max="10000" onchange="updateTiered()">
+                </div>
+            </div>
+            
+            <div id="tierProgressionTable" style="margin-top: 20px;"></div>
+            
+            <h3 style="margin-top: 30px;">MyCo Impact Analysis</h3>
+            <div id="tierMycoImpact"></div>
+        </div>
+    </div>
+    
+    <script>
+        function getInputs() {
+            return {
+                tpc: parseFloat(document.getElementById('tpc').value),
+                projectsPerYear: parseInt(document.getElementById('projectsPerYear').value),
+                horizon: parseInt(document.getElementById('horizon').value),
+                consultantRate: parseFloat(document.getElementById('consultantRate').value) / 100,
+                roClientEarly: parseFloat(document.getElementById('roClientEarly').value) / 100,
+                roClientLate: parseFloat(document.getElementById('roClientLate').value) / 100,
+                cliffYear: parseInt(document.getElementById('cliffYear').value),
+                roConsultantRate: parseFloat(document.getElementById('roConsultantRate').value) / 100,
+                avgConsultants: parseInt(document.getElementById('avgConsultants').value),
+                targetMin: parseFloat(document.getElementById('targetMin').value),
+                targetIdeal: parseFloat(document.getElementById('targetIdeal').value)
+            };
+        }
+        
+        function fmt(value) {
+            return '$' + value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        }
+        
+        function pct(value) {
+            return (value * 100).toFixed(1) + '%';
+        }
+        
+        function calculateYearlyData(inputs) {
+            const years = [];
+            let cumROClient = 0, cumROConsultant = 0, cumMycoNet = 0;
+            
+            for (let y = 1; y <= inputs.horizon; y++) {
+                const tpc = inputs.tpc;
+                const consultantPayout = tpc * inputs.consultantRate;
+                const mycoGross = tpc * (1 - inputs.consultantRate);
+                
+                const roClientRate = y < inputs.cliffYear ? inputs.roClientEarly : inputs.roClientLate;
+                const roClientPayout = tpc * roClientRate * inputs.projectsPerYear;
+                
+                // RO Consultant is % of AC (Allocated Cost per consultant)
+                const acPerConsultant = consultantPayout / inputs.avgConsultants;
+                const roConsultantPayout = acPerConsultant * inputs.roConsultantRate * inputs.avgConsultants * inputs.projectsPerYear;
+                
+                const mycoNet = (mycoGross * inputs.projectsPerYear) - roClientPayout - roConsultantPayout;
+                
+                cumROClient += roClientPayout;
+                cumROConsultant += roConsultantPayout;
+                cumMycoNet += mycoNet;
+                
+                years.push({
+                    year: y,
+                    tpc,
+                    consultantPayout: consultantPayout * inputs.projectsPerYear,
+                    mycoGross: mycoGross * inputs.projectsPerYear,
+                    roClientRate,
+                    roClientPayout,
+                    roConsultantPayout,
+                    mycoNet,
+                    cumROClient,
+                    cumROConsultant,
+                    cumMycoNet
+                });
+            }
+            return years;
+        }
+        
+        function recalculateAll() {
+            const inputs = getInputs();
+            const yearlyData = calculateYearlyData(inputs);
+            
+            // Calculate per-project values
+            const tpc = inputs.tpc;
+            const consultantPayout = tpc * inputs.consultantRate;
+            const mycoGross = tpc - consultantPayout;
+            const mycoMargin = 1 - inputs.consultantRate;
+            const roClientPayout = tpc * inputs.roClientEarly;
+            const acPerConsultant = consultantPayout / inputs.avgConsultants;
+            const roConsultantPayoutTotal = acPerConsultant * inputs.roConsultantRate * inputs.avgConsultants;
+            const mycoNet = mycoGross - roClientPayout - roConsultantPayoutTotal;
+            
+            // Update margin display
+            document.getElementById('mycoMarginDisplay').value = pct(mycoMargin);
+            
+            // Update flow diagram
+            document.getElementById('flowTPC').textContent = fmt(tpc);
+            document.getElementById('flowConsultant').textContent = fmt(consultantPayout);
+            document.getElementById('flowConsultantPct').textContent = pct(inputs.consultantRate) + ' of TPC';
+            document.getElementById('flowMycoGross').textContent = fmt(mycoGross);
+            document.getElementById('flowMycoPct').textContent = pct(mycoMargin) + ' of TPC';
+            document.getElementById('flowROClient').textContent = fmt(roClientPayout);
+            document.getElementById('flowROClientPct').textContent = pct(inputs.roClientEarly) + ' of TPC';
+            document.getElementById('flowROConsultant').textContent = fmt(roConsultantPayoutTotal);
+            document.getElementById('flowROConsultantPct').textContent = pct(inputs.roConsultantRate) + ' of AC';
+            document.getElementById('flowMycoNet').textContent = fmt(mycoNet);
+            document.getElementById('flowMycoNetPct').textContent = pct(mycoNet / tpc) + ' of TPC';
+            
+            // Update summary cards
+            document.getElementById('sumConsultant').textContent = fmt(consultantPayout);
+            document.getElementById('sumROClient').textContent = fmt(roClientPayout);
+            document.getElementById('sumROConsultant').textContent = fmt(roConsultantPayoutTotal);
+            document.getElementById('sumMycoNet').textContent = fmt(mycoNet);
+            
+            // Profitability check
+            const mycoNetPct = mycoNet / tpc;
+            document.getElementById('mycoNetPct').textContent = pct(mycoNetPct);
+            const marginAfterRO = mycoNet / mycoGross;
+            document.getElementById('marginAfterRO').textContent = pct(marginAfterRO);
+            const roOfMargin = (roClientPayout + roConsultantPayoutTotal) / mycoGross;
+            document.getElementById('roOfMargin').textContent = pct(roOfMargin);
+            
+            // Sustainability assessment
+            const profitCard = document.getElementById('profitCard');
+            const sustainableCard = document.getElementById('sustainableCard');
+            if (mycoNetPct < 0.03) {
+                document.getElementById('sustainable').textContent = '❌ NO';
+                sustainableCard.className = 'card danger';
+                profitCard.className = 'card danger';
+            } else if (mycoNetPct < 0.07) {
+                document.getElementById('sustainable').textContent = '⚠️ TIGHT';
+                sustainableCard.className = 'card warning';
+                profitCard.className = 'card warning';
+            } else {
+                document.getElementById('sustainable').textContent = '✅ YES';
+                sustainableCard.className = 'card success';
+                profitCard.className = 'card success';
+            }
+            
+            // Update other tabs
+            updateScenarioMatrix(inputs);
+            updateConsultantTab(inputs);
+            updateROClientTab(inputs, yearlyData);
+            updateROConsultantTab(inputs, yearlyData);
+            updateMarginTab(inputs);
+            updatePartnerTab(inputs, yearlyData);
+            updateRecommendTab(inputs, yearlyData);
+        }
+        
+        function updateScenarioMatrix(inputs) {
+            const scenarios = [
+                { name: 'A: Conservative', consultantRate: 0.70, roClientEarly: 0.10, roClientLate: 0.02, roConsultant: 0.01 },
+                { name: 'B: Competitive', consultantRate: 0.80, roClientEarly: 0.05, roClientLate: 0.01, roConsultant: 0.005 },
+                { name: 'C: Current (PDF)', consultantRate: 0.85, roClientEarly: 0.025, roClientLate: 0.025, roConsultant: 0.05 },
+                { name: 'D: Balanced', consultantRate: 0.75, roClientEarly: 0.07, roClientLate: 0.02, roConsultant: 0.02 },
+                { name: 'Current Settings', consultantRate: inputs.consultantRate, roClientEarly: inputs.roClientEarly, roClientLate: inputs.roClientLate, roConsultant: inputs.roConsultantRate }
+            ];
+            
+            let html = '<table><thead><tr><th>Scenario</th><th>Consultant %</th><th>MyCo Margin</th><th>RO Client (Early/Late)</th><th>RO Consultant</th><th>MyCo Net/Project</th></tr></thead><tbody>';
+            
+            scenarios.forEach(s => {
+                const mycoMargin = 1 - s.consultantRate;
+                const roClientPayout = inputs.tpc * s.roClientEarly;
+                const consultantPayout = inputs.tpc * s.consultantRate;
+                const acPerConsultant = consultantPayout / inputs.avgConsultants;
+                const roConsultantPayout = acPerConsultant * s.roConsultant * inputs.avgConsultants;
+                const mycoNet = (inputs.tpc * mycoMargin) - roClientPayout - roConsultantPayout;
+                const sustainable = mycoNet / inputs.tpc >= 0.05;
+                
+                const cls = sustainable ? '' : 'highlight-bad';
+                html += `<tr class="${cls}"><td>${s.name}</td><td>${pct(s.consultantRate)}</td><td>${pct(mycoMargin)}</td><td>${pct(s.roClientEarly)}/${pct(s.roClientLate)}</td><td>${pct(s.roConsultant)}</td><td>${fmt(mycoNet)}</td></tr>`;
+            });
+            
+            html += '</tbody></table>';
+            document.getElementById('scenarioMatrix').innerHTML = html;
+            
+            // Scenario comparison for 5-year partner earnings
+            html = '<table><thead><tr><th>Scenario</th><th>RO Client 5-Year</th><th>Hits $1K?</th><th>MyCo Net 5-Year</th></tr></thead><tbody>';
+            
+            scenarios.forEach(s => {
+                let cumROClient = 0;
+                let cumMycoNet = 0;
+                for (let y = 1; y <= 5; y++) {
+                    const roClientRate = y < inputs.cliffYear ? s.roClientEarly : s.roClientLate;
+                    cumROClient += inputs.tpc * roClientRate * inputs.projectsPerYear;
+                    
+                    const mycoMargin = 1 - s.consultantRate;
+                    const consultantPayout = inputs.tpc * s.consultantRate;
+                    const acPerConsultant = consultantPayout / inputs.avgConsultants;
+                    const roConsultantPayout = acPerConsultant * s.roConsultant * inputs.avgConsultants * inputs.projectsPerYear;
+                    cumMycoNet += (inputs.tpc * mycoMargin * inputs.projectsPerYear) - (inputs.tpc * roClientRate * inputs.projectsPerYear) - roConsultantPayout;
+                }
+                
+                const hits = cumROClient >= inputs.targetMin;
+                const cls = hits ? 'highlight-good' : 'highlight-bad';
+                html += `<tr><td>${s.name}</td><td class="${cls}">${fmt(cumROClient)}</td><td class="${cls}">${hits ? 'YES' : 'NO'}</td><td>${fmt(cumMycoNet)}</td></tr>`;
+            });
+            
+            html += '</tbody></table>';
+            document.getElementById('scenarioComparison').innerHTML = html;
+        }
+        
+        function updateConsultantTab(inputs) {
+            const rates = [0.70, 0.75, 0.80, 0.85, 0.90];
+            
+            let html = '<table><thead><tr><th>Consultant Rate</th><th>MyCo Margin</th><th>Consultant Earns</th><th>Room for RO</th><th>Assessment</th></tr></thead><tbody>';
+            
+            rates.forEach(rate => {
+                const mycoMargin = 1 - rate;
+                const consultantEarns = inputs.tpc * rate;
+                const roRoom = inputs.tpc * mycoMargin;
+                
+                let assessment, cls;
+                if (mycoMargin >= 0.25) {
+                    assessment = '✅ Strong margin';
+                    cls = 'highlight-good';
+                } else if (mycoMargin >= 0.15) {
+                    assessment = '⚠️ Moderate';
+                    cls = 'highlight-warning';
+                } else {
+                    assessment = '❌ Thin margin';
+                    cls = 'highlight-bad';
+                }
+                
+                html += `<tr class="${rate === inputs.consultantRate ? 'highlight-warning' : ''}"><td>${pct(rate)}</td><td>${pct(mycoMargin)}</td><td>${fmt(consultantEarns)}</td><td>${fmt(roRoom)}</td><td class="${cls}">${assessment}</td></tr>`;
+            });
+            
+            html += '</tbody></table>';
+            document.getElementById('consultantRateTable').innerHTML = html;
+            
+            if (inputs.consultantRate > 0.82) {
+                document.getElementById('consultantInsight').textContent = `At ${pct(inputs.consultantRate)} consultant payout, MyCo only keeps ${pct(1-inputs.consultantRate)} margin. After RO payouts, margins are very thin. Consider reducing to 75-80% for sustainability.`;
+            } else {
+                document.getElementById('consultantInsight').textContent = `At ${pct(inputs.consultantRate)} consultant payout, MyCo keeps ${pct(1-inputs.consultantRate)} margin. This provides reasonable room for RO payouts and operations.`;
+            }
+        }
+        
+        function updateROClientTab(inputs, yearlyData) {
+            const yr5 = yearlyData[4];
+            const yr10 = yearlyData[inputs.horizon - 1];
+            
+            document.getElementById('roClient5yr').textContent = fmt(yr5.cumROClient);
+            document.getElementById('roClient10yr').textContent = fmt(yr10.cumROClient);
+            
+            const meets = yr5.cumROClient >= inputs.targetMin;
+            document.getElementById('roClientMeets').textContent = meets ? 'YES ✅' : 'NO ❌';
+            document.getElementById('roClientMeetsCard').className = meets ? 'card success' : 'card danger';
+            
+            // Sensitivity
+            const earlyRates = [0.025, 0.05, 0.075, 0.10, 0.125, 0.15];
+            let html = '<table><thead><tr><th>Early Rate (Yr 1-3)</th><th>Late Rate (Yr 4+)</th><th>5-Year Earnings</th><th>Hits $1K?</th></tr></thead><tbody>';
+            
+            earlyRates.forEach(early => {
+                const late = early * 0.2; // Assume late is 20% of early
+                let cum = 0;
+                for (let y = 1; y <= 5; y++) {
+                    const rate = y < inputs.cliffYear ? early : late;
+                    cum += inputs.tpc * rate * inputs.projectsPerYear;
+                }
+                const hits = cum >= inputs.targetMin;
+                const cls = hits ? 'highlight-good' : 'highlight-bad';
+                html += `<tr><td>${pct(early)}</td><td>${pct(late)}</td><td class="${cls}">${fmt(cum)}</td><td class="${cls}">${hits ? 'YES' : 'NO'}</td></tr>`;
+            });
+            
+            html += '</tbody></table>';
+            document.getElementById('roClientSensitivity').innerHTML = html;
+            
+            // Yearly breakdown
+            html = '<table><thead><tr><th>Year</th><th>Rate</th><th>Annual Payout</th><th>Cumulative</th></tr></thead><tbody>';
+            yearlyData.slice(0, 7).forEach(d => {
+                html += `<tr><td>${d.year}</td><td>${pct(d.roClientRate)}</td><td>${fmt(d.roClientPayout)}</td><td>${fmt(d.cumROClient)}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('roClientYearlyTable').innerHTML = html;
+        }
+        
+        function updateROConsultantTab(inputs, yearlyData) {
+            const consultantPayout = inputs.tpc * inputs.consultantRate;
+            const acPerConsultant = consultantPayout / inputs.avgConsultants;
+            const roConsultantPerProject = acPerConsultant * inputs.roConsultantRate * inputs.avgConsultants;
+            
+            document.getElementById('roConsultantRateDisplay').textContent = pct(inputs.roConsultantRate);
+            document.getElementById('roConsultantPerProject').textContent = fmt(roConsultantPerProject);
+            document.getElementById('roConsultant5yr').textContent = fmt(yearlyData[4].cumROConsultant);
+            
+            // Rate comparison
+            const rates = [0.01, 0.02, 0.03, 0.05, 0.07, 0.10];
+            let html = '<table><thead><tr><th>RO Consultant Rate</th><th>Per Project</th><th>5-Year Earnings</th><th>As % of RO Client</th></tr></thead><tbody>';
+            
+            rates.forEach(rate => {
+                const payout = acPerConsultant * rate * inputs.avgConsultants;
+                const annual = payout * inputs.projectsPerYear;
+                const fiveYear = annual * 5;
+                const ratio = fiveYear / yearlyData[4].cumROClient;
+                
+                const cls = rate === inputs.roConsultantRate ? 'highlight-warning' : '';
+                html += `<tr class="${cls}"><td>${pct(rate)}</td><td>${fmt(payout)}</td><td>${fmt(fiveYear)}</td><td>${pct(ratio)}</td></tr>`;
+            });
+            
+            html += '</tbody></table>';
+            document.getElementById('roConsultantTable').innerHTML = html;
+            
+            // Ratio assessment
+            const ratio = yearlyData[4].cumROClient / yearlyData[4].cumROConsultant;
+            document.getElementById('roRatio').textContent = ratio.toFixed(1) + 'x';
+            
+            const roRatioCard = document.getElementById('roRatioCard');
+            if (ratio >= 3) {
+                document.getElementById('roRatioAssessment').textContent = '✅ GOOD';
+                roRatioCard.className = 'card success';
+            } else if (ratio >= 1.5) {
+                document.getElementById('roRatioAssessment').textContent = '⚠️ OK';
+                roRatioCard.className = 'card warning';
+            } else {
+                document.getElementById('roRatioAssessment').textContent = '❌ LOW';
+                roRatioCard.className = 'card danger';
+            }
+        }
+        
+        function updateMarginTab(inputs) {
+            const mycoMargin = 1 - inputs.consultantRate;
+            const roClientOfTPC = inputs.roClientEarly;
+            const consultantPayout = inputs.tpc * inputs.consultantRate;
+            const acPerConsultant = consultantPayout / inputs.avgConsultants;
+            const roConsultantOfTPC = (acPerConsultant * inputs.roConsultantRate * inputs.avgConsultants) / inputs.tpc;
+            const netMargin = mycoMargin - roClientOfTPC - roConsultantOfTPC;
+            
+            document.getElementById('grossMarginPct').textContent = pct(mycoMargin);
+            document.getElementById('roClientTakes').textContent = pct(roClientOfTPC);
+            document.getElementById('roConsultantTakes').textContent = pct(roConsultantOfTPC);
+            document.getElementById('netMarginPct').textContent = pct(netMargin);
+            
+            const netMarginCard = document.getElementById('netMarginCard');
+            if (netMargin >= 0.07) {
+                netMarginCard.className = 'card success';
+            } else if (netMargin >= 0.03) {
+                netMarginCard.className = 'card warning';
+            } else {
+                netMarginCard.className = 'card danger';
+            }
+            
+            // Margin scenarios
+            const consultantRates = [0.70, 0.75, 0.80, 0.85];
+            const roClientRates = [0.025, 0.05, 0.075, 0.10];
+            
+            let html = '<table><thead><tr><th>Consultant Rate</th><th>Gross Margin</th>';
+            roClientRates.forEach(r => html += `<th>RO Client ${pct(r)}</th>`);
+            html += '</tr></thead><tbody>';
+            
+            consultantRates.forEach(cr => {
+                const gm = 1 - cr;
+                html += `<tr><td>${pct(cr)}</td><td>${pct(gm)}</td>`;
+                roClientRates.forEach(roc => {
+                    const netM = gm - roc - roConsultantOfTPC;
+                    let cls = netM >= 0.07 ? 'highlight-good' : (netM >= 0.03 ? 'highlight-warning' : 'highlight-bad');
+                    html += `<td class="${cls}">${pct(netM)}</td>`;
+                });
+                html += '</tr>';
+            });
+            
+            html += '</tbody></table>';
+            document.getElementById('marginScenarios').innerHTML = html;
+        }
+        
+        function updatePartnerTab(inputs, yearlyData) {
+            const yr5 = yearlyData[4];
+            
+            // Single referral - RO Client
+            let html = '<table><thead><tr><th>Metric</th><th>Value</th><th>Status</th></tr></thead><tbody>';
+            const hits1k = yr5.cumROClient >= inputs.targetMin;
+            const hits5k = yr5.cumROClient >= inputs.targetIdeal;
+            html += `<tr><td>5-Year Earnings</td><td>${fmt(yr5.cumROClient)}</td><td class="${hits1k ? 'highlight-good' : 'highlight-bad'}">${hits1k ? 'Meets $1K ✅' : 'Below $1K ❌'}</td></tr>`;
+            html += `<tr><td>10-Year Earnings</td><td>${fmt(yearlyData[9].cumROClient)}</td><td>${hits5k ? 'highlight-good' : ''}">${hits5k ? 'Meets $5K ✅' : ''}</td></tr>`;
+            html += '</tbody></table>';
+            document.getElementById('singleRefCheck').innerHTML = html;
+            
+            // Multiple referrals
+            html = '<table><thead><tr><th># Referrals</th><th>5-Year Earnings</th><th>Hits $1K?</th><th>Hits $5K?</th></tr></thead><tbody>';
+            for (let r = 1; r <= 6; r++) {
+                const earnings = yr5.cumROClient * r;
+                const h1k = earnings >= inputs.targetMin;
+                const h5k = earnings >= inputs.targetIdeal;
+                html += `<tr><td>${r}</td><td>${fmt(earnings)}</td><td class="${h1k ? 'highlight-good' : 'highlight-bad'}">${h1k ? 'YES' : 'NO'}</td><td class="${h5k ? 'highlight-good' : 'highlight-bad'}">${h5k ? 'YES' : 'NO'}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            document.getElementById('multiRefCheck').innerHTML = html;
+            
+            // Consultant referral
+            html = '<table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>';
+            html += `<tr><td>Per Project</td><td>${fmt(yearlyData[0].roConsultantPayout / inputs.projectsPerYear)}</td></tr>`;
+            html += `<tr><td>5-Year Earnings</td><td>${fmt(yr5.cumROConsultant)}</td></tr>`;
+            html += `<tr><td>10-Year Earnings</td><td>${fmt(yearlyData[9].cumROConsultant)}</td></tr>`;
+            html += '</tbody></table>';
+            document.getElementById('consultantRefCheck').innerHTML = html;
+            
+            // Insights
+            const insights = [];
+            const refsFor1k = Math.ceil(inputs.targetMin / yr5.cumROClient);
+            const refsFor5k = Math.ceil(inputs.targetIdeal / yr5.cumROClient);
+            
+            if (hits1k) {
+                insights.push(`✅ Single referral earns ${fmt(yr5.cumROClient)} in 5 years - MEETS $1K target`);
+            } else {
+                insights.push(`❌ Single referral earns only ${fmt(yr5.cumROClient)} in 5 years - needs ${refsFor1k} referrals for $1K`);
+            }
+            
+            insights.push(`To hit ${fmt(inputs.targetIdeal)}, partner needs ${refsFor5k} successful referrals`);
+            insights.push(`RO Consultant earns ${fmt(yr5.cumROConsultant)} per referred consultant over 5 years`);
+            insights.push(`RO Client earns ${(yr5.cumROClient / yr5.cumROConsultant).toFixed(1)}x more than RO Consultant`);
+            
+            document.getElementById('partnerInsights').innerHTML = insights.map(i => `<li>${i}</li>`).join('');
+        }
+        
+        function updateRecommendTab(inputs, yearlyData) {
+            const yr5 = yearlyData[4];
+            
+            // Determine optimal structure
+            let recConsultant, recROClientEarly, recROClientLate, recROConsultant;
+            
+            // Goal: Partner hits $1K in 5 years, MyCo keeps at least 5% net margin
+            // Calculate what's needed
+            const neededROClient5yr = inputs.targetMin;
+            const yearsEarly = inputs.cliffYear - 1;
+            const yearsLate = 5 - yearsEarly;
+            
+            // If current doesn't meet target, calculate what would
+            if (yr5.cumROClient < inputs.targetMin) {
+                // Need higher RO client rate
+                const neededAnnual = neededROClient5yr / 5;
+                const neededRate = neededAnnual / (inputs.tpc * inputs.projectsPerYear);
+                recROClientEarly = Math.min(neededRate * 1.5, 0.15); // Boost early rate
+                recROClientLate = neededRate * 0.3;
+            } else {
+                recROClientEarly = inputs.roClientEarly;
+                recROClientLate = inputs.roClientLate;
+            }
+            
+            // Consultant rate - aim for 75-80% for healthy margins
+            if (inputs.consultantRate > 0.82) {
+                recConsultant = 0.75;
+            } else {
+                recConsultant = inputs.consultantRate;
+            }
+            
+            // RO Consultant - keep low, 1-2% of AC
+            recROConsultant = Math.min(inputs.roConsultantRate, 0.02);
+            
+            // Build recommendation table
+            let html = '';
+            html += `<tr><td>Consultant Payout</td><td>${pct(inputs.consultantRate)}</td><td>${pct(recConsultant)}</td><td>Industry range 70-85%</td></tr>`;
+            html += `<tr><td>MyCo Margin</td><td>${pct(1-inputs.consultantRate)}</td><td>${pct(1-recConsultant)}</td><td>Derived from consultant rate</td></tr>`;
+            html += `<tr><td>RO Client (Early)</td><td>${pct(inputs.roClientEarly)}</td><td>${pct(recROClientEarly)}</td><td>High early to incentivize referrals</td></tr>`;
+            html += `<tr><td>RO Client (Late)</td><td>${pct(inputs.roClientLate)}</td><td>${pct(recROClientLate)}</td><td>Lower to protect long-term margins</td></tr>`;
+            html += `<tr><td>RO Consultant</td><td>${pct(inputs.roConsultantRate)}</td><td>${pct(recROConsultant)}</td><td>Keep low relative to RO Client</td></tr>`;
+            
+            document.getElementById('recommendationTable').innerHTML = html;
+            
+            // Calculate recommended results
+            const recMycoMargin = 1 - recConsultant;
+            const recConsultantPayout = inputs.tpc * recConsultant;
+            const recAC = recConsultantPayout / inputs.avgConsultants;
+            const recROConsultantPayout = recAC * recROConsultant * inputs.avgConsultants;
+            
+            let recCumROClient = 0;
+            for (let y = 1; y <= 5; y++) {
+                const rate = y < inputs.cliffYear ? recROClientEarly : recROClientLate;
+                recCumROClient += inputs.tpc * rate * inputs.projectsPerYear;
+            }
+            
+            const recMycoNet = (inputs.tpc * recMycoMargin) - (inputs.tpc * recROClientEarly) - recROConsultantPayout;
+            const recMycoNetPct = recMycoNet / inputs.tpc;
+            
+            html = `
+                <div class="card ${recCumROClient >= inputs.targetMin ? 'success' : 'warning'}">
+                    <div class="card-label">RO Client 5-Year</div>
+                    <div class="card-value">${fmt(recCumROClient)}</div>
+                </div>
+                <div class="card ${recMycoNetPct >= 0.05 ? 'success' : 'warning'}">
+                    <div class="card-label">MyCo Net/Project</div>
+                    <div class="card-value">${fmt(recMycoNet)}</div>
+                </div>
+                <div class="card ${recMycoNetPct >= 0.05 ? 'success' : 'danger'}">
+                    <div class="card-label">MyCo Net % of TPC</div>
+                    <div class="card-value">${pct(recMycoNetPct)}</div>
+                </div>
+            `;
+            document.getElementById('recommendedResults').innerHTML = html;
+            
+            // Final recommendation
+            const sustainable = recMycoNetPct >= 0.05;
+            const partnerMet = recCumROClient >= inputs.targetMin;
+            
+            html = '<div class="recommendation">';
+            if (sustainable && partnerMet) {
+                html += '<h3>✅ Recommended Structure is Viable</h3>';
+                html += `<p>With the recommended structure, partners earn ${fmt(recCumROClient)} in 5 years (meets $1K target), and MyCo retains ${pct(recMycoNetPct)} net margin per project.</p>`;
+            } else if (!sustainable) {
+                html += '<h3>⚠️ Margin Warning</h3>';
+                html += `<p>Current/recommended structure leaves only ${pct(recMycoNetPct)} net margin for MyCo. Consider reducing consultant rate or RO payouts.</p>`;
+            } else {
+                html += '<h3>⚠️ Partner Target Not Met</h3>';
+                html += `<p>RO Client only earns ${fmt(recCumROClient)} in 5 years. Need to increase early-year rates or encourage multiple referrals.</p>`;
+            }
+            html += '</div>';
+            document.getElementById('finalRecommendation').innerHTML = html;
+        }
+        
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // STRESS TEST TAB
+        function updateStressTest(inputs) {
+            // Low TPC scenarios
+            const lowTPCs = [200, 500, 800, 1000];
+            let html = '<table><thead><tr><th>TPC</th><th>MyCo Net</th><th>5-Year Partner</th><th>Viability</th></tr></thead><tbody>';
+            
+            lowTPCs.forEach(tpc => {
+                const consultantPayout = tpc * inputs.consultantRate;
+                const mycoGross = tpc - consultantPayout;
+                const roClientPayout = tpc * inputs.roClientEarly;
+                const acPerConsultant = consultantPayout / inputs.avgConsultants;
+                const roConsultantPayout = acPerConsultant * inputs.roConsultantRate * inputs.avgConsultants;
+                const mycoNet = mycoGross - roClientPayout - roConsultantPayout;
+                
+                let cum5yr = 0;
+                for (let y = 1; y <= 5; y++) {
+                    const rate = y < inputs.cliffYear ? inputs.roClientEarly : inputs.roClientLate;
+                    cum5yr += tpc * rate * inputs.projectsPerYear;
+                }
+                
+                let viability, cls;
+                if (mycoNet < 50 || cum5yr < 500) {
+                    viability = '🔴 Not Viable';
+                    cls = 'highlight-bad';
+                } else if (mycoNet < 100 || cum5yr < 800) {
+                    viability = '🟡 Marginal';
+                    cls = 'highlight-warning';
+                } else {
+                    viability = '🟢 Viable';
+                    cls = 'highlight-good';
+                }
+                
+                html += `<tr class="${cls}"><td>${fmt(tpc)}</td><td>${fmt(mycoNet)}</td><td>${fmt(cum5yr)}</td><td>${viability}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('stressLowTPC').innerHTML = html;
+            
+            // High TPC scenarios
+            const highTPCs = [3000, 5000, 7500, 10000, 15000];
+            html = '<table><thead><tr><th>TPC</th><th>MyCo Net</th><th>5-Year Partner</th><th>Notes</th></tr></thead><tbody>';
+            
+            highTPCs.forEach(tpc => {
+                const consultantPayout = tpc * inputs.consultantRate;
+                const mycoGross = tpc - consultantPayout;
+                const roClientPayout = tpc * inputs.roClientEarly;
+                const acPerConsultant = consultantPayout / inputs.avgConsultants;
+                const roConsultantPayout = acPerConsultant * inputs.roConsultantRate * inputs.avgConsultants;
+                const mycoNet = mycoGross - roClientPayout - roConsultantPayout;
+                
+                let cum5yr = 0;
+                for (let y = 1; y <= 5; y++) {
+                    const rate = y < inputs.cliffYear ? inputs.roClientEarly : inputs.roClientLate;
+                    cum5yr += tpc * rate * inputs.projectsPerYear;
+                }
+                
+                let notes = '';
+                if (cum5yr > 5000) notes = '⚠️ Consider cap';
+                else if (cum5yr > 3000) notes = '✅ Excellent';
+                else notes = '✅ Good';
+                
+                html += `<tr><td>${fmt(tpc)}</td><td>${fmt(mycoNet)}</td><td>${fmt(cum5yr)}</td><td>${notes}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('stressHighTPC').innerHTML = html;
+            
+            // Edge cases
+            html = '<table><thead><tr><th>Scenario</th><th>Partner Earnings</th><th>MyCo Impact</th><th>Assessment</th></tr></thead><tbody>';
+            
+            // Single project client
+            const singleProject = inputs.tpc * inputs.roClientEarly;
+            html += `<tr><td>Single Project Client</td><td>${fmt(singleProject)}</td><td>${fmt(inputs.tpc * (1 - inputs.consultantRate) * 0.139)}</td><td>⚠️ Low but expected</td></tr>`;
+            
+            // Rapid churn (year 2)
+            const rapidChurn = inputs.tpc * inputs.roClientEarly * inputs.projectsPerYear * 1;
+            html += `<tr><td>Year 2 Churn</td><td>${fmt(rapidChurn)}</td><td>${fmt(inputs.tpc * (1 - inputs.consultantRate) * 0.139 * inputs.projectsPerYear)}</td><td>⚠️ Focus on retention</td></tr>`;
+            
+            // 10-client super referrer
+            let superRef = 0;
+            for (let y = 1; y <= 5; y++) {
+                const rate = y < inputs.cliffYear ? inputs.roClientEarly : inputs.roClientLate;
+                superRef += inputs.tpc * rate * inputs.projectsPerYear;
+            }
+            superRef *= 10;
+            html += `<tr><td>10-Client Super Referrer</td><td>${fmt(superRef)}</td><td>${fmt(inputs.tpc * (1 - inputs.consultantRate) * 0.139 * inputs.projectsPerYear * 5 * 10)}</td><td>🟢 Great for both</td></tr>`;
+            
+            html += '</tbody></table>';
+            document.getElementById('stressEdgeCases').innerHTML = html;
+            
+            // Summary
+            const minViableTPC = 400;
+            document.getElementById('stressSummary').innerHTML = `
+                <ul style="line-height: 2; padding-left: 20px;">
+                    <li><strong>Minimum TPC:</strong> ${fmt(minViableTPC)} for operational viability</li>
+                    <li><strong>Target TPC Range:</strong> $1,000 - $5,000 optimal for all parties</li>
+                    <li><strong>Enterprise Cap:</strong> Consider 10% cap at $1,000/project for TPC > $10,000</li>
+                    <li><strong>Break-even for $1K Partner:</strong> TPC must be ≥$1,390 (with ${inputs.projectsPerYear} projects/year)</li>
+                </ul>
+            `;
+        }
+        
+        // CASH FLOW TAB
+        function updateCashflow(inputs, yearlyData) {
+            const yr5 = yearlyData[4];
+            const totalRevenue = yr5.cumROClient + yr5.cumROConsultant + yr5.cumMycoNet + yearlyData.slice(0, 5).reduce((a, b) => a + b.consultantPayout, 0);
+            
+            document.getElementById('cfTotalRevenue').textContent = fmt(inputs.tpc * inputs.projectsPerYear * 5);
+            document.getElementById('cfTotalMycoNet').textContent = fmt(yr5.cumMycoNet);
+            document.getElementById('cfTotalPartner').textContent = fmt(yr5.cumROClient + yr5.cumROConsultant);
+            
+            // Year-by-year table
+            let html = '<table><thead><tr><th>Year</th><th>Revenue</th><th>To Consultants</th><th>To RO Client</th><th>To RO Consultant</th><th>MyCo Net</th><th>Cumulative MyCo</th></tr></thead><tbody>';
+            
+            yearlyData.slice(0, 10).forEach(d => {
+                html += `<tr>
+                    <td>Year ${d.year}</td>
+                    <td>${fmt(d.tpc * inputs.projectsPerYear)}</td>
+                    <td>${fmt(d.consultantPayout)}</td>
+                    <td>${fmt(d.roClientPayout)}</td>
+                    <td>${fmt(d.roConsultantPayout)}</td>
+                    <td>${fmt(d.mycoNet)}</td>
+                    <td class="highlight-good">${fmt(d.cumMycoNet)}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('cashflowTable').innerHTML = html;
+            
+            // Simple bar chart visualization
+            const maxVal = Math.max(...yearlyData.slice(0, 10).map(d => d.cumMycoNet));
+            html = '<div style="display: flex; align-items: flex-end; height: 200px; gap: 10px;">';
+            yearlyData.slice(0, 10).forEach(d => {
+                const height = (d.cumMycoNet / maxVal) * 180;
+                html += `<div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                    <div style="background: linear-gradient(to top, var(--accent), var(--success)); width: 100%; height: ${height}px; border-radius: 4px 4px 0 0;"></div>
+                    <div style="font-size: 0.7rem; margin-top: 5px;">Y${d.year}</div>
+                </div>`;
+            });
+            html += '</div><p style="text-align: center; color: var(--muted); margin-top: 10px;">Cumulative MyCo Net Revenue Over Time</p>';
+            document.getElementById('cashflowChart').innerHTML = html;
+            
+            // Payment timing
+            html = `<table><thead><tr><th>Scenario</th><th>Float Required</th><th>Notes</th></tr></thead><tbody>
+                <tr><td>Net 30 Client Payment</td><td>${fmt(inputs.tpc * inputs.consultantRate)}</td><td>30-day working capital per project</td></tr>
+                <tr><td>Net 60 Client Payment</td><td>${fmt(inputs.tpc * inputs.consultantRate)}</td><td>60-day working capital per project</td></tr>
+                <tr><td>10 Projects/Month (Net 30)</td><td>${fmt(inputs.tpc * inputs.consultantRate * 10)}</td><td>Monthly working capital reserve</td></tr>
+                <tr><td>50 Projects/Month (Net 30)</td><td>${fmt(inputs.tpc * inputs.consultantRate * 50)}</td><td>Scale working capital reserve</td></tr>
+            </tbody></table>`;
+            document.getElementById('paymentTiming').innerHTML = html;
+        }
+        
+        // BREAK-EVEN TAB
+        function updateBreakeven() {
+            const inputs = getInputs();
+            const whatIfTPC = parseFloat(document.getElementById('beWhatIfTPC').value) || inputs.tpc;
+            const whatIfProjects = parseFloat(document.getElementById('beWhatIfProjects').value) || inputs.projectsPerYear;
+            
+            // Partner break-even
+            const target = 1000;
+            const avgAnnualRate = ((inputs.roClientEarly * (inputs.cliffYear - 1)) + (inputs.roClientLate * (5 - inputs.cliffYear + 1))) / 5;
+            const neededTPC = target / (avgAnnualRate * inputs.projectsPerYear * 5);
+            const neededProjects = target / (avgAnnualRate * inputs.tpc * 5);
+            
+            let html = `<table><thead><tr><th>Variable</th><th>Current</th><th>Needed for $1K</th></tr></thead><tbody>
+                <tr><td>TPC</td><td>${fmt(inputs.tpc)}</td><td>${fmt(neededTPC)}</td></tr>
+                <tr><td>Projects/Year</td><td>${inputs.projectsPerYear}</td><td>${neededProjects.toFixed(1)}</td></tr>
+                <tr><td>5-Year Earnings</td><td colspan="2">${fmt(inputs.tpc * avgAnnualRate * inputs.projectsPerYear * 5)}</td></tr>
+            </tbody></table>`;
+            document.getElementById('partnerBreakeven').innerHTML = html;
+            
+            // MyCo break-even
+            const minOperatingCost = 50; // $50 minimum per project
+            const mycoNetPct = 0.139; // ~14%
+            const minTPC = minOperatingCost / mycoNetPct;
+            
+            html = `<table><thead><tr><th>Metric</th><th>Value</th><th>Notes</th></tr></thead><tbody>
+                <tr><td>Minimum Operating Cost/Project</td><td>${fmt(minOperatingCost)}</td><td>Estimated minimum</td></tr>
+                <tr><td>MyCo Net Margin</td><td>${pct(mycoNetPct)}</td><td>After all payouts</td></tr>
+                <tr><td>Minimum Viable TPC</td><td class="highlight-warning">${fmt(minTPC)}</td><td>To cover operating costs</td></tr>
+                <tr><td>Recommended Minimum TPC</td><td class="highlight-good">${fmt(400)}</td><td>With buffer</td></tr>
+            </tbody></table>`;
+            document.getElementById('mycoBreakeven').innerHTML = html;
+            
+            // What-if results
+            let cum5yr = 0;
+            for (let y = 1; y <= 5; y++) {
+                const rate = y < inputs.cliffYear ? inputs.roClientEarly : inputs.roClientLate;
+                cum5yr += whatIfTPC * rate * whatIfProjects;
+            }
+            
+            const whatIfMycoNet = whatIfTPC * (1 - inputs.consultantRate) - whatIfTPC * inputs.roClientEarly - (whatIfTPC * inputs.consultantRate * inputs.roConsultantRate);
+            
+            html = `<div class="summary-cards">
+                <div class="card ${cum5yr >= 1000 ? 'success' : 'warning'}">
+                    <div class="card-label">Partner 5-Year Earnings</div>
+                    <div class="card-value">${fmt(cum5yr)}</div>
+                </div>
+                <div class="card ${whatIfMycoNet >= 50 ? 'success' : 'danger'}">
+                    <div class="card-label">MyCo Net/Project</div>
+                    <div class="card-value">${fmt(whatIfMycoNet)}</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Meets $1K Target?</div>
+                    <div class="card-value">${cum5yr >= 1000 ? '✅ YES' : '❌ NO'}</div>
+                </div>
+            </div>`;
+            document.getElementById('whatIfResults').innerHTML = html;
+        }
+        
+        // COMPARE PARTNERS TAB
+        function updateCompare() {
+            const inputs = getInputs();
+            const partnerA = parseInt(document.getElementById('partnerAClients').value) || 1;
+            const partnerB = parseInt(document.getElementById('partnerBClients').value) || 3;
+            const partnerC = parseInt(document.getElementById('partnerCClients').value) || 5;
+            
+            // Calculate 5-year earnings per client
+            let per5yr = 0;
+            for (let y = 1; y <= 5; y++) {
+                const rate = y < inputs.cliffYear ? inputs.roClientEarly : inputs.roClientLate;
+                per5yr += inputs.tpc * rate * inputs.projectsPerYear;
+            }
+            
+            const partners = [
+                { name: 'Partner A', clients: partnerA, earnings: per5yr * partnerA },
+                { name: 'Partner B', clients: partnerB, earnings: per5yr * partnerB },
+                { name: 'Partner C', clients: partnerC, earnings: per5yr * partnerC }
+            ];
+            
+            let html = '<table><thead><tr><th>Partner</th><th>Clients</th><th>5-Year Earnings</th><th>Meets $1K?</th><th>Meets $5K?</th></tr></thead><tbody>';
+            
+            partners.forEach(p => {
+                const m1k = p.earnings >= 1000;
+                const m5k = p.earnings >= 5000;
+                html += `<tr>
+                    <td>${p.name}</td>
+                    <td>${p.clients}</td>
+                    <td class="${m1k ? 'highlight-good' : 'highlight-bad'}">${fmt(p.earnings)}</td>
+                    <td>${m1k ? '✅' : '❌'}</td>
+                    <td>${m5k ? '✅' : '❌'}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('partnerComparisonTable').innerHTML = html;
+            
+            // Bar chart
+            const maxEarn = Math.max(...partners.map(p => p.earnings));
+            html = '<div style="display: flex; align-items: flex-end; height: 150px; gap: 20px; justify-content: center;">';
+            partners.forEach((p, i) => {
+                const height = (p.earnings / maxEarn) * 130;
+                const colors = ['var(--accent)', 'var(--success)', 'var(--warning)'];
+                html += `<div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
+                    <div style="font-size: 0.8rem; margin-bottom: 5px;">${fmt(p.earnings)}</div>
+                    <div style="background: ${colors[i]}; width: 60px; height: ${height}px; border-radius: 4px 4px 0 0;"></div>
+                    <div style="font-size: 0.8rem; margin-top: 5px;">${p.name}</div>
+                    <div style="font-size: 0.7rem; color: var(--muted);">${p.clients} clients</div>
+                </div>`;
+            });
+            html += '</div>';
+            document.getElementById('partnerComparisonChart').innerHTML = html;
+        }
+        
+        // TIERED PROGRAM TAB
+        function updateTiered() {
+            const inputs = getInputs();
+            const clientsPerYear = parseInt(document.getElementById('tierClientsPerYear').value) || 2;
+            const avgTPC = parseFloat(document.getElementById('tierAvgTPC').value) || 3000;
+            
+            const tiers = [
+                { name: '🥉 Bronze', min: 0, max: 15000, earlyRate: 0.10, lateRate: 0.03, bonus: 0 },
+                { name: '🥈 Silver', min: 15001, max: 50000, earlyRate: 0.12, lateRate: 0.04, bonus: 0 },
+                { name: '🥇 Gold', min: 50001, max: 150000, earlyRate: 0.14, lateRate: 0.05, bonus: 500 },
+                { name: '💎 Platinum', min: 150001, max: Infinity, earlyRate: 0.15, lateRate: 0.06, bonus: 1000 }
+            ];
+            
+            // Calculate progression
+            let cumRevenue = 0;
+            let cumEarnings = 0;
+            let html = '<table><thead><tr><th>Year</th><th>New Clients</th><th>Cumulative Revenue</th><th>Tier</th><th>Cumulative Earnings</th></tr></thead><tbody>';
+            
+            for (let y = 1; y <= 5; y++) {
+                cumRevenue += clientsPerYear * avgTPC;
+                const tier = tiers.find(t => cumRevenue >= t.min && cumRevenue <= t.max);
+                const rate = y < inputs.cliffYear ? tier.earlyRate : tier.lateRate;
+                cumEarnings += clientsPerYear * avgTPC * rate;
+                if (y === 1 && tier.bonus > 0) cumEarnings += tier.bonus;
+                
+                html += `<tr>
+                    <td>Year ${y}</td>
+                    <td>${clientsPerYear}</td>
+                    <td>${fmt(cumRevenue)}</td>
+                    <td>${tier.name}</td>
+                    <td class="highlight-good">${fmt(cumEarnings)}</td>
+                </tr>`;
+            }
+            html += '</tbody></table>';
+            document.getElementById('tierProgressionTable').innerHTML = html;
+            
+            // MyCo impact
+            html = '<table><thead><tr><th>Tier</th><th>Partner Rate</th><th>MyCo Net %</th><th>Sustainable?</th></tr></thead><tbody>';
+            tiers.forEach(t => {
+                const mycoNet = (1 - inputs.consultantRate) - t.earlyRate - (inputs.consultantRate * inputs.roConsultantRate);
+                const sustainable = mycoNet >= 0.07;
+                html += `<tr>
+                    <td>${t.name}</td>
+                    <td>${pct(t.earlyRate)}/${pct(t.lateRate)}</td>
+                    <td class="${sustainable ? 'highlight-good' : 'highlight-warning'}">${pct(mycoNet)}</td>
+                    <td>${sustainable ? '✅' : '⚠️'}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('tierMycoImpact').innerHTML = html;
+        }
+        
+        // EXPORT FUNCTION
+        function exportReport() {
+            const inputs = getInputs();
+            const yearlyData = calculateYearlyData(inputs);
+            const yr5 = yearlyData[4];
+            
+            let report = `MyCo Payout Structure Report
+Generated: ${new Date().toLocaleDateString()}
+
+=== CURRENT SETTINGS ===
+TPC: $${inputs.tpc}
+Projects/Year: ${inputs.projectsPerYear}
+Consultant Rate: ${(inputs.consultantRate * 100).toFixed(1)}%
+RO Client (Early): ${(inputs.roClientEarly * 100).toFixed(1)}%
+RO Client (Late): ${(inputs.roClientLate * 100).toFixed(1)}%
+RO Consultant: ${(inputs.roConsultantRate * 100).toFixed(1)}%
+Cliff Year: Year ${inputs.cliffYear}
+
+=== KEY METRICS ===
+MyCo Gross Margin: ${((1 - inputs.consultantRate) * 100).toFixed(1)}%
+MyCo Net per Project: $${(inputs.tpc * (1 - inputs.consultantRate) - inputs.tpc * inputs.roClientEarly - inputs.tpc * inputs.consultantRate * inputs.roConsultantRate).toFixed(2)}
+
+=== PARTNER EARNINGS ===
+RO Client 5-Year: $${yr5.cumROClient.toFixed(2)}
+RO Client 10-Year: $${yearlyData[9].cumROClient.toFixed(2)}
+RO Consultant 5-Year: $${yr5.cumROConsultant.toFixed(2)}
+Meets $1K Target: ${yr5.cumROClient >= 1000 ? 'YES' : 'NO'}
+
+=== MYCO FINANCIALS ===
+MyCo Net 5-Year: $${yr5.cumMycoNet.toFixed(2)}
+MyCo Net 10-Year: $${yearlyData[9].cumMycoNet.toFixed(2)}
+
+=== YEAR-BY-YEAR BREAKDOWN ===
+`;
+            
+            yearlyData.slice(0, 10).forEach(d => {
+                report += `Year ${d.year}: RO Client $${d.roClientPayout.toFixed(2)} | RO Consultant $${d.roConsultantPayout.toFixed(2)} | MyCo Net $${d.mycoNet.toFixed(2)}\n`;
+            });
+            
+            // Create download
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'myco-payout-report.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Update recalculateAll to include new tabs
+        const originalRecalculateAll = recalculateAll;
+        recalculateAll = function() {
+            const inputs = getInputs();
+            const yearlyData = calculateYearlyData(inputs);
+            
+            // Call original updates
+            const tpc = inputs.tpc;
+            const consultantPayout = tpc * inputs.consultantRate;
+            const mycoGross = tpc - consultantPayout;
+            const mycoMargin = 1 - inputs.consultantRate;
+            const roClientPayout = tpc * inputs.roClientEarly;
+            const acPerConsultant = consultantPayout / inputs.avgConsultants;
+            const roConsultantPayoutTotal = acPerConsultant * inputs.roConsultantRate * inputs.avgConsultants;
+            const mycoNet = mycoGross - roClientPayout - roConsultantPayoutTotal;
+            
+            document.getElementById('mycoMarginDisplay').value = pct(mycoMargin);
+            document.getElementById('flowTPC').textContent = fmt(tpc);
+            document.getElementById('flowConsultant').textContent = fmt(consultantPayout);
+            document.getElementById('flowConsultantPct').textContent = pct(inputs.consultantRate) + ' of TPC';
+            document.getElementById('flowMycoGross').textContent = fmt(mycoGross);
+            document.getElementById('flowMycoPct').textContent = pct(mycoMargin) + ' of TPC';
+            document.getElementById('flowROClient').textContent = fmt(roClientPayout);
+            document.getElementById('flowROClientPct').textContent = pct(inputs.roClientEarly) + ' of TPC';
+            document.getElementById('flowROConsultant').textContent = fmt(roConsultantPayoutTotal);
+            document.getElementById('flowROConsultantPct').textContent = pct(inputs.roConsultantRate) + ' of AC';
+            document.getElementById('flowMycoNet').textContent = fmt(mycoNet);
+            document.getElementById('flowMycoNetPct').textContent = pct(mycoNet / tpc) + ' of TPC';
+            document.getElementById('sumConsultant').textContent = fmt(consultantPayout);
+            document.getElementById('sumROClient').textContent = fmt(roClientPayout);
+            document.getElementById('sumROConsultant').textContent = fmt(roConsultantPayoutTotal);
+            document.getElementById('sumMycoNet').textContent = fmt(mycoNet);
+            
+            const mycoNetPct = mycoNet / tpc;
+            document.getElementById('mycoNetPct').textContent = pct(mycoNetPct);
+            const marginAfterRO = mycoNet / mycoGross;
+            document.getElementById('marginAfterRO').textContent = pct(marginAfterRO);
+            const roOfMargin = (roClientPayout + roConsultantPayoutTotal) / mycoGross;
+            document.getElementById('roOfMargin').textContent = pct(roOfMargin);
+            
+            const profitCard = document.getElementById('profitCard');
+            const sustainableCard = document.getElementById('sustainableCard');
+            if (mycoNetPct < 0.03) {
+                document.getElementById('sustainable').textContent = '❌ NO';
+                sustainableCard.className = 'card danger';
+                profitCard.className = 'card danger';
+            } else if (mycoNetPct < 0.07) {
+                document.getElementById('sustainable').textContent = '⚠️ TIGHT';
+                sustainableCard.className = 'card warning';
+                profitCard.className = 'card warning';
+            } else {
+                document.getElementById('sustainable').textContent = '✅ YES';
+                sustainableCard.className = 'card success';
+                profitCard.className = 'card success';
+            }
+            
+            updateScenarioMatrix(inputs);
+            updateConsultantTab(inputs);
+            updateROClientTab(inputs, yearlyData);
+            updateROConsultantTab(inputs, yearlyData);
+            updateMarginTab(inputs);
+            updatePartnerTab(inputs, yearlyData);
+            updateRecommendTab(inputs, yearlyData);
+            
+            // New tabs
+            updateStressTest(inputs);
+            updateCashflow(inputs, yearlyData);
+            updateBreakeven();
+            updateCompare();
+            updateTiered();
+        };
+        
+        document.addEventListener('DOMContentLoaded', recalculateAll);
+    </script>
+</body>
+</html>
