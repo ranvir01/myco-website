@@ -47,9 +47,9 @@ const clients = [
 ];
 
 const stats = [
-  { value: "12+", label: "Happy Clients", icon: "🤝" },
-  { value: "25+", label: "Projects Completed", icon: "✅" },
-  { value: "300%", label: "Avg. Growth Delivered", icon: "📈" },
+  { value: "12+", label: "Growing Businesses", icon: "🤝" },
+  { value: "6", label: "AI Growth Services", icon: "🤖" },
+  { value: "24hr", label: "Response Time", icon: "⚡" },
   { value: "24/7", label: "Support Available", icon: "🔄" },
 ];
 
@@ -104,7 +104,7 @@ export default function TrustSection() {
               Join Our <span className="text-gradient">Success Stories</span>
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-secondary-light max-w-2xl mx-auto">
-              From startups to established businesses, our network delivers results that matter.
+              From landscapers to logistics companies, small businesses trust MyCo to put AI — and the right people — to work.
             </p>
           </div>
         </ScrollAnimationWrapper>
@@ -258,7 +258,7 @@ export default function TrustSection() {
             className="text-center mt-8 md:mt-12"
           >
             <p className="text-secondary-light mb-4 text-sm md:text-base">
-              Ready to become our next success story?
+              Ready to see where AI can save your business time and money?
             </p>
             <motion.button
               whileHover={{ scale: 1.03 }}
@@ -269,7 +269,7 @@ export default function TrustSection() {
               }}
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl min-h-[48px] touch-manipulation animate-breathe"
             >
-              Start Your Project
+              Get My Free AI Audit
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>

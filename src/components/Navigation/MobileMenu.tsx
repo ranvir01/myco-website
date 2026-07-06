@@ -17,7 +17,7 @@ const NetworkGlobe = dynamic(() => import("../Hero/NetworkGlobe"), {
 });
 
 interface MobileMenuProps {
-  navLinks: { name: string; id: string }[];
+  navLinks: { name: string; id?: string; href?: string }[];
   modeLinks: { name: string; href: string; id: string }[];
   onNavigate: (id: string) => void;
   onModeNavigate: (href: string) => void;
@@ -31,8 +31,12 @@ export default function MobileMenu({
   onModeNavigate,
   onClose,
 }: MobileMenuProps) {
-  const handleNavigate = (id: string) => {
-    onNavigate(id);
+  const handleNavigate = (link: { id?: string; href?: string }) => {
+    if (link.href) {
+      onModeNavigate(link.href);
+    } else if (link.id) {
+      onNavigate(link.id);
+    }
     onClose();
   };
 
@@ -101,7 +105,7 @@ export default function MobileMenu({
           <nav className="space-y-1">
             {navLinks.map((link, index) => (
               <motion.button
-                key={link.id}
+                key={link.name}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ 
@@ -110,7 +114,7 @@ export default function MobileMenu({
                   ease: [0.4, 0, 0.2, 1]
                 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => handleNavigate(link.id)}
+                onClick={() => handleNavigate(link)}
                 className="w-full text-left rounded-xl px-4 py-4 text-[17px] font-medium text-gray-800 hover:bg-gray-50 active:bg-gray-100 transition-all flex items-center justify-between group touch-manipulation min-h-[52px]"
               >
                 <span>{link.name}</span>

@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaBriefcase, FaCode, FaChartLine, FaPalette } from "react-icons/fa";
+import Link from "next/link";
+import { FaBriefcase, FaCode, FaChartLine, FaRobot } from "react-icons/fa";
 import Card from "@/components/UI/Card";
 import TiltCard from "@/components/UI/TiltCard";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
@@ -11,36 +12,36 @@ export default function PortfolioSection() {
   // Real MyCo Network project case studies
   const projects = [
     {
-      icon: <FaBriefcase className="text-5xl text-primary mb-4" aria-hidden="true" />,
-      title: "Marketing Strategy",
-      description: "Creatively devised a marketing strategy to sponsor school clubs, expanding the service offerings. We implemented the proof of concept, growing the bottom line by over 300%.",
-      tags: ["Strategy", "Planning", "Implementation"],
-      client: "Tabletop Village",
-      result: "300% growth",
+      icon: <FaChartLine className="text-5xl text-primary mb-4" aria-hidden="true" />,
+      title: "Growth Website & Local SEO",
+      description: "Rebuilt Blue Landscaping's online presence with strategic SEO and conversion-focused optimization — turning their website into a steady source of real customer growth.",
+      tags: ["AI Growth Website", "Local SEO", "Lead Capture"],
+      client: "Blue Landscaping",
+      result: "Real customer growth",
     },
     {
-      icon: <FaChartLine className="text-5xl text-primary mb-4" aria-hidden="true" />,
-      title: "Website Optimization & Marketing",
-      description: "Transformed Blue Landscaping's online presence with strategic SEO and conversion optimization, turning their extra budget into measurable customer growth.",
-      tags: ["SEO", "Marketing", "Growth"],
-      client: "Blue Landscaping",
-      result: "Increased leads",
+      icon: <FaBriefcase className="text-5xl text-primary mb-4" aria-hidden="true" />,
+      title: "Marketing Strategy & New Revenue",
+      description: "Creatively devised a school-sponsorship marketing strategy for Tabletop Village, then implemented the proof of concept ourselves — opening a whole new channel of customers.",
+      tags: ["Strategy", "Marketing", "Implementation"],
+      client: "Tabletop Village",
+      result: "New revenue channel",
     },
     {
       icon: <FaCode className="text-5xl text-primary mb-4" aria-hidden="true" />,
-      title: "Feasibility Analysis & Planning",
-      description: "Comprehensive competitor analysis, project lifecycle planning, and resource budgeting for technology initiatives. Data-driven insights for strategic decision-making.",
-      tags: ["Analysis", "Planning", "Research"],
-      client: "Multiple Clients",
-      result: "Data-driven decisions",
+      title: "Custom Projects & Feasibility Studies",
+      description: "Feasibility analysis and competitor research that gave Gibraltar Business Group confidence in their strategy, and hands-on project management that kept VOPPL AR's development on track and on budget.",
+      tags: ["Feasibility", "Custom Projects", "Project Management"],
+      client: "Gibraltar Business Group & VOPPL AR",
+      result: "Confident decisions",
     },
     {
-      icon: <FaPalette className="text-5xl text-primary mb-4" aria-hidden="true" />,
-      title: "Full Project Lifecycle Support",
-      description: "From requirements gathering to project execution and monitoring - we provide dedicated project managers, low-cost consulting, and 24/7 support throughout your entire project journey.",
-      tags: ["PM", "Support", "Execution"],
-      client: "All Clients",
-      result: "End-to-end support",
+      icon: <FaRobot className="text-5xl text-primary mb-4" aria-hidden="true" />,
+      title: "AI & Automation, End to End",
+      description: "Every engagement starts with a free scoping call. We match vetted talent, assign a dedicated project manager, and put AI to work on websites, follow-up, and admin busywork — with 24/7 support.",
+      tags: ["AI & Automation", "Dedicated PM", "24/7 Support"],
+      client: "Every MyCo Project",
+      result: "Weeks, not months",
     },
   ];
 
@@ -93,7 +94,7 @@ export default function PortfolioSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-base sm:text-lg md:text-xl text-center text-secondary-light mb-10 md:mb-16 max-w-3xl mx-auto"
           >
-            Real projects. Real results. Here&apos;s how we&apos;ve helped businesses like yours succeed.
+            Real projects for real small businesses. Here&apos;s how we&apos;ve put the right people — and AI — to work for clients like you.
           </motion.p>
         </ScrollAnimationWrapper>
 
@@ -173,6 +174,17 @@ export default function PortfolioSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </motion.button>
+            <p className="mt-4">
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-1.5 text-primary hover:text-primary-dark font-semibold text-sm md:text-base transition-colors duration-200"
+              >
+                Explore our AI services
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Link>
+            </p>
           </motion.div>
         </ScrollAnimationWrapper>
       </div>

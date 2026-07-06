@@ -8,6 +8,30 @@ import { FiMail, FiLinkedin, FiArrowRight, FiChevronDown } from "react-icons/fi"
 
 export default function Footer() {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail || newsletterStatus === "sending") return;
+    setNewsletterStatus("sending");
+    try {
+      const response = await fetch("https://formspree.io/f/mgvndqbr", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: newsletterEmail,
+          _subject: `Newsletter signup: ${newsletterEmail}`,
+          formType: "newsletter",
+        }),
+      });
+      if (!response.ok) throw new Error("Subscription failed");
+      setNewsletterStatus("success");
+      setNewsletterEmail("");
+    } catch {
+      setNewsletterStatus("error");
+    }
+  };
 
   const toggleSection = (section: string) => {
     // Only toggle on mobile
@@ -50,16 +74,34 @@ export default function Footer() {
   const quickLinks = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
-    { name: "Portfolio", id: "portfolio" },
+  ];
+
+  const pageLinks = [
+    { name: "Services", href: "/services" },
+    { name: "AI for Small Business", href: "/ai-for-small-business" },
+    { name: "Free AI Audit", href: "/free-ai-audit" },
+    { name: "Our Work", href: "/case-studies" },
+    { name: "Referral Partners", href: "/partners" },
+    { name: "For Businesses", href: "/business" },
+    { name: "For Consultants", href: "/experts" },
   ];
 
   const services = [
-    "Business Plans",
-    "Feasibility Analysis",
-    "SEO & Marketing",
-    "Software Development",
-    "Cloud Architecture",
-    "Project Management",
+    "AI Growth Website",
+    "AI Receptionist & Chatbot",
+    "Workflow Automation",
+    "Local SEO & AI Visibility",
+    "AI Marketing Engine",
+    "Custom Projects & Consulting",
+  ];
+
+  const industries = [
+    { name: "Home & Field Services", href: "/for/home-services" },
+    { name: "Trucking & Logistics", href: "/for/trucking-logistics" },
+    { name: "Restaurants & Retail", href: "/for/restaurants" },
+    { name: "Professional Services", href: "/for/professional-services" },
+    { name: "Healthcare & Wellness", href: "/for/healthcare" },
+    { name: "Real Estate", href: "/for/real-estate" },
   ];
 
   return (
@@ -227,22 +269,16 @@ export default function Footer() {
                       </motion.button>
                     </li>
                   ))}
-                  <li>
-                    <Link
-                      href="/business"
-                      className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium text-sm sm:text-base min-h-[36px] flex items-center"
-                    >
-                      For Businesses
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/experts"
-                      className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium text-sm sm:text-base min-h-[36px] flex items-center"
-                    >
-                      For Consultants
-                    </Link>
-                  </li>
+                  {pageLinks.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-gray-900 hover:text-primary hover:underline hover:decoration-2 transition-all font-medium text-sm sm:text-base min-h-[36px] flex items-center"
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -268,7 +304,25 @@ export default function Footer() {
                 >
                   {services.map((service) => (
                     <li key={service}>
-                      <span className="text-gray-800 text-xs sm:text-sm">{service}</span>
+                      <Link
+                        href="/services"
+                        className="text-gray-800 hover:text-primary hover:underline transition-all text-xs sm:text-sm min-h-[28px] flex items-center"
+                      >
+                        {service}
+                      </Link>
+                    </li>
+                  ))}
+                  <li className="pt-3">
+                    <span className="text-gray-900 font-semibold text-sm">Industries</span>
+                  </li>
+                  {industries.map((industry) => (
+                    <li key={industry.href}>
+                      <Link
+                        href={industry.href}
+                        className="text-gray-800 hover:text-primary hover:underline transition-all text-xs sm:text-sm min-h-[28px] flex items-center"
+                      >
+                        {industry.name}
+                      </Link>
                     </li>
                   ))}
                 </motion.ul>
@@ -279,33 +333,49 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
              <h3 className="text-lg sm:text-xl font-bold mb-3 md:mb-4 text-gray-900 font-heading">Stay Updated</h3>
              <p className="text-gray-600 text-sm mb-4">Get the latest insights on consulting and project management.</p>
-             <form className="space-y-2">
-               <input 
-                 type="email" 
-                 placeholder="Your email address" 
-                 className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-secondary"
-               />
-               <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-2 rounded-lg transition-colors"
-               >
-                 Subscribe
-               </motion.button>
-             </form>
+             {newsletterStatus === "success" ? (
+               <p className="text-primary font-medium text-sm py-2">
+                 ✓ You&apos;re subscribed! Watch your inbox for practical AI tips.
+               </p>
+             ) : (
+               <form className="space-y-2" onSubmit={handleNewsletterSubmit}>
+                 <input
+                   type="email"
+                   required
+                   value={newsletterEmail}
+                   onChange={(e) => setNewsletterEmail(e.target.value)}
+                   placeholder="Your email address"
+                   className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-secondary"
+                 />
+                 <motion.button
+                    type="submit"
+                    disabled={newsletterStatus === "sending"}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-60"
+                 >
+                   {newsletterStatus === "sending" ? "Subscribing..." : "Subscribe"}
+                 </motion.button>
+                 {newsletterStatus === "error" && (
+                   <p className="text-red-500 text-xs">
+                     Something went wrong — email us at info@myconsulting.network instead.
+                   </p>
+                 )}
+               </form>
+             )}
              
-             {/* Social Share (Simulated) */}
+             {/* Social Share */}
              <div className="flex gap-3 mt-6 pt-4 border-t border-gray-200">
                <span className="text-xs text-gray-500 font-medium">Share:</span>
-               <button className="text-gray-400 hover:text-blue-600 transition-colors" aria-label="Share on Facebook">
+               <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmyconsulting.network" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors" aria-label="Share on Facebook">
                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.962.925-1.962 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-               </button>
-               <button className="text-gray-400 hover:text-blue-400 transition-colors" aria-label="Share on Twitter">
+               </a>
+               <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmyconsulting.network&text=AI-powered%20consulting%20for%20small%20businesses" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors" aria-label="Share on Twitter">
                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.165-2.724c-.951.567-2.003.979-3.127 1.195a4.92 4.92 0 00-8.385 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.892 3.213 2.251 4.121a4.944 4.944 0 01-2.229-.616c-.054 2.281 1.581 4.415 3.949 4.89a4.935 4.944 0 01-2.224.084 4.928 4.928 0 004.604 3.417A9.867 9.867 0 010 21.543a13.94 13.94 0 007.548 2.219c9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-               </button>
-               <button className="text-gray-400 hover:text-blue-700 transition-colors" aria-label="Share on LinkedIn">
+               </a>
+               <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fmyconsulting.network" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-700 transition-colors" aria-label="Share on LinkedIn">
                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.832-3.037-1.832 0-2.111 1.448-2.111 2.942v5.664H9.395V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.442C0 23.174.792 23.948 1.771 23.948h20.451C23.2 23.948 24 23.174 24 22.171V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-               </button>
+               </a>
              </div>
           </div>
         </div>

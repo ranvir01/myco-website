@@ -42,15 +42,15 @@ export default function TalentSection() {
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-100 to-transparent" />
       <div className="container-custom relative z-10">
         <ScrollAnimationWrapper>
-          <motion.h2
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-secondary mb-16"
           >
-            Consultants
-          </motion.h2>
+            Join Our Consultant Network
+          </motion.h1>
         </ScrollAnimationWrapper>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
