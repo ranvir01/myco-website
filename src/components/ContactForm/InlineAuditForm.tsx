@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { submitLead } from "@/lib/formspree";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -59,26 +60,16 @@ export default function InlineAuditForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://formspree.io/f/mgvndqbr", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          company: data.company,
-          industry: data.industry,
-          biggestTimeSink: data.timeSink,
-          formType: "free-ai-audit",
-          _subject: `Free AI Audit Request from ${data.name}`,
-        }),
+      await submitLead({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company: data.company,
+        industry: data.industry,
+        biggestTimeSink: data.timeSink,
+        formType: "free-ai-audit",
+        _subject: `Free AI Audit Request from ${data.name}`,
       });
-
-      if (!response.ok) {
-        throw new Error("Form submission failed");
-      }
 
       setIsSubmitting(false);
       setIsSuccess(true);
@@ -147,12 +138,12 @@ export default function InlineAuditForm() {
             </motion.div>
             <h3 className="text-3xl md:text-4xl font-bold mb-4 font-heading">
               <span className="bg-gradient-to-r from-primary via-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                Your Audit Is Booked
+                Request Received
               </span>
             </h3>
             <p className="text-lg text-secondary-light max-w-md mx-auto">
-              Check your email — we&apos;ll confirm your 30-minute call, and
-              your written 5-point plan will be delivered within 48 hours.
+              We&apos;ll reply within 24 hours to schedule your 30-minute call,
+              and your written 5-point plan lands within 48 hours of that call.
             </p>
             <motion.p
               initial={{ opacity: 0 }}

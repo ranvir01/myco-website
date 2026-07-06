@@ -6,11 +6,7 @@ import QuoteModal from "@/components/ContactForm/QuoteModal";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
 import Card from "@/components/UI/Card";
 import OpenQuoteButton from "@/components/UI/OpenQuoteButton";
-import {
-  caseStudies,
-  caseStudiesByGroup,
-  industryGroups,
-} from "@/lib/caseStudiesData";
+import { caseStudies, caseStudiesByGroup } from "@/lib/caseStudiesData";
 import { freeAuditOffer } from "@/lib/servicesData";
 import { FiArrowRight, FiBriefcase, FiCheck } from "react-icons/fi";
 
@@ -140,7 +136,7 @@ export default function CaseStudiesPage() {
                 aria-label="Filter case studies by industry"
                 className="flex flex-wrap justify-center gap-2.5 mb-12 md:mb-16"
               >
-                {industryGroups.map((group) => (
+                {caseStudiesByGroup.map(({ group }) => (
                   <a
                     key={group.slug}
                     href={`#${group.slug}`}

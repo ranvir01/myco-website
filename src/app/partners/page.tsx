@@ -230,7 +230,7 @@ export default function PartnersPage() {
                 One typical referred client is worth about $1,080 over five
                 years. All you do is make the introduction.
               </p>
-              <OpenQuoteButton>Become a Partner</OpenQuoteButton>
+              <OpenQuoteButton service="Referral Partnership">Become a Partner</OpenQuoteButton>
               <p className="text-sm text-secondary-light mt-4">
                 Prefer email? Write to{" "}
                 <a
@@ -590,7 +590,7 @@ export default function PartnersPage() {
                 We&apos;ll walk you through the program, share the full terms,
                 and get you set up — usually within a day.
               </p>
-              <OpenQuoteButton>Become a Partner</OpenQuoteButton>
+              <OpenQuoteButton service="Referral Partnership">Become a Partner</OpenQuoteButton>
               <p className="text-sm text-secondary-light mt-4">
                 Or email{" "}
                 <a

@@ -6,7 +6,6 @@ export const metadata = {
   title: "Terms of Service",
   description: "MyConsulting Network Terms of Service - Review our terms and conditions for using our consulting services.",
   alternates: { canonical: "/terms" },
-  robots: { index: false, follow: true },
 };
 
 export default function TermsOfService() {

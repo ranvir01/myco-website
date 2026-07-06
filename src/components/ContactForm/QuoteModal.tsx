@@ -6,6 +6,7 @@ import { HiX } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { submitLead } from "@/lib/formspree";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -25,6 +26,7 @@ const serviceOptions = [
   "Local SEO & AI Visibility",
   "AI Marketing Engine",
   "Custom Project / Consulting",
+  "Referral Partnership",
   "Not sure yet",
 ];
 
@@ -40,6 +42,7 @@ export default function QuoteModal() {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -51,39 +54,35 @@ export default function QuoteModal() {
   const userType = watch("userType");
 
   useEffect(() => {
-    const handleOpen = () => setIsOpen(true);
+    const handleOpen = (event: Event) => {
+      const service = (event as CustomEvent<{ service?: string }>).detail?.service;
+      if (service && serviceOptions.includes(service)) {
+        setValue("service", service);
+      }
+      setIsOpen(true);
+    };
     window.addEventListener("openQuoteModal", handleOpen);
     return () => window.removeEventListener("openQuoteModal", handleOpen);
-  }, []);
+  }, [setValue]);
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     
     try {
-      // Submit to Formspree
-      const response = await fetch("https://formspree.io/f/mgvndqbr", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          userType: data.userType === "business" ? "Business/Client" : "Consultant/Talent",
-          service: data.userType === "business" ? (data.service || "Not specified") : undefined,
-          companyOrSkills: data.userType === "business" 
-            ? `Company: ${data.companyOrSkills}` 
-            : `Skills: ${data.companyOrSkills}`,
-          message: data.message,
-          _subject: `New ${data.userType === "business" ? "Business" : "Talent"} Inquiry from ${data.name}`,
-        }),
+      await submitLead({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        userType: data.userType === "business" ? "Business/Client" : "Consultant/Talent",
+        service: data.userType === "business" ? (data.service || "Not specified") : undefined,
+        companyOrSkills: data.userType === "business"
+          ? `Company: ${data.companyOrSkills}`
+          : `Skills: ${data.companyOrSkills}`,
+        message: data.message,
+        formType: "quote-modal",
+        _subject: `New ${data.userType === "business" ? "Business" : "Talent"} Inquiry from ${data.name}`,
       });
 
-      if (!response.ok) {
-        throw new Error("Form submission failed");
-      }
-      
       setIsSubmitting(false);
       setIsSuccess(true);
       

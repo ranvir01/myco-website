@@ -9,6 +9,8 @@ interface OpenQuoteButtonProps {
   size?: "md" | "lg";
   className?: string;
   showArrow?: boolean;
+  /** Pre-selects the "What do you need help with?" option in the quote modal */
+  service?: string;
 }
 
 /**
@@ -21,9 +23,12 @@ export default function OpenQuoteButton({
   size = "lg",
   className = "",
   showArrow = true,
+  service,
 }: OpenQuoteButtonProps) {
   const openModal = () => {
-    window.dispatchEvent(new CustomEvent("openQuoteModal"));
+    window.dispatchEvent(
+      new CustomEvent("openQuoteModal", service ? { detail: { service } } : undefined)
+    );
   };
 
   const base =

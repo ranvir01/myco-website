@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { HiX, HiArrowRight } from "react-icons/hi";
 import { FiMail, FiLinkedin } from "react-icons/fi";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import Button from "@/components/UI/Button";
 
 // Dynamically import NetworkGlobe to avoid SSR issues
@@ -103,24 +104,47 @@ export default function MobileMenu({
         <div className="flex flex-col flex-1 overflow-y-auto overscroll-contain px-5 py-4">
           {/* Navigation Links */}
           <nav className="space-y-1">
-            {navLinks.map((link, index) => (
-              <motion.button
-                key={link.name}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ 
-                  delay: 0.15 + (index * 0.04),
-                  duration: 0.3,
-                  ease: [0.4, 0, 0.2, 1]
-                }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => handleNavigate(link)}
-                className="w-full text-left rounded-xl px-4 py-4 text-[17px] font-medium text-gray-800 hover:bg-gray-50 active:bg-gray-100 transition-all flex items-center justify-between group touch-manipulation min-h-[52px]"
-              >
-                <span>{link.name}</span>
-                <HiArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary group-active:translate-x-1 transition-all" />
-              </motion.button>
-            ))}
+            {navLinks.map((link, index) =>
+              link.href ? (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    delay: 0.15 + (index * 0.04),
+                    duration: 0.3,
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={onClose}
+                    className="w-full text-left rounded-xl px-4 py-4 text-[17px] font-medium text-gray-800 hover:bg-gray-50 active:bg-gray-100 transition-all flex items-center justify-between group touch-manipulation min-h-[52px]"
+                  >
+                    <span>{link.name}</span>
+                    <HiArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary group-active:translate-x-1 transition-all" />
+                  </Link>
+                </motion.div>
+              ) : (
+                <motion.button
+                  key={link.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    delay: 0.15 + (index * 0.04),
+                    duration: 0.3,
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => handleNavigate(link)}
+                  className="w-full text-left rounded-xl px-4 py-4 text-[17px] font-medium text-gray-800 hover:bg-gray-50 active:bg-gray-100 transition-all flex items-center justify-between group touch-manipulation min-h-[52px]"
+                >
+                  <span>{link.name}</span>
+                  <HiArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary group-active:translate-x-1 transition-all" />
+                </motion.button>
+              )
+            )}
           </nav>
 
           {/* Mode Links - Styled Cards */}

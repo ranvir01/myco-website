@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { FiMail, FiLinkedin, FiArrowRight, FiChevronDown } from "react-icons/fi";
+import { submitLead } from "@/lib/formspree";
 
 export default function Footer() {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
@@ -16,16 +17,11 @@ export default function Footer() {
     if (!newsletterEmail || newsletterStatus === "sending") return;
     setNewsletterStatus("sending");
     try {
-      const response = await fetch("https://formspree.io/f/mgvndqbr", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: newsletterEmail,
-          _subject: `Newsletter signup: ${newsletterEmail}`,
-          formType: "newsletter",
-        }),
+      await submitLead({
+        email: newsletterEmail,
+        _subject: `Newsletter signup: ${newsletterEmail}`,
+        formType: "newsletter",
       });
-      if (!response.ok) throw new Error("Subscription failed");
       setNewsletterStatus("success");
       setNewsletterEmail("");
     } catch {
@@ -74,6 +70,7 @@ export default function Footer() {
   const quickLinks = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
+    { name: "Portfolio", id: "portfolio" },
   ];
 
   const pageLinks = [

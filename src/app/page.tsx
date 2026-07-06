@@ -9,10 +9,17 @@ import Footer from "@/components/Footer/Footer";
 import QuoteModal from "@/components/ContactForm/QuoteModal";
 import BackToTop from "@/components/UI/BackToTop";
 import FloatingCTA from "@/components/UI/FloatingCTA";
+import { homeFaqSchema } from "@/lib/structuredData";
 
 export default function Home() {
   return (
     <>
+      {/* FAQPage schema — home page only; interior pages emit their own */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqSchema) }}
+      />
+
       {/* Skip to main content for accessibility */}
       <a
         href="#main-content"
