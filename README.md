@@ -1,30 +1,31 @@
 # MyConsulting Network Website
 
-A modern, professional website for MyConsulting Network built with Next.js 14, featuring interactive animations and responsive design.
+Corporate site for **MyConsulting Network** (`myconsulting.network`) — a two-sided marketplace positioning businesses and consulting talent.
 
-🌐 **Domain:** myconsulting.network  
-📧 **Contact:** contact@myconsulting.network  
-☁️ **Hosted on:** Google Cloud Run
+**Live:** [myconsulting.network](https://myconsulting.network)  
+**Hosted on:** Google Cloud Run (Docker + Cloud Build)
 
----
+## What it is
 
-## 🚀 READY TO DEPLOY?
+- Next.js + TypeScript + Tailwind marketing site
+- Animated 3D network globe hero (Three.js / React Three Fiber)
+- Business / Talent mode toggle, quote modal, Framer Motion scroll UX
+- Partner referral financial model docs/calculators in-repo
 
-**→ Start here: [START_DEPLOYMENT_HERE.md](START_DEPLOYMENT_HERE.md)**
+## Honest note on "AI" UI labels
 
-Your website is 100% ready. Just follow the simple deployment guide above!
+Some components are named with an `AI` prefix for UX polish (greetings / styled CTAs). They are **not** LLM product features. Real AI-assisted work on this project was in design/build tooling, not an in-app model.
 
----
+## Quick start
 
-## 🚀 Features
+```bash
+npm install
+npm run dev
+```
 
-- **SEO Optimized**: Server-side rendering with Next.js, meta tags, structured data, and sitemap
-- **Interactive 3D Globe**: Animated network visualization using Three.js
-- **Business/Talent Toggle**: Dynamic content switching with smooth animations
-- **Responsive Design**: Fully optimized for desktop, tablet, and mobile devices
-- **Contact Form**: Integrated quote request modal with validation
-- **Modern Animations**: Smooth transitions using Framer Motion
-- **Fast Performance**: Optimized for Core Web Vitals
+## Deploy
+
+See `START_DEPLOYMENT_HERE.md` and Cloud Run / Docker docs in this repo.
 
 ## 🛠️ Tech Stack
 
