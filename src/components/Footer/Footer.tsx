@@ -78,6 +78,7 @@ export default function Footer() {
     { name: "AI for Small Business", href: "/ai-for-small-business" },
     { name: "Free AI Audit", href: "/free-ai-audit" },
     { name: "Our Work", href: "/case-studies" },
+    { name: "Blog", href: "/blog" },
     { name: "Referral Partners", href: "/partners" },
     { name: "For Businesses", href: "/business" },
     { name: "For Consultants", href: "/experts" },

@@ -22,6 +22,7 @@ module.exports = {
       '/experts': 0.7,
       '/privacy': 0.3,
       '/terms': 0.3,
+      '/blog': 0.7,
     };
 
     const changefreqMap = {
@@ -39,11 +40,16 @@ module.exports = {
 
     // Industry landing pages (/for/home-services, /for/trucking-logistics, ...)
     const isIndustryPage = path.startsWith('/for/');
+    // Blog articles (/blog/<slug>)
+    const isBlogArticle = path.startsWith('/blog/');
 
     return {
       loc: path,
-      changefreq: changefreqMap[path] || (isIndustryPage ? 'weekly' : config.changefreq),
-      priority: priorityMap[path] ?? (isIndustryPage ? 0.8 : config.priority),
+      changefreq:
+        changefreqMap[path] ||
+        (isIndustryPage || isBlogArticle ? 'weekly' : config.changefreq),
+      priority:
+        priorityMap[path] ?? (isIndustryPage ? 0.8 : isBlogArticle ? 0.6 : config.priority),
       lastmod: new Date().toISOString(),
     };
   },

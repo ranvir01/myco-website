@@ -73,6 +73,7 @@ export default function Header() {
     { name: "Services", href: "/services" },
     { name: "Our Work", href: "/case-studies" },
     { name: "Partners", href: "/partners" },
+    { name: "Blog", href: "/blog" },
   ];
 
   const modeLinks = [
