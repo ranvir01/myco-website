@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Navigation/Header";
 import Footer from "@/components/Footer/Footer";
-import QuoteModal from "@/components/ContactForm/QuoteModal";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
 import Card from "@/components/UI/Card";
 import OpenQuoteButton from "@/components/UI/OpenQuoteButton";
@@ -304,7 +303,6 @@ export default function CaseStudiesPage() {
       </main>
 
       <Footer />
-      <QuoteModal />
     </>
   );
 }

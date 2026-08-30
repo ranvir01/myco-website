@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Header from "@/components/Navigation/Header";
 import Footer from "@/components/Footer/Footer";
-import QuoteModal from "@/components/ContactForm/QuoteModal";
 import InlineAuditForm from "@/components/ContactForm/InlineAuditForm";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
 import Card from "@/components/UI/Card";
+import { buildFaqSchema } from "@/lib/structuredData";
 import {
   FiPhoneCall,
   FiFileText,
@@ -147,18 +147,7 @@ const faqs = [
   },
 ];
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
+const faqSchema = buildFaqSchema(faqs);
 
 const clientNames = [
   "Blue Landscaping",
@@ -427,7 +416,6 @@ export default function FreeAIAuditPage() {
         </section>
       </main>
       <Footer />
-      <QuoteModal />
     </>
   );
 }

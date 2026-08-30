@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Navigation/Header";
 import Footer from "@/components/Footer/Footer";
-import QuoteModal from "@/components/ContactForm/QuoteModal";
 import BusinessSection from "@/components/Sections/BusinessSection";
 import NetworkSection from "@/components/Sections/NetworkSection";
 import FAQSection from "@/components/Sections/FAQSection";
@@ -96,7 +95,6 @@ export default function BusinessPage() {
         <FAQSection activeMode="business" />
       </main>
       <Footer />
-      <QuoteModal />
       <ClientWrapper />
     </>
   );

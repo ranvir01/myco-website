@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { FiHome, FiArrowLeft } from "react-icons/fi";
 import Header from "@/components/Navigation/Header";
 import Footer from "@/components/Footer/Footer";
-import QuoteModal from "@/components/ContactForm/QuoteModal";
 
 export default function NotFound() {
   return (
@@ -69,7 +68,6 @@ export default function NotFound() {
         </div>
       </main>
       <Footer />
-      <QuoteModal />
     </>
   );
 }

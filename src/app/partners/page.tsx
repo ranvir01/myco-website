@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Navigation/Header";
 import Footer from "@/components/Footer/Footer";
-import QuoteModal from "@/components/ContactForm/QuoteModal";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
 import Card from "@/components/UI/Card";
 import OpenQuoteButton from "@/components/UI/OpenQuoteButton";
+import { buildFaqSchema } from "@/lib/structuredData";
 import {
   FiSend,
   FiCheckCircle,
@@ -86,18 +86,7 @@ const faqs = [
 ];
 
 // FAQ structured data for the partner program
-const partnersFaqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
+const partnersFaqSchema = buildFaqSchema(faqs);
 
 const howItWorksSteps = [
   {
@@ -608,7 +597,6 @@ export default function PartnersPage() {
       </main>
 
       <Footer />
-      <QuoteModal />
     </>
   );
 }

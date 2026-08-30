@@ -4,6 +4,7 @@ import Card from "@/components/UI/Card";
 import OpenQuoteButton from "@/components/UI/OpenQuoteButton";
 import { FiArrowRight, FiCheckCircle, FiUsers } from "react-icons/fi";
 import type { Industry } from "@/lib/industriesData";
+import { buildFaqSchema } from "@/lib/structuredData";
 
 interface IndustryPageProps {
   industry: Industry;
@@ -16,18 +17,7 @@ interface IndustryPageProps {
  * client components.
  */
 export default function IndustryPage({ industry }: IndustryPageProps) {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: industry.faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
+  const faqSchema = buildFaqSchema(industry.faqs);
 
   return (
     <main className="min-h-screen pt-[70px] md:pt-[80px]">

@@ -1,6 +1,5 @@
 import Header from "@/components/Navigation/Header";
 import Footer from "@/components/Footer/Footer";
-import QuoteModal from "@/components/ContactForm/QuoteModal";
 
 export const metadata = {
   title: "Privacy Policy",
@@ -222,7 +221,6 @@ export default function PrivacyPolicy() {
         </div>
       </main>
       <Footer />
-      <QuoteModal />
     </>
   );
 }

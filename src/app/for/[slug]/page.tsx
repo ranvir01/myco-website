@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/Navigation/Header";
 import Footer from "@/components/Footer/Footer";
-import QuoteModal from "@/components/ContactForm/QuoteModal";
 import IndustryPage from "@/components/Sections/IndustryPage";
 import { industries, type IndustrySlug } from "@/lib/industriesData";
 
@@ -59,7 +58,6 @@ export default async function IndustryLandingPage({
       <Header />
       <IndustryPage industry={industry} />
       <Footer />
-      <QuoteModal />
     </>
   );
 }

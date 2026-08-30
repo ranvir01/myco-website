@@ -278,6 +278,8 @@ import ExitIntentModal from "@/components/UI/ExitIntentModal";
 import CookieConsent from "@/components/UI/CookieConsent";
 import DynamicTitle from "@/components/UI/DynamicTitle";
 import AIGreeting from "@/components/UI/AIGreeting";
+import Analytics from "@/components/UI/Analytics";
+import QuoteModal from "@/components/ContactForm/QuoteModal";
 
 export default function RootLayout({
   children,
@@ -315,7 +317,11 @@ export default function RootLayout({
         <ScrollProgress />
         <ExitIntentModal />
         <CookieConsent />
+        <Analytics />
         {children}
+        {/* Global lead-capture modal — mounted once so every page's
+            openQuoteModal CustomEvent has exactly one listener. */}
+        <QuoteModal />
       </body>
     </html>
   );

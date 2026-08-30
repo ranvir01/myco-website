@@ -76,3 +76,29 @@ export const homeFaqSchema = {
     },
   ],
 };
+
+/** Shape shared by every on-page FAQ list. */
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+/**
+ * Builds a schema.org FAQPage object from an on-page FAQ list.
+ * Emit at most ONE FAQPage per URL, and only for questions that are
+ * visibly rendered on that page.
+ */
+export function buildFaqSchema(faqs: FaqItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+}

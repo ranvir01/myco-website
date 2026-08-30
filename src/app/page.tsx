@@ -6,7 +6,6 @@ import AboutSection from "@/components/Sections/AboutSection";
 import TrustSection from "@/components/Sections/TrustSection";
 import PortfolioSection from "@/components/Sections/PortfolioSection";
 import Footer from "@/components/Footer/Footer";
-import QuoteModal from "@/components/ContactForm/QuoteModal";
 import BackToTop from "@/components/UI/BackToTop";
 import FloatingCTA from "@/components/UI/FloatingCTA";
 import { homeFaqSchema } from "@/lib/structuredData";
@@ -45,7 +44,6 @@ export default function Home() {
       </main>
       
       <Footer />
-      <QuoteModal />
       
       {/* Floating UI Elements */}
       <BackToTop />

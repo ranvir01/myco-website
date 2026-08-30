@@ -17,6 +17,13 @@ export default function CookieConsent() {
 
   const handleAccept = () => {
     localStorage.setItem("cookieConsent", "true");
+    window.dispatchEvent(new Event("cookieConsentChanged"));
+    setIsVisible(false);
+  };
+
+  const handleDecline = () => {
+    localStorage.setItem("cookieConsent", "declined");
+    window.dispatchEvent(new Event("cookieConsentChanged"));
     setIsVisible(false);
   };
 
@@ -39,7 +46,7 @@ export default function CookieConsent() {
             </div>
             <div className="flex gap-3 shrink-0">
               <button
-                onClick={() => setIsVisible(false)}
+                onClick={handleDecline}
                 className="px-4 py-2 text-sm font-medium text-secondary-light hover:text-secondary transition-colors"
               >
                 Decline
