@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyCo AI Opportunity Audit</title>
+<style>
+  @page { size: letter; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 8.5in; height: 11in; overflow: hidden;
+    font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #2C3E50; background: #fff; position: relative;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .band { background: linear-gradient(135deg, #1B7F4E 0%, #0F5A35 100%); color: #fff; padding: 0.3in 0.5in 0.26in; display: flex; justify-content: space-between; align-items: center; }
+  .band img { height: 0.5in; filter: brightness(0) invert(1); }
+  .band .title { text-align: right; }
+  .band h1 { font-size: 21px; font-weight: 800; letter-spacing: -0.5px; }
+  .band p { font-size: 11px; color: rgba(255,255,255,0.9); margin-top: 3px; }
+  .meta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding: 0.18in 0.5in; background: #F0FDF4; border-bottom: 2px solid #DCFCE7; }
+  .meta .f { font-size: 10px; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px; }
+  .meta .v { border-bottom: 1.5px solid #CBD5E1; height: 20px; margin-top: 3px; }
+  .content { padding: 0.2in 0.5in 0; }
+  h2 { font-size: 13px; font-weight: 800; color: #1B7F4E; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 10.5px; margin-bottom: 12px; }
+  th { background: #F8FAFC; text-align: left; padding: 5px 8px; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.5px; color: #475569; border-bottom: 1.5px solid #E2E8F0; }
+  td { padding: 7px 8px; border-bottom: 1px solid #F1F5F9; vertical-align: top; }
+  td .line { border-bottom: 1px solid #CBD5E1; height: 15px; }
+  .check { width: 0.85in; }
+  .grade { width: 0.7in; text-align: center; }
+  .plan-item { display: flex; gap: 10px; margin-bottom: 9px; }
+  .plan-item .n { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: #1B7F4E; color: #fff; font-weight: 800; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+  .plan-item .box { flex: 1; }
+  .plan-item .line { border-bottom: 1.5px solid #CBD5E1; height: 17px; margin-bottom: 5px; }
+  .plan-item .line.short { width: 65%; }
+  .next { margin: 0.06in 0.5in 0; border: 2px solid #1B7F4E; border-radius: 12px; padding: 10px 14px; background: #F0FDF4; }
+  .next .t { font-weight: 800; font-size: 12px; color: #0F5A35; margin-bottom: 4px; }
+  .next .d { font-size: 10px; color: #34495E; line-height: 1.5; }
+  .footer { position: absolute; bottom: 0; left: 0; right: 0; background: #2C3E50; color: #fff; padding: 0.13in 0.5in; display: flex; justify-content: space-between; font-size: 10px; }
+  .footer strong { color: #86EFAC; }
+</style>
+</head>
+<body>
+  <div class="band">
+    <img src="file:///home/user/myco-website/public/logos/MyCo_Network_Logo.png" alt="MyConsulting Network">
+    <div class="title">
+      <h1>AI Opportunity Audit</h1>
+      <p>Your 5-point action plan &mdash; free, no obligation</p>
+    </div>
+  </div>
+
+  <div class="meta">
+    <div><div class="f">Prepared for</div><div class="v"></div></div>
+    <div><div class="f">Prepared by</div><div class="v"></div></div>
+    <div><div class="f">Date</div><div class="v"></div></div>
+  </div>
+
+  <div class="content">
+    <h2>What We Checked</h2>
+    <table>
+      <tr><th>Checkpoint</th><th>What we found</th><th class="grade">Grade</th></tr>
+      <tr><td class="check"><strong>Missed-call test</strong><br><span style="font-size:9px;color:#94A3B8">We called your main line</span></td><td><div class="line"></div></td><td class="grade"></td></tr>
+      <tr><td class="check"><strong>Lead response speed</strong><br><span style="font-size:9px;color:#94A3B8">Website form reply timer</span></td><td><div class="line"></div></td><td class="grade"></td></tr>
+      <tr><td class="check"><strong>Google Business Profile</strong><br><span style="font-size:9px;color:#94A3B8">Completeness &amp; activity</span></td><td><div class="line"></div></td><td class="grade"></td></tr>
+      <tr><td class="check"><strong>Reviews &amp; responses</strong><br><span style="font-size:9px;color:#94A3B8">Volume, recency, reply rate</span></td><td><div class="line"></div></td><td class="grade"></td></tr>
+      <tr><td class="check"><strong>Website speed &amp; conversion</strong><br><span style="font-size:9px;color:#94A3B8">Load time, mobile, CTAs</span></td><td><div class="line"></div></td><td class="grade"></td></tr>
+      <tr><td class="check"><strong>Admin &amp; follow-up load</strong><br><span style="font-size:9px;color:#94A3B8">Invoicing, scheduling, chasing</span></td><td><div class="line"></div></td><td class="grade"></td></tr>
+    </table>
+
+    <h2>Your 5-Point Action Plan</h2>
+    <div class="plan-item"><div class="n">1</div><div class="box"><div class="line"></div><div class="line short"></div></div></div>
+    <div class="plan-item"><div class="n">2</div><div class="box"><div class="line"></div><div class="line short"></div></div></div>
+    <div class="plan-item"><div class="n">3</div><div class="box"><div class="line"></div><div class="line short"></div></div></div>
+    <div class="plan-item"><div class="n">4</div><div class="box"><div class="line"></div><div class="line short"></div></div></div>
+    <div class="plan-item"><div class="n">5</div><div class="box"><div class="line"></div><div class="line short"></div></div></div>
+  </div>
+
+  <div class="next">
+    <div class="t">What happens next</div>
+    <div class="d">At least two of these five points are things you can do yourself this week — the plan is yours to keep either way. If you&rsquo;d like help with the rest, we&rsquo;ll send a fixed-price proposal within 24 hours: dedicated project manager, vetted consultants, delivered in weeks not months.</div>
+  </div>
+
+  <div class="footer">
+    <div><strong>myconsulting.network</strong> &nbsp;&middot;&nbsp; info@myconsulting.network</div>
+    <div>Free AI Opportunity Audit &middot; response within 24 hours</div>
+  </div>
+</body>
+</html>

@@ -216,8 +216,8 @@ export default function Hero() {
               transition={{ delay: 0.2, duration: 0.8 }}
               className="text-[1.6rem] leading-[1.1] sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-secondary font-heading"
             >
-              Leverage Our{" "}
-              <span 
+              Your AI-Powered{" "}
+              <span
                 className="text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl block mt-0.5"
                 style={{
                   background: 'linear-gradient(135deg, #1B7F4E 0%, #56B365 100%)',
@@ -227,7 +227,7 @@ export default function Hero() {
                   filter: 'drop-shadow(0 0 20px rgba(27,127,78,0.3))'
                 }}
               >
-                Network!
+                Growth Team
               </span>
             </motion.h1>
 
@@ -237,7 +237,7 @@ export default function Hero() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-[0.9rem] leading-[1.6] sm:text-base md:text-lg lg:text-xl text-secondary-light max-w-xl mx-auto md:mx-0"
             >
-              <strong className="text-secondary">MyConsulting Network</strong> makes project work effortless. We connect businesses with top consultants — with <TextHighlight>dedicated project managers</TextHighlight>, <em>low-cost solutions</em>, and <em>24/7 support</em>.
+              <strong className="text-secondary">MyConsulting Network</strong> helps small businesses grow with AI — <em>websites that convert</em>, <em>automation that answers every call</em>, and <TextHighlight>consulting that pays for itself</TextHighlight> — at a fraction of agency prices.
             </motion.p>
 
             {/* Mobile Globe - Only visible on mobile */}
@@ -264,9 +264,9 @@ export default function Hero() {
               className="flex flex-wrap gap-2 justify-center md:justify-start"
             >
               {[
-                { icon: "✓", text: "Dedicated PMs" },
-                { icon: "✓", text: "Low-Cost" },
-                { icon: "✓", text: "24/7 Support" },
+                { icon: "✓", text: "Dedicated PM" },
+                { icon: "✓", text: "AI + Automation" },
+                { icon: "✓", text: "Fraction of Agency Cost" },
               ].map((prop) => (
                 <span
                   key={prop.text}
@@ -293,7 +293,7 @@ export default function Hero() {
                 onClick={openContactModal}
                 className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-xl font-semibold text-[15px] transition-all duration-200 shadow-lg hover:shadow-xl active:shadow-md min-h-[44px] touch-manipulation animate-breathe"
               >
-                Get Started Free
+                Get My Free AI Audit
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>

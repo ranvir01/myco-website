@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyCo One-Pager</title>
+<style>
+  @page { size: letter; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 8.5in; height: 11in; overflow: hidden;
+    font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #2C3E50; background: #ffffff; position: relative;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .band { background: linear-gradient(135deg, #1B7F4E 0%, #0F5A35 100%); color: #fff; padding: 0.35in 0.5in 0.3in; }
+  .band img { height: 0.62in; filter: brightness(0) invert(1); }
+  .band h1 { font-size: 26px; font-weight: 800; margin-top: 10px; letter-spacing: -0.5px; }
+  .band p { font-size: 13.5px; margin-top: 6px; color: rgba(255,255,255,0.92); max-width: 6.6in; line-height: 1.45; }
+  .hook { display: flex; gap: 0.25in; padding: 0.22in 0.5in; background: #F0FDF4; border-bottom: 2px solid #DCFCE7; }
+  .hook .num { font-size: 30px; font-weight: 800; color: #1B7F4E; line-height: 1; }
+  .hook .lbl { font-size: 10.5px; color: #34495E; margin-top: 4px; max-width: 1.75in; line-height: 1.35; }
+  .content { padding: 0.24in 0.5in; }
+  h2 { font-size: 15px; font-weight: 800; color: #1B7F4E; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .services { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .svc { border: 1.5px solid #E5E7EB; border-radius: 10px; padding: 9px 12px; }
+  .svc .name { font-weight: 700; font-size: 12.5px; }
+  .svc .price { color: #1B7F4E; font-weight: 700; font-size: 11.5px; margin-top: 1px; }
+  .svc .desc { font-size: 10px; color: #5a6b7b; margin-top: 3px; line-height: 1.35; }
+  .audit { margin: 0.2in 0.5in 0; border: 2.5px solid #1B7F4E; border-radius: 14px; padding: 14px 18px; background: #F0FDF4; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .audit .title { font-size: 16px; font-weight: 800; color: #0F5A35; }
+  .audit .sub { font-size: 11px; color: #34495E; margin-top: 4px; line-height: 1.45; max-width: 4.6in; }
+  .audit .go { background: #1B7F4E; color: #fff; font-weight: 700; font-size: 12px; padding: 10px 16px; border-radius: 8px; white-space: nowrap; }
+  .footer { position: absolute; bottom: 0; left: 0; right: 0; background: #2C3E50; color: #fff; padding: 0.16in 0.5in; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+  .footer strong { color: #86EFAC; }
+</style>
+</head>
+<body>
+  <div class="band">
+    <img src="file:///home/user/myco-website/public/logos/MyCo_Network_Logo.png" alt="MyConsulting Network">
+    <h1>Your AI-Powered Growth Team</h1>
+    <p>We help small businesses win back time and customers with AI — websites that convert, automation that answers every call, and practical consulting that pays for itself. Vetted consultants, a dedicated project manager on every project, at a fraction of agency prices.</p>
+  </div>
+
+  <div class="hook">
+    <div><div class="num">62%</div><div class="lbl">of calls to small businesses go unanswered (411 Locals)</div></div>
+    <div><div class="num">85%</div><div class="lbl">of callers who hit voicemail never call back (Numa)</div></div>
+    <div><div class="num">24hr</div><div class="lbl">our response time, with 24/7 project support</div></div>
+    <div><div class="num">12+</div><div class="lbl">growing businesses served since 2023</div></div>
+  </div>
+
+  <div class="content">
+    <h2>What We Do — Fixed Prices, Weeks Not Months</h2>
+    <div class="services">
+      <div class="svc"><div class="name">AI Growth Website</div><div class="price">From $1,500 &middot; ~2-week delivery</div><div class="desc">Conversion-focused rebuild with SEO foundations, analytics, and lead capture.</div></div>
+      <div class="svc"><div class="name">AI Receptionist &amp; Chatbot</div><div class="price">From $750 setup + $150/mo</div><div class="desc">24/7 website chat, missed-call text-back, FAQ answers, appointment booking.</div></div>
+      <div class="svc"><div class="name">Workflow Automation Sprint</div><div class="price">From $1,000 per sprint</div><div class="desc">Quotes, invoicing, scheduling, and follow-ups automated with AI + Zapier/Make.</div></div>
+      <div class="svc"><div class="name">Local SEO &amp; AI Visibility</div><div class="price">From $500/mo</div><div class="desc">Google Business Profile, reviews engine, local rankings, and AI-search visibility.</div></div>
+      <div class="svc"><div class="name">AI Marketing Engine</div><div class="price">From $750 setup + $400/mo</div><div class="desc">Content and email systems, CRM setup, and social presence run with AI leverage.</div></div>
+      <div class="svc"><div class="name">Custom Projects &amp; Consulting</div><div class="price">Typical $1,500&ndash;$5,000 &middot; scoped free</div><div class="desc">Dashboards, custom software, feasibility studies, business plans.</div></div>
+    </div>
+  </div>
+
+  <div class="audit">
+    <div>
+      <div class="title">Free AI Opportunity Audit</div>
+      <div class="sub">A 30-minute call + a written 5-point action plan showing exactly where AI saves your business time and money. Delivered within 48 hours. No obligation — keep the plan either way.</div>
+    </div>
+    <div class="go">myconsulting.network/free-ai-audit</div>
+  </div>
+
+  <div class="footer">
+    <div><strong>myconsulting.network</strong> &nbsp;&middot;&nbsp; info@myconsulting.network</div>
+    <div>Dedicated PM on every project &middot; 24/7 support &middot; Response within 24 hours</div>
+  </div>
+</body>
+</html>

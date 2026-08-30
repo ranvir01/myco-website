@@ -1,25 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaHandshake, FaProjectDiagram, FaUserTie, FaClock } from "react-icons/fa";
+import { FaHandshake, FaProjectDiagram, FaUserTie, FaRobot } from "react-icons/fa";
 import ScrollAnimationWrapper from "@/components/UI/ScrollAnimationWrapper";
 import ParallaxElement from "@/components/UI/ParallaxElement";
 
 const services = [
   {
     icon: FaProjectDiagram,
-    title: "Full Project Lifecycle",
-    description: "From requirements to execution, we manage every phase of your project.",
+    title: "We Scope Your Problem",
+    description: "Every project starts with a free scoping call — plain English, no jargon, no obligation.",
   },
   {
     icon: FaUserTie,
-    title: "Dedicated Project Managers",
-    description: "Your own PM ensures everything stays on track and within budget.",
+    title: "We Match Vetted Talent",
+    description: "The right consultants for the job, plus a dedicated project manager keeping everything on track and on budget.",
   },
   {
-    icon: FaClock,
-    title: "24/7 Support",
-    description: "Round-the-clock assistance whenever you need it.",
+    icon: FaRobot,
+    title: "We Put AI to Work",
+    description: "Websites that convert, chat and follow-up that never sleep, and automation that clears the admin busywork.",
   },
 ];
 
@@ -71,7 +71,7 @@ export default function AboutSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-base sm:text-lg md:text-2xl text-center text-secondary-light max-w-4xl mx-auto mb-10 md:mb-12 leading-relaxed"
           >
-            As a hub for all professional services, we spend our time <strong className="text-secondary">organizing projects</strong>, <strong className="text-secondary">vetting consultants</strong>, and <strong className="text-secondary">solving business challenges</strong>. Whether you need strategy consulting, software development, SEO optimization, or project management — we connect you with the right talent.
+            We&apos;re a consulting network built for small businesses. We <strong className="text-secondary">scope your problem</strong>, <strong className="text-secondary">match you with vetted consultants</strong>, and <strong className="text-secondary">put AI to work</strong> on the things eating your week — missed calls, slow quotes, admin busywork — with a dedicated project manager on every project.
           </motion.p>
         </ScrollAnimationWrapper>
 

@@ -2,8 +2,9 @@ import Header from "@/components/Navigation/Header";
 import Footer from "@/components/Footer/Footer";
 
 export const metadata = {
-  title: "Terms of Service | MyCo Network",
-  description: "MyCo Network Terms of Service - Review our terms and conditions for using our consulting services.",
+  title: "Terms of Service",
+  description: "MyConsulting Network Terms of Service - Review our terms and conditions for using our consulting services.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsOfService() {
@@ -228,8 +229,8 @@ export default function TermsOfService() {
               </p>
               <div className="bg-gray-50 p-6 rounded-lg mt-4">
                 <p className="font-semibold">MyConsulting Network</p>
-                <p>Email: <a href="mailto:legal@myconsultingnetwork.com" className="text-primary hover:underline">legal@myconsultingnetwork.com</a></p>
-                <p>Email: <a href="mailto:info@myconsultingnetwork.com" className="text-primary hover:underline">info@myconsultingnetwork.com</a></p>
+                <p>Email: <a href="mailto:info@myconsulting.network" className="text-primary hover:underline">info@myconsulting.network</a></p>
+                <p>Email: <a href="mailto:info@myconsulting.network" className="text-primary hover:underline">info@myconsulting.network</a></p>
               </div>
             </section>
 

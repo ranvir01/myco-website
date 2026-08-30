@@ -6,15 +6,29 @@ import { HiX } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { submitLead } from "@/lib/formspree";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   userType: z.enum(["business", "talent"]),
+  service: z.string().optional(),
   companyOrSkills: z.string().min(2, "This field is required"),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
+
+const serviceOptions = [
+  "Free AI Opportunity Audit",
+  "AI Growth Website",
+  "AI Receptionist & Chatbot",
+  "Workflow Automation Sprint",
+  "Local SEO & AI Visibility",
+  "AI Marketing Engine",
+  "Custom Project / Consulting",
+  "Referral Partnership",
+  "Not sure yet",
+];
 
 type FormData = z.infer<typeof formSchema>;
 
@@ -28,6 +42,7 @@ export default function QuoteModal() {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -39,38 +54,35 @@ export default function QuoteModal() {
   const userType = watch("userType");
 
   useEffect(() => {
-    const handleOpen = () => setIsOpen(true);
+    const handleOpen = (event: Event) => {
+      const service = (event as CustomEvent<{ service?: string }>).detail?.service;
+      if (service && serviceOptions.includes(service)) {
+        setValue("service", service);
+      }
+      setIsOpen(true);
+    };
     window.addEventListener("openQuoteModal", handleOpen);
     return () => window.removeEventListener("openQuoteModal", handleOpen);
-  }, []);
+  }, [setValue]);
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     
     try {
-      // Submit to Formspree
-      const response = await fetch("https://formspree.io/f/mgvndqbr", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          userType: data.userType === "business" ? "Business/Client" : "Consultant/Talent",
-          companyOrSkills: data.userType === "business" 
-            ? `Company: ${data.companyOrSkills}` 
-            : `Skills: ${data.companyOrSkills}`,
-          message: data.message,
-          _subject: `New ${data.userType === "business" ? "Business" : "Talent"} Inquiry from ${data.name}`,
-        }),
+      await submitLead({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        userType: data.userType === "business" ? "Business/Client" : "Consultant/Talent",
+        service: data.userType === "business" ? (data.service || "Not specified") : undefined,
+        companyOrSkills: data.userType === "business"
+          ? `Company: ${data.companyOrSkills}`
+          : `Skills: ${data.companyOrSkills}`,
+        message: data.message,
+        formType: "quote-modal",
+        _subject: `New ${data.userType === "business" ? "Business" : "Talent"} Inquiry from ${data.name}`,
       });
 
-      if (!response.ok) {
-        throw new Error("Form submission failed");
-      }
-      
       setIsSubmitting(false);
       setIsSuccess(true);
       
@@ -332,6 +344,26 @@ export default function QuoteModal() {
                         )}
                       </div>
                     </div>
+
+                    {/* Service Interest - business only */}
+                    {userType === "business" && (
+                      <div>
+                        <label className="block text-sm font-semibold text-secondary mb-2">
+                          What do you need help with?
+                        </label>
+                        <select
+                          {...register("service")}
+                          defaultValue="Free AI Opportunity Audit"
+                          className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white hover:border-gray-300"
+                        >
+                          {serviceOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
 
                     {/* Dynamic Field */}
                     <div>

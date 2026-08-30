@@ -37,7 +37,7 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
       name: "Shane Blair",
       role: "Software Engineer",
       image: null,
-      linkedin: "https://www.linkedin.com/in/mcho6967",
+      linkedin: null,
     },
     {
       name: "Ha Tien Nguyen",
@@ -75,9 +75,9 @@ export default function NetworkSection({ activeMode }: NetworkSectionProps) {
   const clients = [
     { name: "Tabletop Village", role: "Gaming & Entertainment", image: "/logos/clients/Tabletop_Village_Logo.png", linkedin: null },
     { name: "Blue Landscaping Services", role: "Landscaping Services", image: "/logos/clients/Blue_Landscaping_Services_Logo.png", linkedin: null },
-    { name: "VopplAR", role: "Artificial Intelligence", image: "/logos/clients/VopplAR_Logo.png", linkedin: null },
+    { name: "VopplAR", role: "Technology & AR", image: "/logos/clients/VopplAR_Logo.png", linkedin: null },
     { name: "Goldstein & Company LLC", role: "Financial Services", image: "/logos/clients/Goldstein__Company_Logo.png", linkedin: null },
-    { name: "Gibraltar Business Group", role: "Healthcare", image: "/logos/clients/Gibraltar_Business_Group_Logo.png", linkedin: null },
+    { name: "Gibraltar Business Group", role: "Business Consulting", image: "/logos/clients/Gibraltar_Business_Group_Logo.png", linkedin: null },
     { name: "Presidential Transportation", role: "Transportation Services", image: "/logos/clients/Presidential_Transportation_Logo.png", linkedin: null },
     { name: "Atlantis STEM", role: "Education & Technology", image: "/logos/clients/Atlantis_Steam_Logo.png", linkedin: null },
     { name: "Thind Transport", role: "Logistics & Distribution", image: null, linkedin: null, LogoComponent: ThindTransportLogo },

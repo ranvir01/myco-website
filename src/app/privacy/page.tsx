@@ -2,8 +2,9 @@ import Header from "@/components/Navigation/Header";
 import Footer from "@/components/Footer/Footer";
 
 export const metadata = {
-  title: "Privacy Policy | MyCo Network",
-  description: "MyCo Network Privacy Policy - Learn how we collect, use, and protect your personal information.",
+  title: "Privacy Policy",
+  description: "MyConsulting Network Privacy Policy - Learn how we collect, use, and protect your personal information.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPolicy() {
@@ -122,8 +123,8 @@ export default function PrivacyPolicy() {
               </ul>
               <p className="mt-4">
                 To exercise any of these rights, please contact us at{" "}
-                <a href="mailto:privacy@myconsultingnetwork.com" className="text-primary font-semibold hover:underline">
-                  privacy@myconsultingnetwork.com
+                <a href="mailto:info@myconsulting.network" className="text-primary font-semibold hover:underline">
+                  info@myconsulting.network
                 </a>.
               </p>
             </section>
@@ -206,8 +207,8 @@ export default function PrivacyPolicy() {
               </p>
               <div className="bg-gray-50 p-6 rounded-lg mt-4">
                 <p className="font-semibold">MyConsulting Network</p>
-                <p>Email: <a href="mailto:privacy@myconsultingnetwork.com" className="text-primary hover:underline">privacy@myconsultingnetwork.com</a></p>
-                <p>Email: <a href="mailto:info@myconsultingnetwork.com" className="text-primary hover:underline">info@myconsultingnetwork.com</a></p>
+                <p>Email: <a href="mailto:info@myconsulting.network" className="text-primary hover:underline">info@myconsulting.network</a></p>
+                <p>Email: <a href="mailto:info@myconsulting.network" className="text-primary hover:underline">info@myconsulting.network</a></p>
               </div>
             </section>
 

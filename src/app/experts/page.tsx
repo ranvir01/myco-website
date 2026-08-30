@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Navigation/Header";
 import Footer from "@/components/Footer/Footer";
-import QuoteModal from "@/components/ContactForm/QuoteModal";
 import TalentSection from "@/components/Sections/TalentSection";
 import NetworkSection from "@/components/Sections/NetworkSection";
 import FAQSection from "@/components/Sections/FAQSection";
@@ -73,7 +72,6 @@ export default function ExpertsPage() {
         <FAQSection activeMode="talent" />
       </main>
       <Footer />
-      <QuoteModal />
       <ClientWrapper />
     </>
   );

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { HiMenu, HiX } from "react-icons/hi";
 import Button from "@/components/UI/Button";
 import MobileMenu from "./MobileMenu";
@@ -67,10 +68,12 @@ export default function Header() {
     }, 50);
   };
 
-  const navLinks = [
+  const navLinks: { name: string; id?: string; href?: string }[] = [
     { name: "Home", id: "home" },
-    { name: "About", id: "about" },
-    { name: "Our Work", id: "portfolio" },
+    { name: "Services", href: "/services" },
+    { name: "Our Work", href: "/case-studies" },
+    { name: "Partners", href: "/partners" },
+    { name: "Blog", href: "/blog" },
   ];
 
   const modeLinks = [
@@ -136,19 +139,31 @@ export default function Header() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-5 lg:space-x-8">
-              {navLinks.map((link) => (
-                <motion.button
-                  key={link.id}
-                  onClick={() => scrollToSection(link.id)}
-                  whileHover={{ y: -1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="relative px-0 py-1 text-sm font-medium transition-all duration-300 text-secondary hover:text-primary group"
-                >
-                  {link.name}
-                  {/* Animated underline */}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-emerald-500 transition-all duration-300 group-hover:w-full" />
-                </motion.button>
-              ))}
+              {navLinks.map((link) =>
+                link.href ? (
+                  <motion.div key={link.name} whileHover={{ y: -1 }} whileTap={{ scale: 0.95 }}>
+                    <Link
+                      href={link.href}
+                      className="relative px-0 py-1 text-sm font-medium transition-all duration-300 text-secondary hover:text-primary group"
+                    >
+                      {link.name}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-emerald-500 transition-all duration-300 group-hover:w-full" />
+                    </Link>
+                  </motion.div>
+                ) : (
+                  <motion.button
+                    key={link.name}
+                    onClick={() => scrollToSection(link.id!)}
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="relative px-0 py-1 text-sm font-medium transition-all duration-300 text-secondary hover:text-primary group"
+                  >
+                    {link.name}
+                    {/* Animated underline */}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-emerald-500 transition-all duration-300 group-hover:w-full" />
+                  </motion.button>
+                )
+              )}
 
               {modeLinks.map((link) => (
                 <motion.button
